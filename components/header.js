@@ -33,22 +33,22 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link href="/" onClick={ToggleAction}>
+                <Link href="/about" onClick={ToggleAction}>
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/" onClick={ToggleAction}>
+                <Link href="/service" onClick={ToggleAction}>
                   Services
                 </Link>
               </li>
               <li>
-                <Link href="/" onClick={ToggleAction}>
+                <Link href="/contact" onClick={ToggleAction}>
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link className="site_btn" href="/login">
+                <Link className="site_btn" href="/login" onClick={ToggleAction}>
                   Login
                 </Link>
               </li>

@@ -598,6 +598,7 @@ P {
   display: flex;
   justify-content: space-between;
   -webkit-box-orient: vertical;
+  z-index: 11;
   .logon_logo {
     max-width: 22rem;
     height: 8rem;
@@ -621,9 +622,12 @@ P {
       }
     }
   }
-  strong {
+  .strong {
     color: $primary_color;
     font-family: "Regular";
+    &:hover {
+      color: $color;
+    }
   }
 }
 

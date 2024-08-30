@@ -13,9 +13,12 @@ export default function Signup() {
               </Link>
             </div>
             <div className="btn_blk">
-              <Link href="" className="">
-                Don’t have an account? <strong>Get started today</strong>
-              </Link>
+              <p>
+                Don’t have an account?{" "}
+                <Link href="/signup" className="strong">
+                  Get started today
+                </Link>
+              </p>
             </div>
           </div>
         </div>
@@ -63,7 +66,7 @@ export default function Signup() {
                   />
                 </div>
                 <div className="form_blk">
-                  <label>Password</label>
+                  <label>Confirm Password</label>
                   <input
                     id="frm-password"
                     type="password"

@@ -3038,7 +3038,7 @@ header.logged nav {
   text-decoration: none;
 }
 #nav > ul > li > a:not(.site_btn):hover, #nav > ul > li > a:not(.site_btn).active {
-  color: #61a7a0 !important;
+  color: #ed1c24 !important;
 }
 #nav > ul > li.active a {
   color: #61a7a0;

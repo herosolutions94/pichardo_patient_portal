@@ -8,8 +8,8 @@ export default function Layout({ children }) {
   if (
     path == "/signup" ||
     path == "/login" ||
-    path == "/forgot-password" ||
-    path == "/reset-password"
+    path == "/forget_password" ||
+    path == "/reset_password"
   ) {
     return (
       <div className="content">

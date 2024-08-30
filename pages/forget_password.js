@@ -13,9 +13,12 @@ export default function Forget_password() {
               </Link>
             </div>
             <div className="btn_blk">
-              <Link href="" className="">
-                Don’t have an account? <strong>Get started today</strong>
-              </Link>
+              <p>
+                Don’t have an account?{" "}
+                <Link href="/signup" className="strong">
+                  Get started today
+                </Link>
+              </p>
             </div>
           </div>
         </div>

@@ -2397,7 +2397,7 @@ input {
 // ===navbar=======
 // ==============================
 header {
-  @include pos($pos: fixed, $b: initial, $z: 30);
+  @include pos($pos: absolute, $b: initial, $z: 30);
   // background-color: $light;
   // border-bottom: 1px solid rgba(0, 167, 142, 0.1);
   @include trans;

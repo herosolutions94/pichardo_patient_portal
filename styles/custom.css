@@ -2574,7 +2574,7 @@ input::-ms-reveal, input::-ms-clear {
 }
 
 header {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: initial;

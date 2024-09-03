@@ -2670,6 +2670,7 @@ header {
       margin-left: 0rem;
     }
   }
+
   header.logged & {
     filter: brightness(0) invert(1);
     -webkit-filter: brightness(0) invert(1);
@@ -3960,21 +3961,14 @@ a.close.disabled {
   > ul {
     @include list;
     @include flex;
-    gap: 0.3rem;
-    > li {
-      &:nth-child(1) {
-        a {
-          text-decoration: none;
-          height: 4rem;
-          @include flex(center, center);
-        }
-      }
-    }
+    align-items: center;
+    gap: 3.3rem;
   }
 }
 .logged_drop {
   position: relative;
-  padding-left: 2rem;
+
+  // padding-left: 2rem;
   @include mobile {
     padding-left: 1rem;
   }
@@ -3985,20 +3979,20 @@ a.close.disabled {
     border: none;
     background-color: transparent;
     text-align: left;
-    &:after {
-      content: "";
-      @include chev;
-      width: 1.2rem;
-      height: 1.2rem;
-      color: inherit;
-      margin-left: 0.6rem;
-      margin-top: 1.4rem;
-    }
+    // &:after {
+    //   content: "";
+    //   @include chev;
+    //   width: 1.2rem;
+    //   height: 1.2rem;
+    //   color: inherit;
+    //   margin-top: 1.4rem;
+    //   margin-left: 0.6rem;
+    // }
     .user_img {
       width: 4rem;
       height: 4rem;
       overflow: hidden;
-      @include radius(10px);
+      @include radius(50px);
       &.curve_drop {
         @include radius(50px);
       }
@@ -4046,6 +4040,7 @@ a.close.disabled {
     pointer-events: none;
     @include trans;
     overflow: hidden;
+    width: 200px;
     // @include ipad_sm {
     //   position: static;
     //   display: none;
@@ -5579,5 +5574,9 @@ table {
   [inbox] .chatPerson .backBtn {
     display: block;
   }
+}
+
+.logged_header {
+  border-bottom: 1px solid #ededed;
 }
 @import "style.module";

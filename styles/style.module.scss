@@ -664,3 +664,171 @@ P {
     }
   }
 }
+
+.dash {
+  background-color: $seagreen;
+  padding-top: 70px;
+
+  #dashboard {
+    h3 {
+      font-family: "Medium";
+      margin-bottom: 0;
+    }
+    .heading {
+      h3 {
+        font-family: "Medium";
+      }
+      p {
+        color: $dark_grey;
+      }
+      margin-bottom: 40px;
+    }
+    .mt {
+      margin-top: 60px;
+    }
+    .flex {
+      margin: 0 -10px;
+      .col {
+        width: calc(100% / 3);
+        padding: 10px;
+
+        .inner {
+          border: 1px solid rgba(6, 18, 55, 0.05);
+          padding: 20px;
+          border-radius: 6px;
+          background-color: #fff;
+          display: flex;
+          align-items: center;
+          .icon {
+            border-radius: 6px;
+            background-color: $light_green;
+            padding: 10px;
+            margin-right: 20px;
+            h5 {
+              margin-bottom: 0;
+              color: $light;
+              font-family: "Medium";
+              font-size: 2.5rem;
+            }
+          }
+          h4 {
+            margin-bottom: 0;
+            font-family: "Medium";
+            color: $blue;
+            font-size: 16px;
+          }
+          p {
+            color: $primary_color;
+            margin-bottom: 4px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.sp {
+  justify-content: space-between;
+}
+
+.boxes {
+  width: 75%;
+}
+
+#listing {
+  .outer {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    .lst {
+      position: relative;
+      background: rgba(241, 247, 247, 1);
+      padding: 20px;
+      max-width: 100%;
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        align-items: center;
+      }
+    }
+    .head {
+      background-color: #f1f7f7;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      color: $blue;
+      font-family: "Medium";
+    }
+  }
+}
+
+.action_drop_lease {
+  position: relative;
+  height: 50px;
+}
+
+._dropDown {
+  position: relative;
+}
+.action_drop {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: unset;
+}
+
+// .action_drop_lease .action_dots {
+//   background: #fbfbfb;
+// }
+.action_dots {
+  width: 30px;
+  height: 30px;
+  background: unset;
+  border-radius: 50px;
+  padding: 0;
+}
+.dropLst.hide {
+  display: none !important;
+}
+
+._dropCnt {
+  position: absolute;
+  top: 126%;
+  right: 0;
+  min-width: 150px;
+  max-width: 150px;
+  background: #fff;
+  /* border: 1px solid #eee; */
+  border-radius: 4px;
+  border: 1px solid rgba(0, 17, 44, 0.08);
+  transition: all ease 0.5s;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.action_drop li {
+  display: block;
+  width: 100%;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.action_drop ._dropCnt li a {
+  font-size: 15px;
+  padding: 3px 15px;
+}
+.action_drop li a {
+  display: block;
+  font-family: "Regular";
+}
+
+.green {
+  background-color: $color;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: "Regular";
+}

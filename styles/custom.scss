@@ -381,7 +381,7 @@ _btn {
       }
       &.green {
         background: $color;
-        color: $black;
+        color: $light;
         &:hover {
           background-color: $primary-color;
           color: $light;
@@ -1211,17 +1211,7 @@ label {
   &:not(:nth-last-child(1)) {
     margin-bottom: 1.5rem;
   }
-  &:not(.lbl_btn) {
-    > label {
-      color: $light;
-      font-size: 16px;
-      line-height: 1;
-      margin: 0 0 10px 0;
-      pointer-events: none;
-      @include trans;
-      z-index: 1;
-    }
-  }
+
   &.pass_blk {
     position: relative;
     > .input {
@@ -5578,5 +5568,6 @@ table {
 
 .logged_header {
   border-bottom: 1px solid #ededed;
+  background-color: $light;
 }
 @import "style.module";

@@ -41,7 +41,7 @@ body {
       width: 100%;
     }
     @include ipad {
-      padding-top: 6rem;
+      padding-top: 0rem;
     }
   }
   @at-root {
@@ -50,6 +50,9 @@ body {
       padding: 10rem 0;
       @include mobile {
         padding: 4rem 0;
+      }
+      @include ipad {
+        padding: 7rem 0;
       }
     }
     a {
@@ -211,7 +214,7 @@ h4 {
 .toggle {
   @include flex(center);
   display: none;
-  @include pos($l: 16px, $r: null, $z: 4, $t: -0.7px);
+  @include pos($r: 50px, $l: null, $z: 4, $t: 20px);
   // width: 2rem;
   // height: 1.6rem;
   width: 1.6rem;
@@ -238,7 +241,7 @@ h4 {
     height: 0.2rem;
     width: 14px;
     border-radius: 10px;
-    background: $gray;
+    background: $black;
     @include trans;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
@@ -598,7 +601,7 @@ _btn {
       width: 3.5rem;
       height: 3.5rem;
       background: $light;
-      color: $primary-color;
+      color: $black;
       font-size: 2rem;
       font-weight: 600;
       padding: 0;
@@ -609,9 +612,11 @@ _btn {
       cursor: pointer;
       @include trans;
       z-index: 5;
-      border: 1px solid $primary-color;
+      border: 1px solid $light;
       &:hover {
-        background: $color;
+        background: $primary_color;
+        border: 1px solid $primary_color;
+        color: $light;
       }
       &:before {
         content: "\2715";
@@ -2406,6 +2411,9 @@ header {
     border-radius: 16px;
     padding: 14px 10px;
     margin-top: 20px;
+    @include mobile {
+      padding: 2px 0px;
+    }
   }
   &.fix {
     // -webkit-box-shadow: $shadow;

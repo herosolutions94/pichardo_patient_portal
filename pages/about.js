@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import Popup from "@/components/components/popup";
+import Team_info from "../components/team-info-popup";
 
 export default function About() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
   return (
     <div>
       <main>
@@ -134,7 +145,12 @@ export default function About() {
                   <div className="image">
                     <img src="/images/team1.png"></img>
                     <div className="t_text">
-                      <h4>Marlo Pichardo</h4>
+                      <h4>
+                        {" "}
+                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
+                          Marlo Pichardo
+                        </a>
+                      </h4>
                       <p>PA-C, MPAS</p>
                     </div>
                   </div>
@@ -145,7 +161,13 @@ export default function About() {
                   <div className="image">
                     <img src="/images/team2.png"></img>
                     <div className="t_text">
-                      <h4>Edwin Pichardo</h4>
+                      <h4>
+                        {" "}
+                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
+                          Edwin Pichardo
+                        </a>
+                      </h4>
+
                       <p>Director of Operations</p>
                     </div>
                   </div>
@@ -156,7 +178,12 @@ export default function About() {
                   <div className="image">
                     <img src="/images/team3.png"></img>
                     <div className="t_text">
-                      <h4>Katrina Pichardo</h4>
+                      <h4>
+                        {" "}
+                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
+                          Katrina Pichardo
+                        </a>
+                      </h4>
                       <p>Digital Marketing Director</p>
                     </div>
                   </div>
@@ -167,7 +194,13 @@ export default function About() {
                   <div className="image">
                     <img src="/images/team4.png"></img>
                     <div className="t_text">
-                      <h4>Olivia Pichardo</h4>
+                      <h4>
+                        {" "}
+                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
+                          Olivia Pichardo
+                        </a>
+                      </h4>
+
                       <p>Office Administrator</p>
                     </div>
                   </div>
@@ -178,7 +211,12 @@ export default function About() {
                   <div className="image">
                     <img src="/images/team5.png"></img>
                     <div className="t_text">
-                      <h4>Maggie Scott</h4>
+                      <h4>
+                        {" "}
+                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
+                          Maggie Scott
+                        </a>
+                      </h4>
                       <p>Office Administrator</p>
                     </div>
                   </div>
@@ -189,7 +227,12 @@ export default function About() {
                   <div className="image">
                     <img src="/images/team6.png"></img>
                     <div className="t_text">
-                      <h4>Koa, Koemi, & Duke</h4>
+                      <h4>
+                        {" "}
+                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
+                          Koa, Koemi, & Duke
+                        </a>
+                      </h4>
                       <p>Chief Emotional Support Office</p>
                     </div>
                   </div>
@@ -225,6 +268,9 @@ export default function About() {
           </div>
         </section>
       </main>
+      <Popup isOpen={isPopupOpen} onClose={handleClosePopup}>
+        <Team_info onClose={handleClosePopup} />
+      </Popup>
     </div>
   );
 }

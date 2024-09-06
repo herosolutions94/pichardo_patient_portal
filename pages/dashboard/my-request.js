@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
+import Create_Request_info from "@/components/components/create-request-popup";
+import PopupSmall from "@/components/components/popupSmall";
 
 export default function Request() {
   const [toggleStates, setToggleStates] = useState([]);
@@ -21,6 +23,18 @@ export default function Request() {
       return updatedStates;
     });
   };
+
+  // popup
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
   return (
     <>
       <main className="dash">
@@ -31,7 +45,10 @@ export default function Request() {
                 <div className="inner sp">
                   <h3>My Requests</h3>
                   <div className="btn_blk">
-                    <Link href="" className="site_btn green">
+                    <Link
+                      href="javascript:void(0)"
+                      onClick={handleOpenPopup}
+                      className="site_btn green">
                       Create New Request
                     </Link>
                   </div>
@@ -354,6 +371,10 @@ export default function Request() {
           </div>
         </section>
       </main>
+
+      <PopupSmall isOpen={isPopupOpen} onClose={handleClosePopup}>
+        <Create_Request_info onClose={handleClosePopup} />
+      </PopupSmall>
     </>
   );
 }

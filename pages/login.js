@@ -52,6 +52,7 @@ export default function Login() {
                     className="input"
                     required
                   />
+                  <img className="eye" src="images/eye.svg"></img>
                 </div>
                 <div className="form_blk blk_link">
                   <Link className="link" href="/forget_password">

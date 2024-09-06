@@ -64,6 +64,7 @@ export default function Signup() {
                     className="input"
                     required
                   />
+                  <img className="eye" src="images/eye.svg"></img>
                 </div>
                 <div className="form_blk">
                   <label>Confirm Password</label>
@@ -75,6 +76,7 @@ export default function Signup() {
                     className="input"
                     required
                   />
+                  <img className="eye" src="images/eye.svg"></img>
                 </div>
                 <div className="have_check form_blk">
                   <div className="lbl_btn">

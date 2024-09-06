@@ -17,6 +17,9 @@
     text-align: center;
     margin: auto;
     padding-top: 120px;
+    @include mobile {
+      width: 100%;
+    }
     h1,
     p {
       color: $light;
@@ -36,12 +39,22 @@
   width: 50%;
   padding-right: 30px;
   align-self: center;
+  flex: unset;
+  @include ipad_sm {
+    width: 100%;
+    padding-right: 0px;
+    padding-bottom: 30px;
+  }
 }
 
 .colr {
   width: 50%;
   padding-left: 30px;
   align-self: center;
+  @include ipad_sm {
+    width: 100%;
+    padding-left: 0px;
+  }
 }
 
 .content_center {
@@ -65,6 +78,9 @@ P {
         @include pos;
         @include object(contain);
       }
+      @include ipad_sm {
+        display: none;
+      }
     }
   }
 }
@@ -84,6 +100,12 @@ P {
     padding: 10px;
     flex: unset;
     align-self: unset;
+    @include ipad_sm {
+      width: calc(100% / 2);
+    }
+    @include mobile {
+      width: calc(100% / 1);
+    }
     .inner {
       background-color: $light_green;
       box-shadow: 0 0 30px rgba(19, 75, 70, 7%);
@@ -121,6 +143,9 @@ P {
         @include pos;
         @include object(contain);
       }
+      @include ipad_sm {
+        display: none;
+      }
     }
   }
 }
@@ -152,11 +177,20 @@ P {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @include mobile {
+    display: block;
+  }
   h2 {
     width: 35%;
+    @include mobile {
+      width: 100%;
+    }
   }
   p {
     width: 65%;
+    @include mobile {
+      width: 100%;
+    }
   }
 }
 
@@ -167,6 +201,13 @@ P {
       align-self: unset;
       width: calc(100% / 3);
       padding: 10px;
+      @include ipad_sm {
+        width: calc(100% / 2);
+      }
+
+      @include mobile {
+        width: calc(100% / 1);
+      }
       .inner {
         border-radius: 15px;
         background-color: $light_green;
@@ -196,9 +237,16 @@ P {
   .col {
     width: 55%;
     margin-right: -200px;
+    @include ipad_sm {
+      width: 100%;
+      margin-right: 0;
+    }
     .text {
       max-width: 710px;
       margin-bottom: 60px;
+      @include mobile {
+        margin-bottom: 20px;
+      }
     }
 
     .inner {
@@ -236,6 +284,7 @@ P {
   .colr {
     padding-left: 0;
     width: 45%;
+
     .image {
       @include img(100%);
       background-color: transparent;
@@ -244,6 +293,9 @@ P {
       img {
         @include pos;
         @include object(cover);
+      }
+      @include ipad_sm {
+        display: none;
       }
     }
   }
@@ -256,8 +308,14 @@ P {
     padding: 80px;
     position: relative;
     border-radius: 26px;
+    @include mobile {
+      padding: 40px;
+    }
     .text {
       width: 50%;
+      @include ipad_sm {
+        width: 100%;
+      }
       h2,
       p {
         color: $light;
@@ -265,9 +323,18 @@ P {
       h2 {
         font-size: 50px;
         font-family: "SemiBold";
+        @include mobile {
+          font-size: 30px;
+        }
       }
       .bTn {
         justify-content: start;
+        @include mobile {
+          display: block;
+          .white {
+            margin-top: 20px;
+          }
+        }
       }
     }
     .image {
@@ -277,6 +344,9 @@ P {
       // height: 100%;
       width: 38%;
       right: 0;
+      @include ipad_sm {
+        display: none;
+      }
     }
   }
 }
@@ -310,16 +380,25 @@ P {
 }
 
 #mission_value {
+  @include mobile {
+    padding-top: 0;
+  }
   .col {
     .flex {
       .left_col {
         width: 50%;
         padding: 1rem;
+        @include mobile {
+          width: 100%;
+        }
         .inner {
           border-radius: 25px;
           padding: 3rem;
           background-color: $color;
           text-align: center;
+          @include ipad {
+            padding: 3rem 1rem;
+          }
           &:last-child {
             background-color: $primary-color;
             margin-top: 20px;
@@ -378,17 +457,23 @@ P {
       flex-wrap: wrap;
       width: 80%;
       margin: auto;
+      @include ipad_sm {
+        width: 100%;
+      }
       li {
         position: relative;
         width: calc(100% / 3);
         display: flex;
-        padding: 10px 60px;
+        padding: 10px 30px;
         color: $light;
+        @include mobile {
+          width: calc(100% / 1);
+        }
         &:before {
           position: absolute;
           top: 1.3rem;
           bottom: 0;
-          left: 24px;
+          left: 0px;
           content: "";
           background: url(../public/images/CheckCircle.svg);
           background-size: contain;
@@ -406,11 +491,20 @@ P {
   .text {
     margin-bottom: 50px;
     width: 75%;
+    @include mobile {
+      width: 100%;
+    }
   }
   .coll {
     flex: unset;
     width: calc(100% / 3);
     padding: 10px;
+    @include ipad_sm {
+      width: calc(100% / 2);
+    }
+    @include mobile {
+      width: calc(100% / 1);
+    }
     .inner {
       .image {
         position: relative;
@@ -442,6 +536,9 @@ P {
           h4 {
             color: $light;
             margin-bottom: 6px;
+            a {
+              color: $light;
+            }
           }
           p {
             color: #8be7c8;
@@ -457,6 +554,9 @@ P {
   .coll {
     width: calc(100% / 2);
     padding: 20px;
+    @include mobile {
+      width: calc(100% / 1);
+    }
     .image {
       border-radius: 29px;
       height: 450px;
@@ -484,13 +584,26 @@ P {
     padding: 80px 120px;
     border-radius: 30px;
     width: 75%;
+    @include ipad_sm {
+      width: 100%;
+      padding: 60px;
+    }
     .bTn {
       justify-content: start;
+      @include mobile {
+        display: block;
+        .white {
+          margin-top: 20px;
+        }
+      }
     }
     .text {
       h2 {
         font-size: 50px;
         color: $light;
+        @include mobile {
+          font-size: 30px;
+        }
       }
     }
 
@@ -508,6 +621,9 @@ P {
     .coll {
       width: calc(100% / 2);
       padding: 20px;
+      @include mobile {
+        width: calc(100% / 1);
+      }
       .inner {
         background-color: $light_green;
         padding: 30px 20px;
@@ -526,6 +642,9 @@ P {
   }
   .col {
     padding-right: 200px;
+    @include ipad {
+      padding-right: 50px;
+    }
   }
 }
 
@@ -534,11 +653,16 @@ P {
     background-color: $light_green;
     border-radius: 40px;
     padding: 40px;
+    max-width: 850px;
+    margin: auto;
     .flex {
       margin: 0 -10px;
       .form_blk {
         width: 50%;
         padding: 10px;
+        @include mobile {
+          width: 100%;
+        }
       }
       .col-xs-12 {
         width: 100% !important;
@@ -547,6 +671,12 @@ P {
     .flx {
       display: flex;
       gap: 20px;
+      @include mobile {
+        display: block;
+        // .lbl_btn {
+        //   margin: 8px 0;
+        // }
+      }
     }
     h2,
     p {
@@ -559,6 +689,9 @@ P {
   .outer {
     max-width: 1000px;
     margin: auto;
+    @include mobile {
+      max-width: 100%;
+    }
     h4,
     h5,
     p {
@@ -599,6 +732,10 @@ P {
   justify-content: space-between;
   -webkit-box-orient: vertical;
   z-index: 11;
+  @include mobile {
+    right: 2px;
+    left: 2px;
+  }
   .logon_logo {
     max-width: 22rem;
     height: 8rem;
@@ -607,6 +744,10 @@ P {
     align-items: center;
     -webkit-box-orient: vertical;
     width: 100%;
+    @include mobile {
+      max-width: 20rem;
+      height: 6rem;
+    }
     a {
       display: block;
       width: auto;
@@ -639,6 +780,9 @@ P {
     border-radius: 20px;
     padding: 40px;
     background-color: $light_green;
+    @include mobile {
+      max-width: 100%;
+    }
     h3,
     p {
       color: $light;
@@ -661,6 +805,10 @@ P {
     }
     form {
       margin-top: 40px;
+      label {
+        color: $light;
+        margin-bottom: 10px;
+      }
     }
   }
 }
@@ -1358,4 +1506,62 @@ P {
       }
     }
   }
+}
+
+.team_info {
+  background-color: #000;
+  border-radius: 24px;
+  .flex {
+    margin-bottom: 30px;
+    .col {
+      padding-right: 30px !important;
+      width: 30%;
+    }
+    .colr {
+      padding-left: 20px;
+      width: 70%;
+    }
+  }
+  p,
+  h4 {
+    color: $light;
+  }
+}
+
+.team-pop {
+  ._inner {
+    max-width: 100rem;
+    background-color: #000;
+  }
+}
+
+img.eye {
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  right: 20px;
+  top: 36px;
+  bottom: 0;
+  margin: auto;
+}
+
+.request-popup {
+  h4 {
+    font-family: "Medium";
+    margin-bottom: 40px !important;
+  }
+  .input {
+    border: 1px solid rgba(6, 18, 55, 0.1);
+    background-color: #f9fefd;
+  }
+  label {
+    margin-bottom: 10px;
+  }
+
+  .btn_blk {
+    justify-content: center;
+  }
+}
+#whoweare {
+  padding-bottom: 0;
 }

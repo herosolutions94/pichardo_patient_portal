@@ -26,16 +26,18 @@ export default function LoggedHeader() {
           </div>
 
           <div className="logged_side">
-            <ul>
+            <ul className="dash_headd">
               <li>
                 <Link href="/">Dashboard</Link>
               </li>
               <li>
-                <Link href="/">My Requests</Link>
+                <Link href="/dashboard/my-request">My Requests</Link>
               </li>
               <li>
-                <Link href="/">My Prescriptions</Link>
+                <Link href="/dashboard/my-prescription">My Prescriptions</Link>
               </li>
+            </ul>
+            <ul>
               <li className="logged_drop">
                 <button className="logged_drop_btn" onClick={ToggleUserDrop}>
                   <div className="user_img">

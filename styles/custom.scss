@@ -2411,6 +2411,9 @@ header {
     border-radius: 16px;
     padding: 14px 10px;
     margin-top: 20px;
+    @include ipad {
+      margin-top: 0;
+    }
     @include mobile {
       padding: 2px 0px;
     }
@@ -4078,7 +4081,7 @@ a.close.disabled {
       > a {
         display: flex !important;
         color: $black;
-        padding: 0.7rem 2.5rem !important;
+        padding: 0.7rem 1.5rem !important;
         font-size: 1.6rem !important;
         text-decoration: none !important;
         column-gap: 0.7rem;
@@ -4088,7 +4091,7 @@ a.close.disabled {
         }
         span {
           flex: 1;
-          font-family: "SemiBold";
+          font-family: "Medium";
           &.red_text {
             color: #fa4342;
           }

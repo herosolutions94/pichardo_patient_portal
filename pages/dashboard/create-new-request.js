@@ -30,12 +30,8 @@ export default function Create_new_request() {
       <main className="dash">
         <section id="dashboard">
           <div className="contain">
-            <div className="flex">
-              <div className="col">
-                <div className="inner sp">
-                  <h3>Create Request</h3>
-                </div>
-              </div>
+            <div className="inner sp">
+              <h3>Create Request</h3>
             </div>
           </div>
         </section>
@@ -106,6 +102,6 @@ export default function Create_new_request() {
     </>
   );
 }
-Request.getLayout = function (page) {
+Create_new_request.getLayout = function (page) {
   return <LayoutDashboard>{page}</LayoutDashboard>;
 };

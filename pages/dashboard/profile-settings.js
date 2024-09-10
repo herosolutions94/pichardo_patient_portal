@@ -30,12 +30,8 @@ export default function Profile_settings() {
       <main className="dash">
         <section id="dashboard">
           <div className="contain">
-            <div className="flex">
-              <div className="col">
-                <div className="inner sp">
-                  <h3>Profile Settings</h3>
-                </div>
-              </div>
+            <div className="inner sp">
+              <h3>Profile Settings</h3>
             </div>
           </div>
         </section>

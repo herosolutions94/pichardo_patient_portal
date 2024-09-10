@@ -40,19 +40,15 @@ export default function Request() {
       <main className="dash">
         <section id="dashboard">
           <div className="contain">
-            <div className="flex">
-              <div className="col">
-                <div className="inner sp">
-                  <h3>My Requests</h3>
-                  <div className="btn_blk">
-                    <Link
-                      href="javascript:void(0)"
-                      onClick={handleOpenPopup}
-                      className="site_btn green">
-                      Create New Request
-                    </Link>
-                  </div>
-                </div>
+            <div className="inner sp">
+              <h3>My Requests</h3>
+              <div className="btn_blk">
+                <Link
+                  href="javascript:void(0)"
+                  onClick={handleOpenPopup}
+                  className="site_btn green">
+                  Create New Request
+                </Link>
               </div>
             </div>
           </div>

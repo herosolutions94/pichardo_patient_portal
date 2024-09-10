@@ -26,12 +26,8 @@ export default function Prescription() {
       <main className="dash">
         <section id="dashboard">
           <div className="contain">
-            <div className="flex">
-              <div className="col">
-                <div className="inner">
-                  <h3>My Prescription</h3>
-                </div>
-              </div>
+            <div className="inner">
+              <h3>My Prescription</h3>
             </div>
           </div>
         </section>
@@ -303,6 +299,6 @@ export default function Prescription() {
     </>
   );
 }
-Request.getLayout = function (page) {
+Prescription.getLayout = function (page) {
   return <LayoutDashboard>{page}</LayoutDashboard>;
 };

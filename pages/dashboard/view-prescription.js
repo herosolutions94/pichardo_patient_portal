@@ -8,15 +8,11 @@ export default function View_prescription() {
       <main className="dash">
         <section id="dashboard">
           <div className="contain">
-            <div className="flex">
-              <div className="col">
-                <div className="inner sp">
-                  <h3>#123456</h3>
-                  <div className="bTn">
-                    <img src="/images/printer.svg"></img>
-                    <img src="/images/download.svg"></img>
-                  </div>
-                </div>
+            <div className="inner sp">
+              <h3>#123456</h3>
+              <div className="bTn">
+                <img src="/images/printer.svg"></img>
+                <img src="/images/download.svg"></img>
               </div>
             </div>
           </div>
@@ -142,6 +138,6 @@ export default function View_prescription() {
     </>
   );
 }
-Request.getLayout = function (page) {
+View_prescription.getLayout = function (page) {
   return <LayoutDashboard>{page}</LayoutDashboard>;
 };

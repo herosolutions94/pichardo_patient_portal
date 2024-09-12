@@ -1,6 +1,6 @@
 import React from "react";
 
-const Popup = ({ isOpen, onClose, children }) => {
+const Popup = ({isOpen, onClose, children }) => {
   return (
     <div className={`popup team-pop lg ${isOpen ? "open" : ""}`}>
       <div className="table_dv">

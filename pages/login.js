@@ -1,9 +1,27 @@
 import React from "react";
 import Link from "next/link";
+import http from "../helpers/http";
+import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
+import MetaGenerator from "../components/meta-generator";
+import Text from "../components/text";
+import { cmsFileUrl} from "../helpers/helpers";
+import Image from "next/image";
 
-export default function Login() {
+export const getServerSideProps = async (context) => {
+  
+  const result = await http
+    .post("login-page", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+
+export default function Login({result}) {
+  const {content,page_title,site_settings}=result
   return (
-    <div>
+    <>
+    <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
       <main>
         <div className="contain">
           <div className="login_header">
@@ -26,8 +44,7 @@ export default function Login() {
         <section id="login">
           <div className="contain">
             <div className="outer">
-              <h3>Welcome back!</h3>
-              <p>Let's get you some health tips today.</p>
+              <Text string={content?.banner_text} />
 
               <form>
                 <div className="form_blk">
@@ -72,6 +89,6 @@ export default function Login() {
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 }

@@ -2,25 +2,46 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Popup from "@/components/components/popup";
 import Team_info from "../components/team-info-popup";
+import http from "../helpers/http";
+import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
+import MetaGenerator from "../components/meta-generator";
+import Text from "../components/text";
+import { cmsFileUrl} from "../helpers/helpers";
+import Image from "next/image";
 
-export default function About() {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+export const getServerSideProps = async (context) => {
+  
+  const result = await http
+    .post("about-page", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
 
-  const handleOpenPopup = () => {
-    setIsPopupOpen(true);
+  return { props: { result } };
+};
+
+export default function About({result}) {
+  const {content,team, page_title,site_settings}=result
+
+  const sec2_arr=generateContentArray(content, 3, 4, 2)
+  const sec2_2_arr=generateContentArray(content, 5, 6, 2)
+
+  const [selectedTeamMember, setSelectedTeamMember] = useState(null);
+  const handleOpenPopup = (teamMember) => {
+    setSelectedTeamMember(teamMember);
   };
 
   const handleClosePopup = () => {
-    setIsPopupOpen(false);
+    setSelectedTeamMember(null);
   };
   return (
-    <div>
+    
+    <>
+      <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
       <main>
-        <section id="smbanner">
+        <section id="smbanner" style={{ background: `url(${cmsFileUrl(content?.image1)})` }}>
           <div className="contain">
             <div className="content_center">
-              <h1>About Pichardo Medical</h1>
-              <p>Dedicated to Your Health and Well-being</p>
+              <Text string={content?.banner_text} />
             </div>
           </div>
         </section>
@@ -29,18 +50,16 @@ export default function About() {
           <div className="contain">
             <div className="flex">
               <div className="col">
-                <h2>Our Story</h2>
-                <p>
-                  Pichardo Medical was founded with a mission to provide
-                  compassionate, patient-centered healthcare. Our clinic has
-                  grown over the years, but our commitment to excellence remains
-                  the same. We are proud to serve our community and strive to be
-                  a trusted partner in your health journey.
-                </p>
+              <Text string={content?.section1_text} />
               </div>
               <div className="colr">
                 <div className="image">
-                  <img src="/images/story.png"></img>
+                    <Image
+                      src={cmsFileUrl(content?.image2 , 'images')}
+                      alt={short_text(content?.section1_text)}
+                      width={1000}
+                      height={1000}
+                    />
                 </div>
               </div>
             </div>
@@ -53,51 +72,52 @@ export default function About() {
               <div className="col">
                 <div className="flex">
                   <div className="left_col mt ">
-                    <div className="inner">
-                      <div className="image">
-                        <img src=" /images/m1.svg" alt="" />
-                      </div>
-                      <h4> Compassion</h4>
-                      <p>We treat every patient with kindness and empathy.</p>
-                    </div>
-                    <div className="inner">
-                      <div className="image">
-                        <img src=" /images/m3.svg" alt="" />
-                      </div>
-                      <h4> Integrity</h4>
-                      <p>We treat every patient with kindness and empathy.</p>
-                    </div>
+                  {
+                      sec2_arr?.map((sec2_obj,index)=>{
+                        return(
+                            <div className="inner">
+                              <div className="image">
+                                <Image
+                                    src={cmsFileUrl(sec2_obj?.image, 'images')}
+                                    alt={sec2_obj?.heading}
+                                    width={300}
+                                    height={80}
+                                />
+                              </div>
+                                <h4>{sec2_obj?.heading}</h4>
+                                <p>{sec2_obj?.text}</p>
+                            </div>
+                        )
+                      })
+                    }
                   </div>
                   <div className="left_col right_col">
-                    <div className="inner">
-                      <div className="image">
-                        <img src=" /images/m2.svg" alt="" />
-                      </div>
-                      <h4> Excellence</h4>
-                      <p>We treat every patient with kindness and empathy.</p>
-                    </div>
-                    <div className="inner">
-                      <div className="image">
-                        <img src=" /images/m4.svg" alt="" />
-                      </div>
-                      <h4> Innovation</h4>
-                      <p>We treat every patient with kindness and empathy.</p>
-                    </div>
+                    {
+                      sec2_2_arr?.map((sec2_obj,index)=>{
+                        return(
+                            <div className="inner">
+                              <div className="image">
+                                <Image
+                                    src={cmsFileUrl(sec2_obj?.image, 'images')}
+                                    alt={sec2_obj?.heading}
+                                    width={300}
+                                    height={80}
+                                />
+                              </div>
+                                <h4>{sec2_obj?.heading}</h4>
+                                <p>{sec2_obj?.text}</p>
+                            </div>
+                        )
+                      })
+                    }
                   </div>
                 </div>
               </div>
               <div className="colr">
-                <h2>Our Mission & Values</h2>
-                <p>
-                  Pichardo Medical was founded with a mission to provide
-                  compassionate, patient-centered healthcare. Our clinic has
-                  grown over the years, but our commitment to excellence remains
-                  the same. We are proud to serve our community and strive to be
-                  a trusted partner in your health journey.
-                </p>
+              <Text string={content?.section2_text} />
                 <div className="btn_blk">
-                  <Link href="" className="site_btn">
-                    Get Started
+                  <Link href={content?.section2_link_url} className="site_btn">
+                  {content?.section2_link_text}
                   </Link>
                 </div>
               </div>
@@ -109,20 +129,8 @@ export default function About() {
           <div className="contain">
             <div className="outer">
               <div className="content_center">
-                <h2>Why Choose Us</h2>
-                <p>
-                  Pichardo Medical was founded with a mission to provide
-                  compassionate, patient-centered healthcare. Our clinic has
-                  grown over the years, but our commitment to excellence remains
-                  the same. We are proud to serve our community and strive to be
-                  a trusted partner in your health journey.
-                </p>
+              <Text string={content?.section3_text} />
               </div>
-              <ul className="list">
-                <li>Experienced and compassionate medical professionals</li>
-                <li>Patient-centered approach to healthcare</li>
-                <li>Reliable recommendations and online services</li>
-              </ul>
             </div>
           </div>
         </section>
@@ -130,114 +138,34 @@ export default function About() {
         <section id="team" className="p0">
           <div className="contain">
             <div className="text">
-              <h2>Our Team</h2>
-              <p>
-                Pichardo Medical was founded with a mission to provide
-                compassionate, patient-centered healthcare. Our clinic has grown
-                over the years, but our commitment to excellence remains the
-                same. We are proud to serve our community and strive to be a
-                trusted partner in your health journey.
-              </p>
+              <Text string={content?.section4_text} />
             </div>
             <div className="flex">
-              <div className="coll">
-                <div className="inner">
-                  <div className="image">
-                    <img src="/images/team1.png"></img>
-                    <div className="t_text">
-                      <h4>
-                        {" "}
-                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
-                          Marlo Pichardo
-                        </a>
-                      </h4>
-                      <p>PA-C, MPAS</p>
+                {team.map((val) => {
+                  return (
+                    <div className="coll" key={val.id}>
+                      <div className="inner">
+                        <div className="image">
+                          <Image
+                              src={cmsFileUrl(val?.image, 'team',true)}
+                              alt={val?.name}
+                              width={1000}
+                              height={1000}
+                          />
+                          <div className="t_text">
+                            <h4>
+                              {" "}
+                              <a href="javascript:void(0)" onClick={() => handleOpenPopup(val)}>
+                              {val.name}
+                              </a>
+                            </h4>
+                            <p>{val.designation}</p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="inner">
-                  <div className="image">
-                    <img src="/images/team2.png"></img>
-                    <div className="t_text">
-                      <h4>
-                        {" "}
-                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
-                          Edwin Pichardo
-                        </a>
-                      </h4>
-
-                      <p>Director of Operations</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="inner">
-                  <div className="image">
-                    <img src="/images/team3.png"></img>
-                    <div className="t_text">
-                      <h4>
-                        {" "}
-                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
-                          Katrina Pichardo
-                        </a>
-                      </h4>
-                      <p>Digital Marketing Director</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="inner">
-                  <div className="image">
-                    <img src="/images/team4.png"></img>
-                    <div className="t_text">
-                      <h4>
-                        {" "}
-                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
-                          Olivia Pichardo
-                        </a>
-                      </h4>
-
-                      <p>Office Administrator</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="inner">
-                  <div className="image">
-                    <img src="/images/team5.png"></img>
-                    <div className="t_text">
-                      <h4>
-                        {" "}
-                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
-                          Maggie Scott
-                        </a>
-                      </h4>
-                      <p>Office Administrator</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="inner">
-                  <div className="image">
-                    <img src="/images/team6.png"></img>
-                    <div className="t_text">
-                      <h4>
-                        {" "}
-                        <a href="javascript:void(0)" onClick={handleOpenPopup}>
-                          Koa, Koemi, & Duke
-                        </a>
-                      </h4>
-                      <p>Chief Emotional Support Office</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  );
+                })}
             </div>
           </div>
         </section>
@@ -246,31 +174,32 @@ export default function About() {
           <div className="contain">
             <div className="outer">
               <div className="text">
-                <h2>Be on Your Way to Feeling Better with Us</h2>
-                <p>
-                  Manage your health online with our secure patient portal.
-                  Access your dashboard, create tickets, view prescriptions,
-                  make payments, and update your profile settings.
-                </p>
+                <Text string={content?.section5_text} />
                 <div className="bTn">
-                  <Link className="site_btn" href="/">
-                    Book an Appointment
-                  </Link>
-                  <Link className="site_btn white" href="/">
-                    Contact Us
-                  </Link>
+                <Link className="site_btn" href={content?.section5_link_url_1}>
+                {content?.section5_link_text_1}
+                </Link>
+                <Link className="site_btn white" href={content?.section5_link_url_2}>
+                {content?.section5_link_text_2}
+                </Link>
                 </div>
               </div>
               <div className="image">
-                <img src="images/dr.png"></img>
+              <img src={cmsFileUrl(content?.image7 , 'images')} alt={short_text(content?.section5_text)}/>
               </div>
             </div>
           </div>
         </section>
       </main>
-      <Popup isOpen={isPopupOpen} onClose={handleClosePopup}>
-        <Team_info onClose={handleClosePopup} />
+      {
+        selectedTeamMember!==null ?
+        <Popup isOpen={selectedTeamMember} onClose={handleClosePopup}>
+        <Team_info teamMember={selectedTeamMember} onClose={handleClosePopup} />
       </Popup>
-    </div>
+      :
+      ""
+      }
+      
+    </>
   );
 }

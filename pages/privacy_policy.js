@@ -1,17 +1,32 @@
 import React from "react";
+import http from "../helpers/http";
+import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
+import MetaGenerator from "../components/meta-generator";
+import Text from "../components/text";
+import { cmsFileUrl} from "../helpers/helpers";
+import Image from "next/image";
 
-export default function Privacy() {
+export const getServerSideProps = async (context) => {
+  
+  const result = await http
+    .post("privacy-policy-page", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+export default function Privacy({result}) {
+  const {content,page_title,site_settings}=result
   return (
-    <div>
+    <>
+    <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
       <main>
         <section
           id="smbanner"
-          style={{
-            backgroundImage: 'url("/images/con_pg.png")',
-          }}>
+          style={{ background: `url(${cmsFileUrl(content?.image1)})` }}>
           <div className="contain">
             <div className="content_center">
-              <h1>Privacy Policy</h1>
+            <h1>{content?.section1_heading}</h1>
             </div>
           </div>
         </section>
@@ -19,147 +34,11 @@ export default function Privacy() {
         <section id="policy">
           <div className="contain">
             <div className="outer">
-              <p>
-                Welcome to veerra! We are committed to protecting your privacy.
-                This Privacy Policy explains how we collect, use, disclose, and
-                safeguard your information when you visit our website
-                pichardo-patient.com, use our platform, or engage with our
-                services. By using our platform, you agree to the collection and
-                use of information in accordance with this policy.
-              </p>
-              <h4>Information We Collect</h4>
-              <h5>Personal Information</h5>
-              <p>
-                We collect personal information that you provide to us directly,
-                such as when you create an account, update your profile, or
-                contact us. This information may include:
-              </p>
-              <ul>
-                <li>Name</li>
-                <li>Email address</li>
-                <li>Phone number</li>
-                <li>Address</li>
-                <li>
-                  Profile information, including photos and biographies for
-                  agents
-                </li>
-              </ul>
-              <h5>Non-Personal Information</h5>
-              <p>
-                We also collect non-personal information automatically when you
-                use our platform. This may include:
-              </p>
-              <ul>
-                <li>IP address</li>
-                <li>Browser type</li>
-                <li>Device information</li>
-                <li>
-                  Usage data (e.g., pages visited, time spent on the site)
-                </li>
-              </ul>
-              <h5>How We Use Your Information</h5>
-              <p>
-                We use the information we collect for various purposes,
-                including:
-              </p>
-              <ul>
-                <li>To provide and maintain our services</li>
-                <li>
-                  To process transactions and send you related information
-                </li>
-                <li>To personalize your experience on our platform</li>
-                <li>To improve our website and services</li>
-                <li>
-                  To communicate with you, including responding to your
-                  comments, questions, and requests
-                </li>
-                <li>
-                  To send you promotional materials and other communications
-                </li>
-                <li>
-                  To detect, prevent, and address technical issues and security
-                  concerns
-                </li>
-              </ul>
-              <h5>Cookies and Tracking Technologies</h5>
-              <p>
-                Our platform uses cookies and similar tracking technologies to
-                enhance your experience. Cookies are small data files stored on
-                your device. We use cookies to:
-              </p>
-              <ul>
-                <li>Remember your login details</li>
-                <li>Understand how you use our platform</li>
-                <li>Personalize content and advertisements</li>
-                <li>Improve our services</li>
-              </ul>
-              <p>
-                You can choose to disable cookies through your browser settings,
-                but this may affect your ability to use certain features of our
-                platform.
-              </p>
-              <h5>Sharing Your Information</h5>
-              <p>
-                We do not sell, trade, or otherwise transfer your personal
-                information to outside parties without your consent, except in
-                the following circumstances:
-              </p>
-              <ul>
-                <li>
-                  To trusted third-party service providers who assist us in
-                  operating our platform, conducting our business, or providing
-                  services to you
-                </li>
-                <li>
-                  To comply with legal obligations, such as responding to a
-                  subpoena or similar legal process
-                </li>
-                <li>To protect and defend our rights or property</li>
-                <li>Address</li>
-                <li>
-                  In connection with a merger, acquisition, or sale of all or a
-                  portion of our assets
-                </li>
-              </ul>
-              <h5>Data Security</h5>
-              <p>
-                We implement a variety of security measures to maintain the
-                safety of your personal information. These measures include:
-              </p>
-              <ul>
-                <li>Using SSL encryption for sensitive data</li>
-                <li>
-                  Restricting access to personal information to authorized
-                  personnel only
-                </li>
-                <li>
-                  Regularly updating our security practices to protect against
-                  unauthorized access
-                </li>
-              </ul>
-              <h5>Changes to This Privacy Policy</h5>
-              <p>
-                We may update our Privacy Policy from time to time. We will
-                notify you of any changes by posting the new Privacy Policy on
-                this page. You are advised to review this Privacy Policy
-                periodically for any changes. Changes to this Privacy Policy are
-                effective when they are posted on this page.
-              </p>
-              <h5>Contact Information</h5>
-              <p>
-                If you have any questions or concerns about this Privacy Policy,
-                please contact us at:
-              </p>
-              <a>
-                Email: <strong>support@example.com</strong>
-              </a>
-              <a>
-                Phone: <strong>(123) 456-7890</strong>
-              </a>
+            <Text string={content?.section1_text} />
             </div>
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 }

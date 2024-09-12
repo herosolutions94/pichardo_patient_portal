@@ -1,6 +1,9 @@
 #banner {
   background-image: url(../public/images/banner.png);
   @include bg;
+  background-position: center!important;
+  background-repeat: no-repeat!important;
+  background-size: cover!important;
   height: 900px;
   @include flex(center, center);
   position: relative;
@@ -152,7 +155,9 @@ P {
 
 #bg_sec {
   background-image: url(../public/images/bg2.png);
-  @include bg;
+  background-position: center!important;
+  background-repeat: no-repeat!important;
+  background-size: cover!important;
   position: relative;
   height: 550px;
   @include flex(center, center);
@@ -357,7 +362,9 @@ P {
 
 #smbanner {
   background-image: url(../public/images/smbanner.png);
-  @include bg;
+  background-position: center!important;
+  background-repeat: no-repeat!important;
+  background-size: cover!important;
   position: relative;
   @include flex(center, center);
   height: 500px;
@@ -402,6 +409,9 @@ P {
           &:last-child {
             background-color: $primary-color;
             margin-top: 20px;
+            img{
+              filter: brightness(0) invert(1);
+            }
           }
           .image {
             width: 8rem;
@@ -422,6 +432,9 @@ P {
           &:first-child {
             background-color: #f2f2f2;
             margin-bottom: 20px;
+            img{
+              filter: brightness(0);
+            }
             h4,
             p {
               color: $black;
@@ -446,17 +459,22 @@ P {
     padding: 10rem 4rem;
     border-radius: 35px;
     .content_center {
-      max-width: 750px;
+      max-width: 80%;
+      @include ipad_sm{
+        max-width: 100%;
+      }
       h2,
       p {
         color: $light;
+        max-width: 750px;
+        margin: 0 auto 2rem;
       }
     }
-    .list {
+    ol {
       display: flex;
       flex-wrap: wrap;
-      width: 80%;
       margin: auto;
+      text-align: left;
       @include ipad_sm {
         width: 100%;
       }
@@ -579,6 +597,9 @@ P {
 #par_bg {
   @include bg;
   background-image: url(../public/images/bg4.png);
+  background-position: center!important;
+  background-repeat: no-repeat!important;
+  background-size: cover!important;
   .outer {
     background-color: rgba(124, 199, 191, 0.93);
     padding: 80px 120px;
@@ -629,9 +650,11 @@ P {
         padding: 30px 20px;
         border-radius: 15px;
         height: 100%;
+        display: block;
         p {
           color: $light;
           text-align: center;
+          margin-bottom: 0;
         }
         .icon {
           width: 60px;

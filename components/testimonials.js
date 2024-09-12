@@ -3,6 +3,7 @@ import Link from "next/link";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import dynamic from "next/dynamic";
+import Text from "./text";
 const OwlCarousel = dynamic(import("react-owl-carousel"), { ssr: false });
 
 export default function Testimonials({ data }) {
@@ -47,7 +48,7 @@ export default function Testimonials({ data }) {
                 <div className="quotes">
                   <img src="images/quotes.svg"></img>
                 </div>
-                <p>{val.comment}</p>
+                <Text string={val?.message} />
                 <div className="testi_footer">
                   <h5>{val.name}</h5>
                   <h6>{val.designation}</h6>

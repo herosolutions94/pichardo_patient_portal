@@ -1,22 +1,36 @@
 import React from "react";
 import Link from "next/link";
 
-export default function Service() {
+import http from "../helpers/http";
+import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
+import MetaGenerator from "../components/meta-generator";
+import Text from "../components/text";
+import { cmsFileUrl} from "../helpers/helpers";
+import Image from "next/image";
+
+export const getServerSideProps = async (context) => {
+  
+  const result = await http
+    .post("services-page", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+
+export default function Service({result}) {
+  const {content,services, page_title,site_settings}=result
+  console.log(result);
   return (
-    <div>
+    <>
+    <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
       <main>
         <section
           id="smbanner"
-          style={{
-            backgroundImage: 'url("/images/serbg.png")',
-          }}>
+          style={{ background: `url(${cmsFileUrl(content?.image1)})` }}>
           <div className="contain">
             <div className="content_center">
-              <h1>Medical Services</h1>
-              <p>
-                Every single journey of your life starts with a healthy mind and
-                a healthy journey
-              </p>
+            <Text string={content?.banner_text} />
             </div>
           </div>
         </section>
@@ -24,62 +38,25 @@ export default function Service() {
         <section id="ser_pg" className="pb">
           <div className="contain">
             <div className="flex">
-              <div className="coll">
-                <div className="image">
-                  <img src="images/sp1.png"></img>
+            {services.map((val) => {
+              return (
+                <div className="coll" key={val.id}>
+                  <div className="image">
+                    <Image
+                        src={cmsFileUrl(val?.image, 'services')}
+                        alt={val.name}
+                        width={1000}
+                        height={800}
+                    />
+                  </div>
+                  <div className="text">
+                    <h3>{val.name}</h3>
+                    <Text string={val?.description}/>
+                  </div>
                 </div>
-                <div className="text">
-                  <h3>General Medical Care</h3>
-                  <p>
-                    If you find yourself in a bind and cannot see your regular
-                    provider or just moved, we can help! We can refill routine
-                    medications, update labs, or care for your minor urgent
-                    illnesses that arise and need more immediate attention.
-                  </p>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="image">
-                  <img src="images/sp2.png"></img>
-                </div>
-                <div className="text">
-                  <h3>Travel Preparation</h3>
-                  <p>
-                    We would love to help you prepare for your next adventure.
-                    Whether you need patches to prevent motion sickness,
-                    medication to combat altitude sickness or medications, such
-                    as malaria prevention, to prepare for travel out of the
-                    country.
-                  </p>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="image">
-                  <img src="images/sp3.png"></img>
-                </div>
-                <div className="text">
-                  <h3>Weight Loss Consults</h3>
-                  <p>
-                    We would be happy to answer any questions you have about
-                    utilizing compounded Semaglutide or Tirzepatide. These
-                    medications are made with B12 and mailed to your home.
-                  </p>
-                </div>
-              </div>
-              <div className="coll">
-                <div className="image">
-                  <img src="images/sp4.png"></img>
-                </div>
-                <div className="text">
-                  <h3>Lab Request</h3>
-                  <p>
-                    We are here to make getting lab tests done easier! Saving
-                    you the hassle of going to your general provider to get
-                    routine labs done. Whether it is an MRI or a blood test, we
-                    can send those requests in for you.
-                  </p>
-                </div>
-              </div>
+              );
+            })}
+              
             </div>
           </div>
         </section>
@@ -89,21 +66,19 @@ export default function Service() {
             <div className="flex">
               <div className="col">
                 <div className="image">
-                  <img src="/images/trusted.png"></img>
+                    <Image
+                      src={cmsFileUrl(content?.image2 , 'images')}
+                      alt={short_text(content?.section1_text)}
+                      width={1000}
+                      height={500}
+                    />
                 </div>
               </div>
               <div className="colr">
-                <h2>Trusted referrals and online services</h2>
-                <p>
-                  We provide trusted referrals to help you find the best local
-                  services, such as labs and blood work, ensuring you receive
-                  top-quality care. Our online services are designed to support
-                  you every step of the way, offering convenience and peace of
-                  mind.
-                </p>
+              <Text string={content?.section1_text} />
                 <div className="btn_blk">
-                  <Link href="" className="site_btn">
-                    Contact Us
+                  <Link href={content?.section1_link_url} className="site_btn">
+                  {content?.section1_link_text}
                   </Link>
                 </div>
               </div>
@@ -111,24 +86,18 @@ export default function Service() {
           </div>
         </section>
 
-        <section id="par_bg">
+        <section id="par_bg" style={{ background: `url(${cmsFileUrl(content?.image3)})` }}>
           <div className="contain">
             <div className="outer">
               <div className="text">
-                <h2>Comprehensive Healthcare for Your Well-being</h2>
-                <p>
-                  At Pichardo Medical, we offer a wide range of healthcare
-                  services to meet the needs of our patients. From routine
-                  check-ups to specialized treatments, our experienced team is
-                  here to provide exceptional care every step of the way.
-                </p>
+                <Text string={content?.section2_text} />
                 <div className="bTn">
-                  <Link className="site_btn" href="/">
-                    Book an Appointment
-                  </Link>
-                  <Link className="site_btn white" href="/">
-                    Contact Us
-                  </Link>
+                <Link className="site_btn" href={content?.section2_link_url_1}>
+                {content?.section2_link_text_1}
+                </Link>
+                <Link className="site_btn white" href={content?.section2_link_url_2}>
+                {content?.section2_link_text_2}
+                </Link>
                 </div>
               </div>
             </div>
@@ -139,23 +108,21 @@ export default function Service() {
           <div className="contain">
             <div className="flex">
               <div className="col">
-                <h2>Comprehensive Healthcare Services</h2>
-                <p>
-                  We offer reliable recommendations to connect you with top
-                  providers for essential services like lab work and blood
-                  tests. Alongside our expert referrals, our online services are
-                  designed to make accessing the care and information you need
-                  as convenient as possible, no matter where you are.
-                </p>
+              <Text string={content?.section3_text} />
                 <div className="btn_blk">
-                  <Link href="" className="site_btn">
-                    Contact Us
+                  <Link href={content?.section3_link_url} className="site_btn">
+                  {content?.section3_link_text}
                   </Link>
                 </div>
               </div>
               <div className="colr">
                 <div className="image">
-                  <img src="/images/comp.png"></img>
+                  <Image
+                      src={cmsFileUrl(content?.image4 , 'images')}
+                      alt={short_text(content?.section3_text)}
+                      width={1000}
+                      height={500}
+                    />
                 </div>
               </div>
             </div>
@@ -165,28 +132,23 @@ export default function Service() {
           <div className="contain">
             <div className="outer">
               <div className="text">
-                <h2>Be on Your Way to Feeling Better with Us</h2>
-                <p>
-                  Manage your health online with our secure patient portal.
-                  Access your dashboard, create tickets, view prescriptions,
-                  make payments, and update your profile settings.
-                </p>
+                <Text string={content?.section4_text} />
                 <div className="bTn">
-                  <Link className="site_btn" href="/">
-                    Book an Appointment
-                  </Link>
-                  <Link className="site_btn white" href="/">
-                    Contact Us
-                  </Link>
+                <Link className="site_btn" href={content?.section4_link_url_1}>
+                {content?.section4_link_text_1}
+                </Link>
+                <Link className="site_btn white" href={content?.section4_link_url_2}>
+                {content?.section4_link_text_2}
+                </Link>
                 </div>
               </div>
               <div className="image">
-                <img src="images/dr.png"></img>
+              <img src={cmsFileUrl(content?.image5 , 'images')} alt={short_text(content?.section4_text)}/>
               </div>
             </div>
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 }

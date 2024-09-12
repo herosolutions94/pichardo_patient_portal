@@ -1,9 +1,26 @@
 import React from "react";
 import Link from "next/link";
+import http from "../helpers/http";
+import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
+import MetaGenerator from "../components/meta-generator";
+import Text from "../components/text";
+import { cmsFileUrl} from "../helpers/helpers";
+import Image from "next/image";
 
-export default function Forget_password() {
+export const getServerSideProps = async (context) => {
+  
+  const result = await http
+    .post("forget-password-page", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+export default function Forget_password({result}) {
+  const {content,page_title,site_settings}=result
   return (
-    <div>
+    <>
+     <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
       <main>
         <div className="contain">
           <div className="login_header">
@@ -26,8 +43,7 @@ export default function Forget_password() {
         <section id="login">
           <div className="contain">
             <div className="outer">
-              <h3>Forgot Password?</h3>
-              <p>Enter your email address associated with your account</p>
+              <Text string={content?.banner_text} />
 
               <form>
                 <div className="form_blk">
@@ -51,6 +67,6 @@ export default function Forget_password() {
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 }

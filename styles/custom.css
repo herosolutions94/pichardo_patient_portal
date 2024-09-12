@@ -6123,6 +6123,9 @@ table .table_name_flex span {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
   height: 900px;
   display: flex;
   align-items: center;
@@ -6333,9 +6336,9 @@ P {
 
 #bg_sec {
   background-image: url(../public/images/bg2.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
   position: relative;
   height: 550px;
   display: flex;
@@ -6582,9 +6585,9 @@ P {
 
 #smbanner {
   background-image: url(../public/images/smbanner.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
   position: relative;
   display: flex;
   align-items: center;
@@ -6638,6 +6641,9 @@ P {
   background-color: #ed1c24;
   margin-top: 20px;
 }
+#mission_value .col .flex .left_col .inner:last-child img {
+  filter: brightness(0) invert(1);
+}
 #mission_value .col .flex .left_col .inner .image {
   width: 8rem;
   height: 8rem;
@@ -6653,6 +6659,9 @@ P {
 #mission_value .col .flex .right_col .inner:first-child {
   background-color: #f2f2f2;
   margin-bottom: 20px;
+}
+#mission_value .col .flex .right_col .inner:first-child img {
+  filter: brightness(0);
 }
 #mission_value .col .flex .right_col .inner:first-child h4,
 #mission_value .col .flex .right_col .inner:first-child p {
@@ -6673,25 +6682,24 @@ P {
   padding: 10rem 4rem;
   border-radius: 35px;
 }
-#whychooseus .outer .content_center {
-  max-width: 750px;
-}
 #whychooseus .outer .content_center h2,
 #whychooseus .outer .content_center p {
   color: #fff;
+  max-width: 750px;
+  margin: 0 auto 2rem;
 }
-#whychooseus .outer .list {
+#whychooseus .outer ol {
   display: flex;
   flex-wrap: wrap;
   width: 80%;
   margin: auto;
 }
 @media (max-width: 991px) {
-  #whychooseus .outer .list {
+  #whychooseus .outer ol {
     width: 100%;
   }
 }
-#whychooseus .outer .list li {
+#whychooseus .outer ol li {
   position: relative;
   width: 33.3333333333%;
   display: flex;
@@ -6699,11 +6707,11 @@ P {
   color: #fff;
 }
 @media (max-width: 767px) {
-  #whychooseus .outer .list li {
+  #whychooseus .outer ol li {
     width: 100%;
   }
 }
-#whychooseus .outer .list li:before {
+#whychooseus .outer ol li:before {
   position: absolute;
   top: 1.3rem;
   bottom: 0;
@@ -7916,6 +7924,9 @@ img.eye {
   padding-bottom: 0;
 }
 
+.dash_headd {
+  margin-right: 30px !important;
+}
 @media (max-width: 767px) {
   .dash_headd {
     display: none !important;

@@ -1,27 +1,40 @@
 import React from "react";
 import Link from "next/link";
+import http from "../helpers/http";
+import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
+import MetaGenerator from "../components/meta-generator";
+import Text from "../components/text";
+import { cmsFileUrl} from "../helpers/helpers";
+import Image from "next/image";
 
-export default function Contact() {
+export const getServerSideProps = async (context) => {
+  
+  const result = await http
+    .post("contact-page", doObjToFormData({ token: "" }))
+    .then((response) => response.data)
+    .catch((error) => error.response.data.message);
+
+  return { props: { result } };
+};
+export default function Contact({result}) {
+  const {content, page_title,site_settings}=result
+  console.log(result);
+
   async function handleSubmit(e) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     console.log(data);
   }
   return (
-    <div>
+    <>
+    <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
       <main>
         <section
           id="smbanner"
-          style={{
-            backgroundImage: 'url("/images/con_pg.png")',
-          }}>
+          style={{ background: `url(${cmsFileUrl(content?.image1)})` }}>
           <div className="contain">
             <div className="content_center">
-              <h1>Medical Services</h1>
-              <p>
-                Every single journey of your life starts with a healthy mind and
-                a healthy journey
-              </p>
+            <Text string={content?.banner_text} />
             </div>
           </div>
         </section>
@@ -30,32 +43,38 @@ export default function Contact() {
           <div className="contain">
             <div className="flex">
               <div className="col">
-                <h2>Let’s discuss on something cool together</h2>
-                <p>
-                  For all medical inquiries, please fill out the form below to
-                  get started and I will get back to you. If you want to jump
-                  right in, <a href="">Create an Account</a> to Chat with a
-                  Provider
-                </p>
+              <Text string={content?.section2_text} />
               </div>
               <div className="colr">
                 <div className="flex">
+                {
+                    site_settings?.site_phone ?
+                        <div className="coll">
+                          <Link href={"tel:" + site_settings?.site_phone} className="inner">
+                            <div className="icon">
+                              <img src="images/Phone.svg"></img>
+                            </div>
+                            <p>{site_settings?.site_phone}</p>
+                          </Link>
+                        </div>
+                        :
+                        ""
+                }
+
+                {
+                  site_settings?.site_email ?
+                  
                   <div className="coll">
-                    <div className="inner">
-                      <div className="icon">
-                        <img src="images/Phone.svg"></img>
-                      </div>
-                      <p>+323-4321-3435</p>
-                    </div>
-                  </div>
-                  <div className="coll">
-                    <div className="inner">
+                    <Link href={"mailto:" + site_settings?.site_email} className="inner">
                       <div className="icon">
                         <img src="images/Envelope.svg"></img>
                       </div>
-                      <p>care@PichardoMedical.com</p>
-                    </div>
+                      <p>{site_settings?.site_email}</p>
+                    </Link>
                   </div>
+                  :
+                  ""
+                }
                 </div>
               </div>
             </div>
@@ -65,7 +84,7 @@ export default function Contact() {
         <section id="cnt_form">
           <div className="contain">
             <div className="outer">
-              <h2>Have a Quick Question?</h2>
+              <Text string={content?.section3_text} />
 
               <form onSubmit={handleSubmit}>
                 <div className="flex">
@@ -159,6 +178,6 @@ export default function Contact() {
           </div>
         </section>
       </main>
-    </div>
+    </>
   );
 }

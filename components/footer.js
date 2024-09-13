@@ -1,7 +1,43 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
-export default function Footer() {
+import http from "../helpers/http";
+import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import IsFormProcessingSpinner from "./isFormProcessingSpinner";
+import toast from "react-hot-toast";
+
+export default function Footer({siteSettings}) {
+  const [isProcessing, setProcessingTo] = useState(false);
+  
+  const {
+    register,
+    watch,
+    formState: { errors, isValid },
+    handleSubmit,
+    setValue,
+    reset,
+} = useForm();
+
+const onSubmit = async (frmData) => {
+  setProcessingTo(true);
+  const response = await http
+      .post("/save-newsletter", doObjToFormData({...frmData}))
+      .then((response) => response.data)
+      .catch((error) => error);
+  setProcessingTo(false);
+  if (response?.status) {
+      toast.success(response?.msg)
+      setTimeout(() => {
+        reset()
+      }, 2000);
+  }
+  else {
+      toast.error(response?.msg)
+  }
+}
+
   const data = {
     list_02: [
       {
@@ -64,14 +100,24 @@ export default function Footer() {
                   </Link>
                 </li>
               </ul> */}
-              <p>Manage your health online with our secure patient portal.</p>
+              <p>{siteSettings?.site_about}</p>
               <div className="social_logon">
-                <Link href="/" target="_blank" rel="noreferrer">
-                  <img src="/images/Facebook.svg" alt="" />
-                </Link>
-                <Link href="/" target="_blank" rel="noreferrer">
-                  <img src="/images/Instagram.svg" alt="" />
-                </Link>
+                {
+                    siteSettings?.site_facebook ?
+                    <Link href={siteSettings?.site_facebook} target="_blank" rel="noreferrer">
+                      <img src="/images/Facebook.svg" alt="" />
+                    </Link>
+                    :
+                    ""
+                }
+                {
+                    siteSettings?.site_instagram ?
+                      <Link href={siteSettings?.site_instagram} target="_blank" rel="noreferrer">
+                        <img src="/images/Instagram.svg" alt="" />
+                      </Link>
+                      :
+                      ""
+                  }
               </div>
             </div>
           </div>
@@ -108,14 +154,26 @@ export default function Footer() {
               <h4>Join Our Mailing List</h4>
               <div className="subscribe">
                 <p>Stay up to date with the latest news and deals!</p>
-                <form>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <input
                     type="text"
                     className="input"
-                    name=""
+                    name="email"
                     placeholder={"@ email address"}
+                    {...register("email", {
+                      required: 'Required', pattern: {
+                          value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
+                          message: 'Invalid Email Format'
+                      }
+                  })}
                   />
-                  <button className="site_btn green" type="submit">
+                  <ErrorMessage
+                        errors={errors}
+                        name="email"
+                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                    />
+                  <button className="site_btn green" type="submit" disabled={isProcessing}>
+                  <IsFormProcessingSpinner isProcessing={isProcessing} />
                     Submit
                   </button>
                 </form>

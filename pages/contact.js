@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import http from "../helpers/http";
 import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
 import MetaGenerator from "../components/meta-generator";
 import Text from "../components/text";
 import { cmsFileUrl} from "../helpers/helpers";
-import Image from "next/image";
+
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import IsFormProcessingSpinner from "@/components/components/isFormProcessingSpinner";
+import toast from "react-hot-toast";
 
 export const getServerSideProps = async (context) => {
   
@@ -17,14 +21,37 @@ export const getServerSideProps = async (context) => {
   return { props: { result } };
 };
 export default function Contact({result}) {
-  const {content, page_title,site_settings}=result
-  console.log(result);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log(data);
+  const {content, page_title,site_settings}=result
+  // console.log(result);
+  const [isProcessing, setProcessingTo] = useState(false);
+  
+  const {
+    register,
+    watch,
+    formState: { errors, isValid },
+    handleSubmit,
+    setValue,
+    reset,
+} = useForm();
+
+const onSubmit = async (frmData) => {
+  setProcessingTo(true);
+  const response = await http
+      .post("/save-contact-message", doObjToFormData({...frmData,services:JSON.stringify(frmData?.services)}))
+      .then((response) => response.data)
+      .catch((error) => error);
+  setProcessingTo(false);
+  if (response?.status) {
+      toast.success(response?.msg)
+      setTimeout(() => {
+        reset()
+      }, 2000);
   }
+  else {
+      toast.error(response?.msg)
+  }
+}
   return (
     <>
     <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
@@ -86,90 +113,172 @@ export default function Contact({result}) {
             <div className="outer">
               <Text string={content?.section3_text} />
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex">
                   <div className="form_blk">
                     <input
-                      id="frm-name"
+                      id="fname"
                       type="text"
-                      name="name"
-                      autoComplete="name"
+                      name="fname"
                       placeholder="First Name"
                       className="input"
-                      required
+                      {...register("fname", {
+                        pattern: {
+                            value: /^[a-zA-Z][a-zA-Z ]*$/,
+                            message: 'Invalid Value!',
+                        },
+                        required: 'Required'
+                    })}
+                    />
+                    <ErrorMessage
+                        errors={errors}
+                        name="fname"
+                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                     />
                   </div>
                   <div className="form_blk">
                     <input
-                      id="frm-name"
+                      id="lname"
                       type="text"
-                      name="name"
+                      name="lname"
                       autoComplete="name"
                       placeholder="Last Name"
                       className="input"
-                      required
+                      {...register("lname", {
+                        pattern: {
+                            value: /^[a-zA-Z][a-zA-Z ]*$/,
+                            message: 'Invalid Value!',
+                        },
+                        required: 'Required'
+                      })}
+                    />
+                    <ErrorMessage
+                        errors={errors}
+                        name="lname"
+                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                     />
                   </div>
                   <div className="form_blk">
                     <input
-                      id="frm-phone"
+                      id="phone"
                       type="text"
                       name="phone"
                       autoComplete="tel"
                       placeholder="Phone Number"
                       className="input"
-                      required
+                      {...register("phone", {
+                          required: "Required", pattern: {
+                              value: /^[0-9-]+$/,
+                              message: "Phone format is not valid!"
+                          }
+                      })}
+                    />
+                    <ErrorMessage
+                        errors={errors}
+                        name="phone"
+                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                     />
                   </div>
                   <div className="form_blk">
                     <input
-                      id="frm-email"
+                      id="email"
                       type="email"
                       name="email"
                       autoComplete="tel"
                       placeholder="Email Address"
                       className="input"
-                      required
+                      {...register("email", {
+                          required: 'Required', pattern: {
+                              value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
+                              message: 'Invalid Email Format'
+                          }
+                      })}
+                    />
+                    <ErrorMessage
+                        errors={errors}
+                        name="email"
+                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                     />
                   </div>
                   <div className="form_blk col-xs-12">
                     <textarea
-                      id="frm-message"
-                      name="message"
+                      id="comments"
+                      name="comments"
                       className="input"
-                      placeholder="Enter Your Message Here"></textarea>
+                      placeholder="Enter Your Message Here" {...register("comments", { required: "Required" })}></textarea>
+                      <ErrorMessage
+                          errors={errors}
+                          name="comments"
+                          render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                      />
                   </div>
                   <div className="have_check form_blk">
                     <p>What services are you interested in?</p>
                     <div className="flx">
                       <div className="lbl_btn">
-                        <input type="checkbox" name="remember" id="remember" />
-                        <label htmlFor="remember">Semaglutide</label>
+                        <input
+                          type="checkbox"
+                          id="semaglutide"
+                          name="services"
+                          {...register("services", { required: "Please select at least one service" })}
+                          value="Semaglutide"
+                        />
+                        <label htmlFor="semaglutide">Semaglutide</label>
                       </div>
                       <div className="lbl_btn">
-                        <input type="checkbox" name="remember" id="remember" />
-                        <label htmlFor="remember">Tirzepatide</label>
+                        <input
+                          type="checkbox"
+                          id="tirzepatide"
+                           name="services"
+                          {...register("services", { required: "Please select at least one service" })}
+                          value="Tirzepatide"
+                        />
+                        <label htmlFor="tirzepatide">Tirzepatide</label>
                       </div>
                       <div className="lbl_btn">
-                        <input type="checkbox" name="remember" id="remember" />
-                        <label htmlFor="remember">Other</label>
+                        <input
+                          type="checkbox"
+                          id="other"
+                           name="services"
+                          {...register("services", { required: "Please select at least one service" })}
+                          value="Other"
+                        />
+                        <label htmlFor="other">Other</label>
                       </div>
                     </div>
+                    <ErrorMessage
+                      errors={errors}
+                      name="services"
+                      render={({ message }) => (
+                        <p className="error">
+                          <i className="warning"></i> {message}
+                        </p>
+                      )}
+                    />
                   </div>
+
                   <div className="form_blk col-xs-12">
                     <input
-                      id=""
+                      id="hear_about"
                       type="text"
-                      name=""
-                      autoComplete=""
+                      name="hear_about"
                       placeholder="How did you hear about us?"
                       className="input"
-                      required
+                      {...register("hear_about", { required: "Required" })}
+                    />
+                    <ErrorMessage
+                      errors={errors}
+                      name="hear_about"
+                      render={({ message }) => (
+                        <p className="error">
+                          <i className="warning"></i> {message}
+                        </p>
+                      )}
                     />
                   </div>
                   <div className="btn_blk">
-                    <button type="submit" className="site_btn">
-                      Send Message
+                    <button type="submit" className="site_btn" disabled={isProcessing}>Send Message <IsFormProcessingSpinner isProcessing={isProcessing} />
+                      
                     </button>
                   </div>
                 </div>

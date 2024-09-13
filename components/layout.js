@@ -2,7 +2,7 @@ import SiteMaster from "./sitemaster";
 import Header from "./header";
 import Footer from "./footer";
 import { useRouter } from "next/router";
-export default function Layout({ children }) {
+export default function Layout({ children, siteSettings }) {
   const router = useRouter();
   const path = router.pathname;
   if (
@@ -13,17 +13,17 @@ export default function Layout({ children }) {
   ) {
     return (
       <div className="content">
-        <SiteMaster />
+        <SiteMaster siteSettings={siteSettings}/>
         {children}
       </div>
     );
   } else {
     return (
       <div className="content">
-        <SiteMaster />
-        <Header />
+        <SiteMaster siteSettings={siteSettings}/>
+        <Header siteSettings={siteSettings}/>
         {children}
-        <Footer />
+        <Footer siteSettings={siteSettings}/>
       </div>
     );
   }

@@ -27,7 +27,7 @@ export default function Login({result}) {
           <div className="login_header">
             <div className="logon_logo">
               <Link href="/">
-                <img src="/images/logo.png" alt="" />
+              <img src={cmsFileUrl(site_settings?.site_logo, 'images')} alt={site_settings?.site_name} />
               </Link>
             </div>
             <div className="btn_blk">

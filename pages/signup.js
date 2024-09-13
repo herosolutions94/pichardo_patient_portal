@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import http from "../helpers/http";
 import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
@@ -6,6 +6,10 @@ import MetaGenerator from "../components/meta-generator";
 import Text from "../components/text";
 import { cmsFileUrl} from "../helpers/helpers";
 import Image from "next/image";
+
+import { useForm, useWatch } from "react-hook-form";
+import { ErrorMessage } from '@hookform/error-message';
+import IsFormProcessingSpinner from "../components/isFormProcessingSpinner";
 
 export const getServerSideProps = async (context) => {
   
@@ -17,7 +21,21 @@ export const getServerSideProps = async (context) => {
   return { props: { result } };
 };
 export default function Signup({result}) {
+  const[pass,setPass] = useState(false);
+  const[confirmPass,setConfirmPass] = useState(false);
   const {content,page_title,site_settings}=result
+
+  const [isProcessing, setProcessingTo] = useState(false);
+  
+  const {
+    register,
+    watch,
+    formState: { errors, isValid },
+    handleSubmit,
+    setValue,
+    reset,
+} = useForm();
+
   return (
     <>
     <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
@@ -26,14 +44,14 @@ export default function Signup({result}) {
           <div className="login_header">
             <div className="logon_logo">
               <Link href="/">
-                <img src="/images/logo.png" alt="" />
+              <img src={cmsFileUrl(site_settings?.site_logo, 'images')} alt={site_settings?.site_name} />
               </Link>
             </div>
             <div className="btn_blk">
               <p>
-                Don’t have an account?{" "}
-                <Link href="/signup" className="strong">
-                  Get started today
+                Already have an account?{" "}
+                <Link href="/login" className="strong">
+                  Login
                 </Link>
               </p>
             </div>
@@ -43,21 +61,37 @@ export default function Signup({result}) {
         <section id="login">
           <div className="contain">
             <div className="outer">
-              <h3>Join us today</h3>
-              <p>Let's get started today.</p>
+              <Text string={content?.banner_text} />
 
               <form>
                 <div className="form_blk">
                   <label>Name</label>
                   <input
-                    id="frm-email"
+                    id="full_name"
                     type=""
-                    name=""
                     autoComplete="name"
+                    name="name"
                     placeholder="Full name"
                     className="input"
-                    required
+                    {...register("name", {
+                      pattern: {
+                          value: /^[a-zA-Z][a-zA-Z ]*$/,
+                          message: 'Invalid Value!',
+                      },
+                      validate: {
+                          atLeastTwoWords: value => {
+                              const words = value.split(' ').filter(word => word !== '');
+                              return words.length >= 2 || 'Please enter full name';
+                          }
+                      },
+                      required: 'Required'
+                  })}
                   />
+                  <ErrorMessage
+                        errors={errors}
+                        name="name"
+                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                    />
                 </div>
                 <div className="form_blk">
                   <label>Email</label>
@@ -68,44 +102,92 @@ export default function Signup({result}) {
                     autoComplete="name"
                     placeholder="hi@example.com"
                     className="input"
-                    required
+                    {...register("email", {
+                      required: 'Required', pattern: {
+                          value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
+                          message: 'Invalid Email Format'
+                      }
+                  })}
                   />
+                  <ErrorMessage
+                        errors={errors}
+                        name="email"
+                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                    />
                 </div>
                 <div className="form_blk">
                   <label>Password</label>
                   <input
                     id="frm-password"
-                    type="password"
+                    type={pass ? "text" : "password"}
                     name="password"
                     placeholder="Enter password"
                     className="input"
-                    required
+                    {...register("password", {
+                        required: 'Required', pattern: {
+                            value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[A-Za-z0-9\!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\>\=\?\@\[\]\{\}\\\\\^\_\`\~]{8,}$/,
+                            message: 'Password must contain at least 8 characters, including minimum one lowercase letter, one uppercase letter and one digit.'
+                        }
+                    })}
                   />
-                  <img className="eye" src="images/eye.svg"></img>
+                  {
+                    pass ? 
+                    <img className="eye" src="images/eye-slash.svg" onClick={() => setPass(false)}/>
+                    :
+                    <img className="eye" src="images/eye.svg" onClick={() => setPass(true)}/>
+                  }
                 </div>
+                <ErrorMessage
+                      errors={errors}
+                      name="password"
+                      render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                  />
                 <div className="form_blk">
                   <label>Confirm Password</label>
                   <input
                     id="frm-password"
-                    type="password"
-                    name="password"
+                    name="confirm_password"
+                    type={confirmPass ? "text" : "password"}
                     placeholder="Confirm Password"
                     className="input"
-                    required
+                    {...register("confirm_password", {
+                        required: 'Required',
+                        validate: (val) => {
+                            if (watch('password') != val) {
+                                return 'Your passwords do not match';
+                            }
+                        },
+                    })}
                   />
-                  <img className="eye" src="images/eye.svg"></img>
+                  {
+                    confirmPass ? 
+                    <img className="eye" src="images/eye-slash.svg" onClick={() => setConfirmPass(false)} />
+                    :
+                    <img className="eye" src="images/eye.svg" onClick={() => setConfirmPass(true)}/>
+                  }
                 </div>
+                <ErrorMessage
+                    errors={errors}
+                    name="confirm_password"
+                    render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                />
                 <div className="have_check form_blk">
                   <div className="lbl_btn">
-                    <input type="checkbox" name="remember" id="remember" />
+                    <input type="checkbox" name="confirm" id="remember" {...register("confirm", { required: 'Required' })}/>
                     <label htmlFor="remember">
                       By creating an account you confirm that you agree to our
                       website <a>terms of use</a> and our <a>privacy notice</a>.
                     </label>
                   </div>
+                  <ErrorMessage
+                    errors={errors}
+                    name="confirm"
+                    render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                />
                 </div>
                 <div className="btn_blk">
-                  <button className="site_btn block">Signup</button>
+                  <button className="site_btn block"disabled={isProcessing}
+                >Signup <IsFormProcessingSpinner isProcessing={isProcessing} /></button>
                 </div>
                 <div className="btn_blk">
                   <button className="site_btn white block">

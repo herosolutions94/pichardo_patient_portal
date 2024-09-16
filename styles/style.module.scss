@@ -1688,3 +1688,37 @@ img.eye {
   color:red !important;
   margin:0
 }
+
+.verify_mail{
+  max-width: 70rem;
+  margin: 0 auto;
+  background: #fff;
+  padding: 5rem;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  h5 , p{
+    text-align: center;
+  }
+  form{
+    h6{
+      text-align: center;
+    }
+    .otp_fields{
+      margin-bottom: 2rem;
+      .codes-container{
+        @include flex($justify:center);
+        flex-wrap: wrap;
+        gap: 1rem;
+        > *{
+          width: 5rem;
+          height: 5rem;
+          @include radius(6px);
+          border: none;
+          background: #efefef;
+          text-align: center;
+          padding: 1rem;
+        }
+      }
+    }
+  }
+}

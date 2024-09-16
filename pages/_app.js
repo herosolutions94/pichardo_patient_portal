@@ -7,6 +7,9 @@ import NextNProgress from "nextjs-progressbar";
 import { authToken } from '../helpers/authToken';
 import { doObjToFormData } from '../helpers/helpers';
 import { Toaster } from 'react-hot-toast';
+import { Provider } from 'react-redux';
+import store from '../redux/store';
+import { SessionProvider } from "next-auth/react";
 
 export default function App({ Component, pageProps, siteSettings }) {
   // return <Component {...pageProps} />
@@ -15,9 +18,11 @@ export default function App({ Component, pageProps, siteSettings }) {
     function (page) {
       return (
       <>
-      <Toaster position='bottom-right' />
+        <Toaster position='bottom-right' />
         <NextNProgress color="#e62254" />
-        <Layout siteSettings={siteSettings}>{page}</Layout>
+        <Provider store={store}>
+            <Layout siteSettings={siteSettings}>{page}</Layout>
+        </Provider>
       </>
       );
     };

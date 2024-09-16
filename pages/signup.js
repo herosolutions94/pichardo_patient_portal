@@ -6,6 +6,8 @@ import MetaGenerator from "../components/meta-generator";
 import Text from "../components/text";
 import { cmsFileUrl} from "../helpers/helpers";
 import Image from "next/image";
+import { useSelector, useDispatch } from 'react-redux';
+import { saveSignupQuery } from "../redux/reducers/auth";
 
 import { useForm, useWatch } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
@@ -25,8 +27,15 @@ export default function Signup({result}) {
   const[confirmPass,setConfirmPass] = useState(false);
   const {content,page_title,site_settings}=result
 
-  const [isProcessing, setProcessingTo] = useState(false);
-  
+  const dispatch = useDispatch();
+  const isFormProcessing = useSelector(state => state.auth.isFormProcessing);
+  const handleSaveForm = (formData) => {
+      if (formData?.type === undefined || formData?.type === null || formData?.type === '') {
+          formData = { ...formData, type: "normal" }
+      }
+
+      dispatch(saveSignupQuery(formData));
+  };
   const {
     register,
     watch,
@@ -63,7 +72,7 @@ export default function Signup({result}) {
             <div className="outer">
               <Text string={content?.banner_text} />
 
-              <form>
+              <form onSubmit={handleSubmit(handleSaveForm)}>
                 <div className="form_blk">
                   <label>Name</label>
                   <input
@@ -186,8 +195,8 @@ export default function Signup({result}) {
                 />
                 </div>
                 <div className="btn_blk">
-                  <button className="site_btn block"disabled={isProcessing}
-                >Signup <IsFormProcessingSpinner isProcessing={isProcessing} /></button>
+                  <button className="site_btn block" disabled={isFormProcessing}
+                >Signup <IsFormProcessingSpinner isProcessing={isFormProcessing} /></button>
                 </div>
                 <div className="btn_blk">
                   <button className="site_btn white block">

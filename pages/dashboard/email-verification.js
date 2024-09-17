@@ -9,6 +9,7 @@ import IsFormProcessingSpinner from "@/components/components/isFormProcessingSpi
 import Timer from "@/components/components/timer";
 import MetaGenerator from "@/components/components/meta-generator";
 import ReactInputCode from 'react-input-code';
+import toast from "react-hot-toast";
 
 export default function EmailVerification() {
 

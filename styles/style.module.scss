@@ -1150,11 +1150,12 @@ P {
   align-items: center;
   gap: 20px;
   .image {
-    height: 177px;
+    height: 25rem;
     border-radius: 10px;
     overflow: hidden;
+    max-width: 40rem;
     img {
-      object-fit: cover;
+      @include object;
     }
   }
   label {
@@ -1721,4 +1722,101 @@ img.eye {
       }
     }
   }
+}
+
+.timer{
+  @include flex($flow:wrap , $justify:center);
+  margin:2rem 0;
+  h4{
+   width: 100%;
+   margin-bottom: 0;
+   text-align: center;
+  }
+  .col-4{
+    padding: 1rem;
+    .box{
+      background-color: #ddd;
+      text-align: center;
+      border-radius: 10px;
+      padding: 1rem;
+      p{
+        margin-bottom: 0;
+        font-family: 'SemiBold';
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
+
+.logged_header_front{
+  nav{
+    right: 9rem;
+  }
+  .logged_side{
+    right: 3rem;
+    top: 1.9rem;
+  }
+}
+
+
+.is_map_load{
+  @include pos($pos:fixed);
+  @include flex(center,center);
+  background-color: #fff;
+  z-index: 1;
+  &.mini_loader{
+    position: absolute!important;
+    background-color: #ddd;
+  }
+}
+.is_map_load .map-loading-dv div {
+  position: absolute;
+  animation: map-loading-dv 1s linear infinite;
+  width: 40px;
+  height: 40px;
+  top: 20px;
+  left: 20px;
+  border-radius: 50%;
+  box-shadow: 0 4px 0 0 $color;
+  transform-origin: 20px 22px;
+}
+
+.is_map_load .loadingio-spinner-eclipse-2by998twmg8 {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  overflow: hidden;
+  background: none;
+}
+
+.is_map_load .map-loading-dv {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+  /* see note above */
+}
+
+.is_map_load .map-loading-dv div {
+  box-sizing: content-box;
+}
+
+@keyframes map-loading-dv {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.upload_relative{
+  position: relative;
 }

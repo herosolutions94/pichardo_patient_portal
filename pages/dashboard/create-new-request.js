@@ -1,32 +1,30 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
+import MetaGenerator from "@/components/components/meta-generator";
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from "next/router";
+import { fetchMemberData } from "@/components/redux/reducers/user";
 
 export default function Create_new_request() {
-  const fileInputRef = useRef(null);
-  const fileDpRef = useRef(null);
+  const router = useRouter();
+  const { mem_address1, preferred_pharmacy } = router.query;
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
-  const handleDpClick = () => {
-    fileDpRef.current.click();
-  };
+  const [address, setAddress] = useState("");
+  const [pharmacy, setPharmacy] = useState("");
 
-  const handleFileSelected = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      console.log("Selected file:", selectedFile.name);
+  useEffect(() => {
+    if (router.isReady) {
+      setAddress(mem_address1);
+      setPharmacy(preferred_pharmacy);
     }
-  };
-  const handleDpSelected = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      console.log("Selected file:", selectedFile.name);
-    }
-  };
+  }, [router.isReady, mem_address1, preferred_pharmacy]);
+
+  const site_settings = useSelector(state => state.user.site_settings);
+  const memberRow = useSelector(state => state.user.member);
   return (
     <>
+    <MetaGenerator page_title={"Create New Request - " + site_settings?.site_name} site_settings={site_settings} />
       <main className="dash">
         <section id="dashboard">
           <div className="contain">

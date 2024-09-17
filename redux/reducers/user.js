@@ -25,6 +25,7 @@ export const fetchMemberData = createAsyncThunk(
     async (type = 'member', { rejectWithValue }) => {
         try {
             const response = await http.post("member-settings", doObjToFormData({ type, token: authToken() }));
+            // console.log(response.data.preferred_pharmacy);
             return response.data;
         } catch (error) {
             console.log(error)
@@ -222,6 +223,7 @@ const initialState = {
     isDeactivated: false,
     is_deactivated: null,
     site_settings: null,
+    preferred_pharmacy:null,
     isNotificationDeleted: false,
 };
 
@@ -247,6 +249,7 @@ const memberSlice = createSlice({
             })
             .addCase(fetchMemberData.fulfilled, (state, action) => {
                 state.isFetching = false;
+                state.preferred_pharmacy = action?.payload?.preferred_pharmacy;
                 if (action?.payload?.member) {
                     // if(action?.payload?.member?.is_deleted===0){
                        state.data = action?.payload;
@@ -283,7 +286,7 @@ const memberSlice = createSlice({
             .addCase(verifyOtp.fulfilled, (state, action) => {
                 if (action?.payload?.status === 1) {
                     setTimeout(() => {
-                        window.location.replace("/dashboard/complete-profile");
+                        window.location.replace("/dashboard/profile-settings");
                     }, 2000);
                 }
 

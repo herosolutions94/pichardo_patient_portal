@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
 import Create_Request_info from "@/components/components/create-request-popup";
 import PopupSmall from "@/components/components/popupSmall";
+
+import MetaGenerator from "@/components/components/meta-generator";
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from "next/router";
+import { fetchMemberData } from "@/components/redux/reducers/user";
+
+
 
 export default function Request() {
   const [toggleStates, setToggleStates] = useState([]);
@@ -35,8 +42,15 @@ export default function Request() {
   const handleClosePopup = () => {
     setIsPopupOpen(false);
   };
+
+  const memberRow = useSelector(state => state.user.member);
+  const site_settings = useSelector(state => state.user.site_settings);
+  const preferred_pharmacy = useSelector(state => state.user.preferred_pharmacy) || [];
+
+
   return (
     <>
+    <MetaGenerator page_title={"My Requests- " + site_settings?.site_name} site_settings={site_settings} />
       <main className="dash">
         <section id="dashboard">
           <div className="contain">
@@ -369,7 +383,7 @@ export default function Request() {
       </main>
 
       <PopupSmall isOpen={isPopupOpen} onClose={handleClosePopup}>
-        <Create_Request_info onClose={handleClosePopup} />
+        <Create_Request_info onClose={handleClosePopup} preferred_pharmacy={preferred_pharmacy} memberRow={memberRow}/>
       </PopupSmall>
     </>
   );

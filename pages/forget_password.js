@@ -6,8 +6,22 @@ import MetaGenerator from "../components/meta-generator";
 import Text from "../components/text";
 import { cmsFileUrl} from "../helpers/helpers";
 import Image from "next/image";
+import ForgetForm from "./sections/forgetForm";
+import { parse } from "cookie";
 
 export const getServerSideProps = async (context) => {
+  const { req } = context;
+  const cookieHeader = req.headers.cookie || '';
+  const cookieValue = parse(cookieHeader);
+  const authToken = cookieValue['authToken'] !== undefined && cookieValue['authToken'] !== null && cookieValue['authToken'] !== '' ? cookieValue['authToken'] : null;
+  if (authToken !== null) {
+      return {
+          redirect: {
+              destination: '/dashboard',
+              permanent: false,
+          },
+      };
+  }
   
   const result = await http
     .post("forget-password-page", doObjToFormData({ token: "" }))
@@ -44,25 +58,7 @@ export default function Forget_password({result}) {
           <div className="contain">
             <div className="outer">
               <Text string={content?.banner_text} />
-
-              <form>
-                <div className="form_blk">
-                  <label>Email</label>
-                  <input
-                    id="frm-email"
-                    type="email"
-                    name="email"
-                    autoComplete="name"
-                    placeholder="hi@example.com"
-                    className="input"
-                    required
-                  />
-                </div>
-
-                <div className="btn_blk">
-                  <button className="site_btn block">Submit</button>
-                </div>
-              </form>
+              <ForgetForm />
             </div>
           </div>
         </section>

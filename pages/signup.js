@@ -12,9 +12,22 @@ import { saveSignupQuery } from "../redux/reducers/auth";
 import { useForm, useWatch } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import IsFormProcessingSpinner from "../components/isFormProcessingSpinner";
+import { parse } from "cookie";
 
 export const getServerSideProps = async (context) => {
-  
+  const { req } = context;
+  const cookieHeader = req.headers.cookie || '';
+  const cookieValue = parse(cookieHeader);
+  const authToken = cookieValue['authToken'] !== undefined && cookieValue['authToken'] !== null && cookieValue['authToken'] !== '' ? cookieValue['authToken'] : null;
+  if (authToken !== null) {
+      return {
+          redirect: {
+              destination: '/dashboard',
+              permanent: false,
+          },
+      };
+  }
+
   const result = await http
     .post("signup-page", doObjToFormData({ token: "" }))
     .then((response) => response.data)

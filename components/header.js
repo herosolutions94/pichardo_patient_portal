@@ -1,7 +1,11 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
+import { useRouter } from 'next/router';
+import React, { useState, useEffect, useRef } from "react";
+import { fetchMemberData, fetchSiteSettings } from "../redux/reducers/user";
+import { useSelector, useDispatch } from "react-redux";
 import { cmsFileUrl } from "../helpers/helpers";
+import * as links from "../constants/link";
+import { deleteCookie } from "cookies-next";
 
 export default function Header({siteSettings}) {
   // console.log(siteSettings);
@@ -13,8 +17,31 @@ export default function Header({siteSettings}) {
   const ToggleUserDrop = () => {
     setUserDrop(!userDrop);
   };
+
+  const router = useRouter();
+  const path = router.pathname;
+  const dispatch = useDispatch();
+  const mem_image = useSelector(state => state.user.mem_image);
+  const mem_name = useSelector(state => state.user.mem_name);
+  const mem_email = useSelector(state => state.user.mem_email);
+  useEffect(() => {
+    dispatch(fetchSiteSettings());
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchMemberData());
+  }, []);
+
+  const site_settings = useSelector(state => state.user.site_settings);
+  const logout = (e) => {
+    e.preventDefault();
+    let url = path
+    deleteCookie("authToken");
+    router.push(links.SIGNIN_PAGE + "?from=" + url);
+  };
+
   return (
-    <header>
+    <header className={siteSettings?.member?.id > 0 ? "logged_header_front" : ""}>
       <div className="contain">
         <div className="outer">
           <div className="logo">
@@ -49,38 +76,58 @@ export default function Header({siteSettings}) {
                   Contact Us
                 </Link>
               </li>
+              {
+              siteSettings?.member?.id > 0 ?
+              ""
+              :
               <li>
                 <Link className="site_btn" href="/login" onClick={ToggleAction}>
                   Login
                 </Link>
               </li>
-              {/* <li><Link href="/become-professional">Become a professional</Link></li> */}
+              }
             </ul>
           </nav>
           {/* =========user no login====== */}
-          {/* =============logged user====== */}
-          {/* <div className="logged_side">
+          {
+          siteSettings?.member?.id > 0 ?
+          <div className="logged_side">
             <ul>
               <li className="logged_drop">
                 <button className="logged_drop_btn" onClick={ToggleUserDrop}>
-                  <div className="user_img curve_drop">
-                  <img src="/images/avtar.svg" alt="" />
-                  </div>
-                  <div className="cntnt loged_cnt">
-                    <h6>Arlie Anderson</h6>
+                  <div className="user_img">
+                  <img src={cmsFileUrl(mem_image, 'members')} alt={mem_name} />
                   </div>
                 </button>
                 <ul className={userDrop ? "sub active" : "sub"}>
-                  <li><Link href="/professional-dashboard" onClick={ToggleUserDrop}><img src="/images/dashboard.svg" alt="" /> <span>Dashboard</span></Link></li>
-                  <li><Link href="/professional-dashboard/profile-settings" onClick={ToggleUserDrop}><img src="/images/setting.svg" alt="" /> <span>Profile Settings</span></Link></li>
-                  <li className="drop_hide_dsk"><Link href="/professional-dashboard/my-account" onClick={ToggleUserDrop}><img src="/images/account.svg" alt="" /> <span>My Account</span></Link></li>
-                  <li className="drop_hide_dsk"><Link href="/professional-dashboard/subscription" onClick={ToggleUserDrop}><img src="/images/subscription.svg" alt="" /> <span>Subscription</span></Link></li>
-                  <li><Link href="/professional-dashboard/services" onClick={ToggleUserDrop}><img src="/images/service.svg" alt="" /> <span>Services</span></Link></li>
-                  <li><Link href="/login" onClick={ToggleUserDrop}><img src="/images/logout.svg" alt="" /> <span>Logout</span></Link></li>
+                  <li>
+                    <Link
+                      href="/dashboard/profile-settings"
+                      onClick={ToggleUserDrop}>
+                      <span>My Profile settings</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href=""
+                      onClick={ToggleUserDrop}>
+                      <span>Payment Methods</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="#!"
+                      onClick={logout}>
+                      <span>Log Out</span>
+                    </Link>
+                  </li>
                 </ul>
               </li>
             </ul>
-          </div> */}
+          </div>
+          :
+          ""
+          }
           <div className="clearfix"></div>
         </div>
       </div>

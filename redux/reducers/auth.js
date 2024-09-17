@@ -64,6 +64,7 @@ export const postForgot = createAsyncThunk(
         try {
             const response = await http.post("forgot-password", doObjToFormData(formData));
             const { data } = response;
+            console.log(data);
             if (data.status) {
                 toast.success(data?.msg)
             } else {
@@ -82,6 +83,7 @@ export const postReset = createAsyncThunk(
         try {
             const response = await http.post("reset-password/" + formData?.token, doObjToFormData(formData));
             const { data } = response;
+           
             if (data.status) {
                 toast.success(data?.msg)
 
@@ -91,6 +93,7 @@ export const postReset = createAsyncThunk(
             return data;
         } catch (error) {
             return rejectWithValue(error.response.data);
+            // console.log(error);
         }
     }
 );
@@ -155,7 +158,7 @@ const authSlice = createSlice({
                     setCookie("mem_type", action.payload.mem_type);
                     setCookie("authentication_required", action.payload?.authentication_required);
                     setTimeout(() => {
-                        window.location.href = "/dashboard"
+                        window.location.href = "/dashboard/profile-settings"
                     }, 2000);
                 }
 

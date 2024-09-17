@@ -14,9 +14,22 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import IsPAgeLoadingSec from "../components/isPAgeLoadingSec";
+import { parse } from "cookie";
 
 export const getServerSideProps = async (context) => {
-  
+  const { req } = context;
+  const cookieHeader = req.headers.cookie || '';
+  const cookieValue = parse(cookieHeader);
+  const authToken = cookieValue['authToken'] !== undefined && cookieValue['authToken'] !== null && cookieValue['authToken'] !== '' ? cookieValue['authToken'] : null;
+  if (authToken !== null) {
+      return {
+          redirect: {
+              destination: '/dashboard',
+              permanent: false,
+          },
+      };
+  }
+
   const result = await http
     .post("login-page", doObjToFormData({ token: "" }))
     .then((response) => response.data)

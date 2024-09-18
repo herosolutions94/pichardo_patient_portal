@@ -58,7 +58,7 @@ export default function LoggedHeader() {
                 <Link href="/">Dashboard</Link>
               </li>
               <li>
-                <Link href="/dashboard/my-request">My Requests</Link>
+                <Link href="/dashboard/requests">My Requests</Link>
               </li>
               <li>
                 <Link href="/dashboard/my-prescription">My Prescriptions</Link>

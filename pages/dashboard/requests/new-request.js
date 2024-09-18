@@ -1,10 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import LayoutDashboard from "@/components/components/layoutDashbord";
-import MetaGenerator from "@/components/components/meta-generator";
-import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from "next/router";
-import { fetchMemberData } from "@/components/redux/reducers/user";
 
 import { useForm, useWatch } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';

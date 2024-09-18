@@ -566,6 +566,23 @@ export function subscriptionStatus(status) {
 
 }
 
+export function requestStatus(status) {
+  if (status == 'in_progress') {
+    return <span className="badge blue">In Progress</span>
+  } else if (status == 'prescription_in_progress') {
+    return <span className="badge teal">Prescription in progress</span>
+  }else if (status == 'payed') {
+    return <span className="badge light_blue">Payed</span>
+  }else if (status == 'prescription') {
+    return <span className="badge yellow">prescription</span>
+  }else if (status == 'closed') {
+    return <span className="badge red">Closed</span>
+  } else {
+    return <span className="badge green">New</span>
+  }
+
+}
+
 export function bytesToMegaBytes(bytes) {
   return bytes / (1024 * 1024);
 }

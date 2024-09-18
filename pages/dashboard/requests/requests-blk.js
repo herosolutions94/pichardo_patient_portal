@@ -1,38 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import MetaGenerator from "@/components/components/meta-generator";
 import { useSelector, useDispatch } from 'react-redux';
 import PopupSmall from "@/components/components/popupSmall";
 import Create_Request_info from "@/components/components/create-request-popup";
+import { requestStatus } from "@/components/helpers/helpers";
 
 export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, handleOpenPopup, result}) {
   const { requests } = result;
-  console.log(requests);
+  // console.log(result);
 
-  const [toggleStates, setToggleStates] = useState([]);
-  const [dropdownStates, setDropdownStates] = useState([]);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const dropdownRefs = useRef([]);
 
-  const handleToggle = (index) => {
-    setToggleStates((prevState) => {
-      const updatedStates = [...prevState];
-      updatedStates[index] = !updatedStates[index];
-      return updatedStates;
-    });
-  };
-
-  // Updated function to only open one dropdown at a time
   const toggleDropdown = (index) => {
-    setDropdownStates((prevState) => {
-      const updatedStates = prevState.map((state, i) => i === index ? !state : false);
-      return updatedStates;
-    });
+    setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if the click is outside any of the dropdown elements
+      if (!dropdownRefs.current.some(ref => ref?.contains(event.target))) {
+        setActiveDropdown(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [requests]);
+
+
+  const handleActionClick = () => {
+    setActiveDropdown(null); // Close all dropdowns
+  };
+
 
   const memberRow = useSelector(state => state.user.member);
   const preferred_pharmacy = useSelector(state => state.user.preferred_pharmacy) || [];
-
-  
-  
 
   return (
     <>
@@ -72,13 +79,11 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                         <li>#{request.id}</li>
                         <li>{request.subject}</li>
                         <li>
-                            <span className="green badge">
-                              {request.status}
-                            </span>
+                          {requestStatus(request.status)}
                         </li>
                         <li>{new Date(request.updated_at).toLocaleDateString()}</li>
                         <li className="bTn action_drop_lease">
-                            <div className="action_drop _dropDown">
+                            <div className="action_drop _dropDown" ref={(el) => dropdownRefs.current[index] = el}>
                               <div
                                 className="_dropBtn action_dots"
                                 onClick={() => toggleDropdown(index)}>
@@ -86,11 +91,10 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                               </div>
                               <ul
                                 className={`_dropCnt dropLst ${
-                                  dropdownStates[index] ? "show" : "hide"
+                                   activeDropdown === index ? "show" : "hide"
                                 }`}>
-                                <li><a href="#">View</a></li>
-                                <li><a href="#">Edit</a></li>
-                                <li><a href="#">Reopen</a></li>
+                                <li><a href={`/dashboard/requests/view/${request.encoded_id}`} onClick={handleActionClick}>View</a></li>
+                                <li><a href="#" onClick={handleActionClick}>Reopen</a></li>
                               </ul>
                             </div>
                         </li>

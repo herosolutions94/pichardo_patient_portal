@@ -1,30 +1,27 @@
 import React, { useEffect } from "react";
-import Link from "next/link";
 
 import { useForm} from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
 import IsFormProcessingSpinner from "@/components/components/isFormProcessingSpinner";
 
-export default function Create_Request_info({preferred_pharmacy, memberRow}) {
+export default function Create_Request_info({preferred_pharmacy, memberRow, onSubmit}) {
   const {
-      register,
-      control,
-      watch,
-      formState: { errors },
-      handleSubmit,
-      setValue,
-      reset
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
   } = useForm();
+
   useEffect(() => {
-      if (memberRow?.id > 0) {
-          setValue("mem_address1", memberRow?.mem_address1)
-          setValue("preferred_pharmacy", memberRow?.preferred_pharmacy)
-      }
-  }, [memberRow]);
+    if (memberRow?.id > 0) {
+      setValue("mem_address1", memberRow?.mem_address1);
+      setValue("preferred_pharmacy", memberRow?.preferred_pharmacy);
+    }
+  }, [memberRow, setValue]);
 
   const handleRequestForm = (frmData) => {
-    return frmData;
-  }
+    onSubmit(frmData);
+  };
   return (
     <div className="request-popup">
       <h4>Please confirm your address and preferred pharmacy</h4>
@@ -85,18 +82,11 @@ export default function Create_Request_info({preferred_pharmacy, memberRow}) {
             />
         </div>
         <div className="btn_blk">
-          <Link
-            href={{
-              pathname: "/dashboard/create-new-request",
-              query: {
-                mem_address1: watch("mem_address1"),
-                preferred_pharmacy: watch("preferred_pharmacy"),
-              },
-            }}
+          <button
             className="site_btn green"
           >
             Confirm
-          </Link>
+          </button>
         </div>
       </form>
     </div>

@@ -43,11 +43,10 @@ export default function Requests({result}) {
     setPopupData(formData);
     setRequest(false);
     setIsPopupOpen(false);
-    console.log(formData);
+    // console.log(formData);
   };
 
  
-
   const site_settings = useSelector(state => state.user.site_settings);
   return (
     <>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useSelector, useDispatch } from 'react-redux';
 import PopupSmall from "@/components/components/popupSmall";
 import Create_Request_info from "@/components/components/create-request-popup";
-import { requestStatus } from "@/components/helpers/helpers";
+import { formatDateToAmericanTimezone, requestStatus } from "@/components/helpers/helpers";
 
 export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, handleOpenPopup, result}) {
   const { requests } = result;
@@ -81,7 +81,7 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                         <li>
                           {requestStatus(request.status)}
                         </li>
-                        <li>{new Date(request.updated_at).toLocaleDateString()}</li>
+                        <li>{formatDateToAmericanTimezone(request.updated_at)}</li>
                         <li className="bTn action_drop_lease">
                             <div className="action_drop _dropDown" ref={(el) => dropdownRefs.current[index] = el}>
                               <div

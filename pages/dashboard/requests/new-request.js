@@ -38,7 +38,9 @@ const onSubmit = async (formData) => {
             reset();
             setAttachmentFile(null);
             toast.success(result.data.msg);
-            router.reload();
+            const encodedId = result.data.encodedId;
+            router.push(`/dashboard/requests/view/${encodedId}`);
+            // router.reload();
         } else {
             toast.error(result.data.msg);
         }

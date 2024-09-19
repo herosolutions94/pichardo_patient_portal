@@ -470,6 +470,39 @@ export function short_text(text, length = 25) {
     return cleanText;
   }
 }
+export function formatDateToAmericanTimezone(datetime) {
+  const date = new Date(datetime);
+
+  // Format the date to American timezone (Eastern Time) and in 'MM/DD/YYYY' format
+  const options = { 
+    timeZone: 'America/New_York', 
+    year: 'numeric', 
+    month: '2-digit', 
+    day: '2-digit' 
+  };
+
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
+
+export function convertToEasternTime(dateString) {
+  const date = new Date(dateString);
+
+  const formattedDate = date.toLocaleString("en-US", {
+    timeZone: "America/New_York", // Convert to Eastern Time (ET)
+    month: "numeric",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true // For AM/PM format
+  });
+
+  return formattedDate;
+}
+
+
 
 
 export function formatDate(dateString) {

@@ -5,7 +5,14 @@ import MetaGenerator from "@/components/components/meta-generator";
 import { useSelector } from "react-redux";
 import { parse } from 'cookie';
 import http from "@/components/helpers/http";
-import { doObjToFormData, requestStatus } from "@/components/helpers/helpers";
+import { cmsFileUrl, doObjToFormData, formatDateToAmericanTimezone, requestStatus, formatDateTimeToAmericanTimezone, convertToEasternTime } from "@/components/helpers/helpers";
+import Text from "@/components/components/text";
+
+import { useForm} from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+import axios from "axios";
+import { authToken } from "@/components/helpers/authToken";
+import toast from "react-hot-toast";
 
 export const getServerSideProps = async (context) => {
   const { req, res, params } = context;
@@ -29,9 +36,59 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function Questions_screen({result}) {
-  const {request_data}=result
+  const {site_settings, member, request_chat, request_data}=result
+
+  const [messages, setMessages] = useState(request_chat || []);
+
   // console.log(result);
-  const site_settings = useSelector(state => state.user.site_settings);
+  // console.log(site_settings.generate_questions);
+
+  const {
+    register,
+    control,
+    watch,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    reset
+} = useForm();
+
+// ==get member===
+const memberRow = useSelector(state => state.user.member);
+
+const handleSubmitMsg = async(frmData) => {
+  const request_id = request_data.id;
+  const msg = frmData.msg;
+
+  const chatRequest = {
+    msg: msg,
+    request_id: request_id,
+  };
+  // console.log("Chat Request Object:", chatRequest);
+  try {
+    const response = await http.post("/chat-requests", doObjToFormData({...chatRequest,token:authToken()}))
+    if (response.data.success) {
+      toast.success("Message sent successfully");
+      // Get current time
+      const currentTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
+      // Append new message with current time
+      setMessages([...messages, { msg, time: currentTime }]);
+      reset({ msg: '' });
+    } else {
+      toast.error("Message sending failed");
+    }
+  } catch (error) {
+    toast.error("Error sending message");
+  }
+  
+};
+// Function to handle keydown event and send message on Enter key press
+const handleKeyDown = (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault(); // Prevents adding a new line in textarea
+    handleSubmit(handleSubmitMsg)(); // Trigger form submit
+  }
+};
   return (
     <>
     <MetaGenerator page_title={"View Request - " + site_settings?.site_name} site_settings={site_settings} />
@@ -53,10 +110,10 @@ export default function Questions_screen({result}) {
               </div>
               <div className="inner">
                 <h4>Created on</h4>
-                <p>{request_data.created_at}</p>
+                <p>{formatDateToAmericanTimezone(request_data.created_at)}</p>
               </div>
             </div>
-            <div className="bulk mb">
+            {/* <div className="bulk mb">
               <div className="head">
                 <h4>Invoice ID:</h4>
                 <p>#12345</p>
@@ -80,7 +137,7 @@ export default function Questions_screen({result}) {
               <Link href="" className="site_btn green sm">
                 Pay Now
               </Link>
-            </div>
+            </div> */}
           </div>
           <div className="chatBlk relative">
             <div className="text">
@@ -96,27 +153,49 @@ export default function Questions_screen({result}) {
                   <img src="/images/cc1.png"></img>
                 </div>
                 <div className="txt">
-                  <div className="time">Apr 29, 2024, 11:40 pm</div>
+                  <div className="time">{convertToEasternTime(request_data.created_at)}</div>
                   <div className="cntnt">
-                    <p>What is your age?</p>
-                    <p> What is your height?</p> <p>What is your weight?</p>{" "}
-                    <p>Please describe your current symptoms.</p>{" "}
-                    <p>Do you have any relevant medical history?</p>
+                    <Text string={site_settings?.generate_questions} />
                   </div>
                 </div>
               </div>
+              {messages.map((message, index) => (
+                <div className="buble you" key={index}>
+                  <div className="ico">
+                    <img src={cmsFileUrl(memberRow?.mem_image , 'members')} alt={memberRow?.mem_name} />
+                  </div>
+                  <div className="txt">
+                    <div className="time">{message.time}</div>
+                    <div className="cntnt">
+                    <p>{message.msg}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="write">
-              <form className="relative">
+              <form className="relative" onSubmit={handleSubmit(handleSubmitMsg)}>
                 <div className="btm">
-                  <button className="site_btn arrowBtn blank">
+                  <button className="site_btn arrowBtn blank" type="button">
                     <img src="/images/file.svg"></img>
                   </button>
-                  <textarea className="input"></textarea>
-                  <button className="site_btn icoBtn">
+                  <textarea className="input"
+                    {...register("msg", {
+                        required: "Message is required",
+                        pattern: {
+                          value: /^[a-zA-Z0-9\s,'-]*$/,
+                          message: 'Invalid address format!',
+                        }
+                    })} onKeyDown={handleKeyDown}></textarea>
+                  <button className="site_btn icoBtn" type="submit">
                     <img src="/images/sent.svg"></img>
                   </button>
                 </div>
+                <ErrorMessage
+                    errors={errors}
+                    name="msg"
+                    render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                />
               </form>
             </div>
           </div>

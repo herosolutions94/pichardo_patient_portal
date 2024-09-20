@@ -1862,3 +1862,39 @@ img.eye {
   }
  }
 }
+
+.files_after_upload{
+  @include flex;
+  gap: 1rem;
+  .img_blk_uploaded{
+    width: 6rem;
+    height: 6rem;
+    margin-top: 0;
+  }
+}
+.files_after_load{
+  @include flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  .img_blk_uploaded{
+    width: 6rem;
+    height: 6rem;
+    margin-top: 0;
+    .file_img{
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+}
+.relative_all{
+  position: relative;
+  .loader_icon{
+      @include pos;
+      @include radius(50px);
+      overflow: hidden;
+      img{
+        @include object(cover);
+      }
+  }
+}
+

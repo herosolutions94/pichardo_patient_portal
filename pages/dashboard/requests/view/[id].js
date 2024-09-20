@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
 import MetaGenerator from "@/components/components/meta-generator";
@@ -13,6 +13,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import axios from "axios";
 import { authToken } from "@/components/helpers/authToken";
 import toast from "react-hot-toast";
+import FilesAttachment from "@/components/components/files-attachment";
 
 export const getServerSideProps = async (context) => {
   const { req, res, params } = context;
@@ -36,11 +37,20 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function Questions_screen({result}) {
-  const {site_settings, member, request_chat, request_data}=result
+  console.log(result)
+  const {site_settings, member, request_data}=result
 
-  const [messages, setMessages] = useState(request_chat || []);
+  const [messages, setMessages] = useState([]);
+  
+  useEffect(()=>{
+    if(request_data?.id > 0){
+      setMessages(request_data?.messages);
+    }
+  },[request_data])
+  const [attachmentFiles, setAttachmentFiles] = useState([]);
+  const[isImageLoading , setIsImageLoading] = useState(false);
 
-  // console.log(result);
+  console.log(result);
   // console.log(site_settings.generate_questions);
 
   const {
@@ -52,7 +62,7 @@ export default function Questions_screen({result}) {
     setValue,
     reset
 } = useForm();
-
+console.log(attachmentFiles)
 // ==get member===
 const memberRow = useSelector(state => state.user.member);
 
@@ -63,24 +73,44 @@ const handleSubmitMsg = async(frmData) => {
   const chatRequest = {
     msg: msg,
     request_id: request_id,
+    attachments:JSON.stringify(attachmentFiles)
   };
   // console.log("Chat Request Object:", chatRequest);
   try {
-    const response = await http.post("/chat-requests", doObjToFormData({...chatRequest,token:authToken()}))
-    if (response.data.success) {
-      toast.success("Message sent successfully");
+    const response = await http.post("/chat-requests", doObjToFormData({...chatRequest, token:authToken()}))
+    if (response.data.status) {
+      toast.success(response?.data?.msg);
       // Get current time
       const currentTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
       // Append new message with current time
-      setMessages([...messages, { msg, time: currentTime }]);
-      reset({ msg: '' });
+      let newMsg = {
+        msg: msg,
+        time: currentTime,
+        attachments: attachmentFiles?.map((fileName, index) => ({
+            id: messages.length + index + 1, // Generate unique id based on current messages length
+            file: fileName,
+        })) || [] // Default to an empty array if attachmentFiles is undefined
+    };
+    
+    setMessages(prevMessages => [
+        ...prevMessages,
+        newMsg
+    ]);
+    
+      resetForm();
     } else {
-      toast.error("Message sending failed");
+      toast.error(response?.data?.msg);
     }
   } catch (error) {
     toast.error("Error sending message");
   }
   
+};
+
+const resetForm = () => {
+  reset({msg:''})
+  setAttachmentFiles([]); // Clear file attachments
+  document.getElementById('file-upload').value = ''; // Clear file input field
 };
 // Function to handle keydown event and send message on Enter key press
 const handleKeyDown = (e) => {
@@ -159,7 +189,7 @@ const handleKeyDown = (e) => {
                   </div>
                 </div>
               </div>
-              {messages.map((message, index) => (
+              {messages?.map((message, index) => (
                 <div className="buble you" key={index}>
                   <div className="ico">
                     <img src={cmsFileUrl(memberRow?.mem_image , 'members')} alt={memberRow?.mem_name} />
@@ -167,18 +197,47 @@ const handleKeyDown = (e) => {
                   <div className="txt">
                     <div className="time">{message.time}</div>
                     <div className="cntnt">
-                    <p>{message.msg}</p>
+                      <p>{message.msg}</p>
                     </div>
+                    <div className="files_after_load">
+                      {
+                        message?.attachments?.length > 0 ?
+                        message?.attachments.map((file, index) => (
+                            <Link key={index} href={cmsFileUrl(file.file, 'attachments')} className="img_blk_uploaded" target="_blank">
+                                <img src="/images/file1.svg" alt="File Attachment" className="file_img"/>
+                                <div className="download_img">
+                                    <img src="/images/download.svg" alt="Download File"/>
+                                </div>
+                            </Link>
+                        ))
+                        : ""
+                      }
+                      </div>
                   </div>
                 </div>
               ))}
             </div>
             <div className="write">
+            <div className="files_after_upload">
+            {
+                attachmentFiles && attachmentFiles.length > 0 ?
+                attachmentFiles?.map((file, index) => (
+                    <Link key={index} href={cmsFileUrl(file.file_name, 'attachments')} className="img_blk_uploaded" target="_blank">
+                        <img src="/images/file1.svg" alt="File Attachment" className="file_img"/>
+                        <div className="download_img">
+                            <img src="/images/download.svg" alt="Download File"/>
+                        </div>
+                    </Link>
+                ))
+                : ""
+            } 
+            </div>
               <form className="relative" onSubmit={handleSubmit(handleSubmitMsg)}>
                 <div className="btm">
-                  <button className="site_btn arrowBtn blank" type="button">
+                  {/* <button className="site_btn arrowBtn blank" type="button">
                     <img src="/images/file.svg"></img>
-                  </button>
+                  </button> */}
+                  <FilesAttachment attachmentFiles={attachmentFiles} setAttachmentFiles={setAttachmentFiles} isImageLoading={isImageLoading} setIsImageLoading={setIsImageLoading} />
                   <textarea className="input"
                     {...register("msg", {
                         required: "Message is required",

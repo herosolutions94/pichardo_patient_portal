@@ -604,8 +604,8 @@ export function requestStatus(status) {
     return <span className="badge blue">In Progress</span>
   } else if (status == 'prescription_in_progress') {
     return <span className="badge teal">Prescription in progress</span>
-  }else if (status == 'payed') {
-    return <span className="badge light_blue">Payed</span>
+  }else if (status == 'paid') {
+    return <span className="badge light_blue">Paid</span>
   }else if (status == 'prescription') {
     return <span className="badge yellow">prescription</span>
   }else if (status == 'closed') {

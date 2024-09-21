@@ -4,7 +4,7 @@ import http from "../helpers/http";
 import { doObjToFormData, generateContentArray, short_text } from "../helpers/helpers";
 import MetaGenerator from "../components/meta-generator";
 import Text from "../components/text";
-import { cmsFileUrl} from "../helpers/helpers";
+import { cmsFileUrl } from "../helpers/helpers";
 
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
@@ -12,7 +12,7 @@ import IsFormProcessingSpinner from "@/components/components/isFormProcessingSpi
 import toast from "react-hot-toast";
 
 export const getServerSideProps = async (context) => {
-  
+
   const result = await http
     .post("contact-page", doObjToFormData({ token: "" }))
     .then((response) => response.data)
@@ -20,12 +20,12 @@ export const getServerSideProps = async (context) => {
 
   return { props: { result } };
 };
-export default function Contact({result}) {
+export default function Contact({ result }) {
 
-  const {content, page_title,site_settings}=result
+  const { content, page_title, site_settings } = result
   // console.log(result);
   const [isProcessing, setProcessingTo] = useState(false);
-  
+
   const {
     register,
     watch,
@@ -33,35 +33,35 @@ export default function Contact({result}) {
     handleSubmit,
     setValue,
     reset,
-} = useForm();
+  } = useForm();
 
-const onSubmit = async (frmData) => {
-  setProcessingTo(true);
-  const response = await http
-      .post("/save-contact-message", doObjToFormData({...frmData,services:JSON.stringify(frmData?.services)}))
+  const onSubmit = async (frmData) => {
+    setProcessingTo(true);
+    const response = await http
+      .post("/save-contact-message", doObjToFormData({ ...frmData, services: JSON.stringify(frmData?.services) }))
       .then((response) => response.data)
       .catch((error) => error);
-  setProcessingTo(false);
-  if (response?.status) {
+    setProcessingTo(false);
+    if (response?.status) {
       toast.success(response?.msg)
       setTimeout(() => {
         reset()
       }, 2000);
-  }
-  else {
+    }
+    else {
       toast.error(response?.msg)
+    }
   }
-}
   return (
     <>
-    <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
+      <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
       <main>
         <section
           id="smbanner"
           style={{ background: `url(${cmsFileUrl(content?.image1)})` }}>
           <div className="contain">
             <div className="content_center">
-            <Text string={content?.banner_text} />
+              <Text string={content?.banner_text} />
             </div>
           </div>
         </section>
@@ -70,38 +70,38 @@ const onSubmit = async (frmData) => {
           <div className="contain">
             <div className="flex">
               <div className="col">
-              <Text string={content?.section2_text} />
+                <Text string={content?.section2_text} />
               </div>
               <div className="colr">
                 <div className="flex">
-                {
+                  {
                     site_settings?.site_phone ?
-                        <div className="coll">
-                          <Link href={"tel:" + site_settings?.site_phone} className="inner">
-                            <div className="icon">
-                              <img src="images/Phone.svg"></img>
-                            </div>
-                            <p>{site_settings?.site_phone}</p>
-                          </Link>
-                        </div>
-                        :
-                        ""
-                }
-
-                {
-                  site_settings?.site_email ?
-                  
-                  <div className="coll">
-                    <Link href={"mailto:" + site_settings?.site_email} className="inner">
-                      <div className="icon">
-                        <img src="images/Envelope.svg"></img>
+                      <div className="coll">
+                        <Link href={"tel:" + site_settings?.site_phone} className="inner">
+                          <div className="icon">
+                            <img src="images/Phone.svg"></img>
+                          </div>
+                          <p>{site_settings?.site_phone}</p>
+                        </Link>
                       </div>
-                      <p>{site_settings?.site_email}</p>
-                    </Link>
-                  </div>
-                  :
-                  ""
-                }
+                      :
+                      ""
+                  }
+
+                  {
+                    site_settings?.site_email ?
+
+                      <div className="coll">
+                        <Link href={"mailto:" + site_settings?.site_email} className="inner">
+                          <div className="icon">
+                            <img src="images/Envelope.svg"></img>
+                          </div>
+                          <p>{site_settings?.site_email}</p>
+                        </Link>
+                      </div>
+                      :
+                      ""
+                  }
                 </div>
               </div>
             </div>
@@ -124,16 +124,16 @@ const onSubmit = async (frmData) => {
                       className="input"
                       {...register("fname", {
                         pattern: {
-                            value: /^[a-zA-Z][a-zA-Z ]*$/,
-                            message: 'Invalid Value!',
+                          value: /^[a-zA-Z][a-zA-Z ]*$/,
+                          message: 'Invalid Value!',
                         },
                         required: 'Required'
-                    })}
+                      })}
                     />
                     <ErrorMessage
-                        errors={errors}
-                        name="fname"
-                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                      errors={errors}
+                      name="fname"
+                      render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                     />
                   </div>
                   <div className="form_blk">
@@ -146,16 +146,16 @@ const onSubmit = async (frmData) => {
                       className="input"
                       {...register("lname", {
                         pattern: {
-                            value: /^[a-zA-Z][a-zA-Z ]*$/,
-                            message: 'Invalid Value!',
+                          value: /^[a-zA-Z][a-zA-Z ]*$/,
+                          message: 'Invalid Value!',
                         },
                         required: 'Required'
                       })}
                     />
                     <ErrorMessage
-                        errors={errors}
-                        name="lname"
-                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                      errors={errors}
+                      name="lname"
+                      render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                     />
                   </div>
                   <div className="form_blk">
@@ -167,16 +167,16 @@ const onSubmit = async (frmData) => {
                       placeholder="Phone Number"
                       className="input"
                       {...register("phone", {
-                          required: "Required", pattern: {
-                              value: /^[0-9-]+$/,
-                              message: "Phone format is not valid!"
-                          }
+                        required: "Required", pattern: {
+                          value: /^[0-9-]+$/,
+                          message: "Phone format is not valid!"
+                        }
                       })}
                     />
                     <ErrorMessage
-                        errors={errors}
-                        name="phone"
-                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                      errors={errors}
+                      name="phone"
+                      render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                     />
                   </div>
                   <div className="form_blk">
@@ -188,16 +188,16 @@ const onSubmit = async (frmData) => {
                       placeholder="Email Address"
                       className="input"
                       {...register("email", {
-                          required: 'Required', pattern: {
-                              value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
-                              message: 'Invalid Email Format'
-                          }
+                        required: 'Required', pattern: {
+                          value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
+                          message: 'Invalid Email Format'
+                        }
                       })}
                     />
                     <ErrorMessage
-                        errors={errors}
-                        name="email"
-                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                      errors={errors}
+                      name="email"
+                      render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                     />
                   </div>
                   <div className="form_blk col-xs-12">
@@ -206,11 +206,11 @@ const onSubmit = async (frmData) => {
                       name="comments"
                       className="input"
                       placeholder="Enter Your Message Here" {...register("comments", { required: "Required" })}></textarea>
-                      <ErrorMessage
-                          errors={errors}
-                          name="comments"
-                          render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
-                      />
+                    <ErrorMessage
+                      errors={errors}
+                      name="comments"
+                      render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                    />
                   </div>
                   <div className="have_check form_blk">
                     <p>What services are you interested in?</p>
@@ -229,7 +229,7 @@ const onSubmit = async (frmData) => {
                         <input
                           type="checkbox"
                           id="tirzepatide"
-                           name="services"
+                          name="services"
                           {...register("services", { required: "Please select at least one service" })}
                           value="Tirzepatide"
                         />
@@ -239,7 +239,7 @@ const onSubmit = async (frmData) => {
                         <input
                           type="checkbox"
                           id="other"
-                           name="services"
+                          name="services"
                           {...register("services", { required: "Please select at least one service" })}
                           value="Other"
                         />
@@ -278,7 +278,7 @@ const onSubmit = async (frmData) => {
                   </div>
                   <div className="btn_blk">
                     <button type="submit" className="site_btn" disabled={isProcessing}>Send Message <IsFormProcessingSpinner isProcessing={isProcessing} />
-                      
+
                     </button>
                   </div>
                 </div>

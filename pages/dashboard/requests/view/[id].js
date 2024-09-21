@@ -5,7 +5,7 @@ import MetaGenerator from "@/components/components/meta-generator";
 import { useSelector } from "react-redux";
 import { parse } from 'cookie';
 import http from "@/components/helpers/http";
-import { cmsFileUrl, doObjToFormData, formatDateToAmericanTimezone, requestStatus, formatDateTimeToAmericanTimezone, convertToEasternTime } from "@/components/helpers/helpers";
+import { cmsFileUrl, doObjToFormData, formatDateToAmericanTimezone, requestStatus, formatDateTimeToAmericanTimezone, convertToEasternTime,format_amount } from "@/components/helpers/helpers";
 import Text from "@/components/components/text";
 
 import { useForm} from 'react-hook-form';
@@ -14,6 +14,7 @@ import axios from "axios";
 import { authToken } from "@/components/helpers/authToken";
 import toast from "react-hot-toast";
 import FilesAttachment from "@/components/components/files-attachment";
+import RequestSidebar from "../request-sidebar";
 
 export const getServerSideProps = async (context) => {
   const { req, res, params } = context;
@@ -124,51 +125,7 @@ const handleKeyDown = (e) => {
     <MetaGenerator page_title={"View Request - " + site_settings?.site_name} site_settings={site_settings} />
       <main className="chat_screen dash">
         <div className="contain">
-          <div className="barBlk relative">
-            <div className="bulk mb">
-              <div className="inner">
-                <h4>Request ID:</h4>
-                <p>#{request_data.id}</p>
-              </div>
-              <div className="inner">
-                <h4>Subject</h4>
-                <p>{request_data.subject}</p>
-              </div>
-              <div className="inner">
-                <h4>Status</h4>
-                <p>{requestStatus(request_data.status)}</p>
-              </div>
-              <div className="inner">
-                <h4>Created on</h4>
-                <p>{formatDateToAmericanTimezone(request_data.created_at)}</p>
-              </div>
-            </div>
-            {/* <div className="bulk mb">
-              <div className="head">
-                <h4>Invoice ID:</h4>
-                <p>#12345</p>
-              </div>
-              <div className="inner">
-                <h4>Date Issued:</h4>
-                <p>2024-08-07</p>
-              </div>
-              <div className="inner">
-                <h4>Consultation Fee</h4>
-                <p>$50.00</p>
-              </div>
-              <div className="inner">
-                <h4>Prescription Fee</h4>
-                <p>$20.00</p>
-              </div>
-              <div className="inner">
-                <h4>Total</h4>
-                <p className="strong">$70.00</p>
-              </div>
-              <Link href="" className="site_btn green sm">
-                Pay Now
-              </Link>
-            </div> */}
-          </div>
+          <RequestSidebar request_data={request_data} checkout_link={true} />
           <div className="chatBlk relative">
             <div className="text">
               <h4>Please Provide Additional Information</h4>
@@ -221,7 +178,7 @@ const handleKeyDown = (e) => {
                 </div>
               ))}
             </div>
-            <div className={request_data.status !== "closed" ? "write disable_chat" : "write"}>
+            <div className={request_data.status === "closed" ? "write disable_chat" : "write"}>
             <div className="files_after_upload">
             {
                 attachmentFiles && attachmentFiles.length > 0 ?

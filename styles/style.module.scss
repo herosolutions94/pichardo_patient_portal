@@ -1562,6 +1562,13 @@ P {
   .btn_blk {
     justify-content: center;
   }
+  .form_blk{
+    >div{
+      padding: 21px 12px;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    }
+  }
 }
 
 .check_screen {

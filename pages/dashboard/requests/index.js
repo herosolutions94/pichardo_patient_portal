@@ -28,6 +28,7 @@ export const getServerSideProps = async (context) => {
   };
 
 export default function Requests({result}) {
+  console.log(result)
   const[request , setRequest] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupData, setPopupData] = useState({});

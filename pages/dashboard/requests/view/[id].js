@@ -180,7 +180,7 @@ const handleKeyDown = (e) => {
             <div className="chat scrollbar active">
               <div className="buble you">
                 <div className="ico">
-                  <img src="/images/cc1.png"></img>
+                <img src={cmsFileUrl(site_settings?.site_icon, 'images')} alt={site_settings?.site_name} />
                 </div>
                 <div className="txt">
                   <div className="time">{convertToEasternTime(request_data.created_at)}</div>
@@ -192,10 +192,14 @@ const handleKeyDown = (e) => {
               {messages?.map((message, index) => (
                 <div className="buble you" key={index}>
                   <div className="ico">
+                    {message.sender_id == "1" ?
+                    <img src={cmsFileUrl(site_settings?.site_icon, 'images')} alt={site_settings?.site_name} />
+                    :
                     <img src={cmsFileUrl(memberRow?.mem_image , 'members')} alt={memberRow?.mem_name} />
+                    }
                   </div>
                   <div className="txt">
-                    <div className="time">{message.time}</div>
+                    <div className="time">{convertToEasternTime(message.created_at)}</div>
                     <div className="cntnt">
                       <p>{message.msg}</p>
                     </div>
@@ -217,7 +221,7 @@ const handleKeyDown = (e) => {
                 </div>
               ))}
             </div>
-            <div className="write">
+            <div className={request_data.status !== "closed" ? "write disable_chat" : "write"}>
             <div className="files_after_upload">
             {
                 attachmentFiles && attachmentFiles.length > 0 ?
@@ -234,9 +238,6 @@ const handleKeyDown = (e) => {
             </div>
               <form className="relative" onSubmit={handleSubmit(handleSubmitMsg)}>
                 <div className="btm">
-                  {/* <button className="site_btn arrowBtn blank" type="button">
-                    <img src="/images/file.svg"></img>
-                  </button> */}
                   <FilesAttachment attachmentFiles={attachmentFiles} setAttachmentFiles={setAttachmentFiles} isImageLoading={isImageLoading} setIsImageLoading={setIsImageLoading} />
                   <textarea className="input"
                     {...register("msg", {

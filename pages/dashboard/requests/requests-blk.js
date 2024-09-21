@@ -93,8 +93,8 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                                 className={`_dropCnt dropLst ${
                                    activeDropdown === index ? "show" : "hide"
                                 }`}>
-                                <li><a href={`/dashboard/requests/view/${request.encoded_id}`} onClick={handleActionClick}>View</a></li>
-                                <li><a href="#" onClick={handleActionClick}>Reopen</a></li>
+                                <li><Link href={`/dashboard/requests/view/${request.encoded_id}`} onClick={handleActionClick}>View</Link></li>
+                                <li><Link href="#" onClick={handleActionClick}>Reopen</Link></li>
                               </ul>
                             </div>
                         </li>

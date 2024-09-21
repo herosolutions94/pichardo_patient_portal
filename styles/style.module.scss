@@ -1898,3 +1898,21 @@ img.eye {
   }
 }
 
+
+
+.disable_chat{
+  pointer-events: none;
+  position: relative;
+  &:before{
+    @include pos;
+    content: 'Request has been closed';
+    color: #ed262e;
+    font-size: 2rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    background: #000000c7;
+  }
+}

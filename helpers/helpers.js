@@ -9,16 +9,7 @@ import moment from 'moment-timezone';
 
 // import FormData from "form-data";
 // import variables from "styles/globals.module.scss";
-export function format_date(date) {
-  // Set the default timezone
-  moment.tz.setDefault("Australia/Sydney");
 
-  // Parse the date with the specified input format
-  const parsedDate = moment(date, 'DD/MM/YYYY');
-
-  // Format the date to the desired output format
-  return parsedDate.format("MMMM D, YYYY");
-}
 export const convertToAEST = (date) => {
 
   // Convert date to AEST
@@ -72,6 +63,10 @@ export const convertTimeInSecondsToDateTime = (timeInSeconds) => {
 export const convertToAESTDashes = (date) => {
 
   return moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD')
+};
+export const currentTimeInAmr = () => {
+
+  return moment().tz('America/New_York').format('YYYY-MM-DD HH:mm:ss');
 };
 export const convertTDateReview = (date) => {
 
@@ -480,10 +475,42 @@ export function formatDateToAmericanTimezone(datetime) {
     month: '2-digit', 
     day: '2-digit' 
   };
+  
 
   return new Intl.DateTimeFormat('en-US', options).format(date);
 }
+export function formatDateToNewYorkTimezone(date) {
+  // Set the default timezone to America/New_York
+  moment.tz.setDefault("America/New_York");
 
+  // Check if the date is already in the format 'DD-MM-YYYY'
+  const isFormatted = moment(date, 'DD-MM-YYYY', true).isValid();
+
+  if (isFormatted) {
+    // If it's already in the desired format, return it
+    return date;
+  }
+
+  // Otherwise, parse and format the date to 'DD-MM-YYYY'
+  const parsedDate = moment(date); // Use moment's default parsing
+  return parsedDate.format('DD-MM-YYYY'); // Return only the date in 'DD-MM-YYYY'
+}
+
+export function format_date(date) {
+  moment.tz.setDefault("America/New_York");
+
+  // Check if the date is already in the format 'YYYY-MM-DD h:mm:ss A'
+  const isFormatted = moment(date, 'DD-MM-YYYY h:mm:ss A', true).isValid();
+
+  if (isFormatted) {
+    // If it's already in the desired 12-hour format, return it
+    return date;
+  }
+
+  // Otherwise, parse and format the date
+  const parsedDate = moment(date); // Use moment's default parsing
+  return parsedDate.format('DD-MM-YYYY h:mm:ss A'); // 12-hour format with AM/PM
+}
 
 export function convertToEasternTime(dateString) {
   const date = new Date(dateString);

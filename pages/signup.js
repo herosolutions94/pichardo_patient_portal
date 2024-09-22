@@ -198,7 +198,7 @@ export default function Signup({result}) {
                     <input type="checkbox" name="confirm" id="remember" {...register("confirm", { required: 'Required' })}/>
                     <label htmlFor="remember">
                       By creating an account you confirm that you agree to our
-                      website <a>terms of use</a> and our <a>privacy notice</a>.
+                      website <Link href="terms_condition" target="_blank">terms of use</Link> and our <Link href="privacy_policy" target="_blank">privacy notice</Link>.
                     </label>
                   </div>
                   <ErrorMessage

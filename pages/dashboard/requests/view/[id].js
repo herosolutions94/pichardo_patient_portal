@@ -5,7 +5,7 @@ import MetaGenerator from "@/components/components/meta-generator";
 import { useSelector } from "react-redux";
 import { parse } from 'cookie';
 import http from "@/components/helpers/http";
-import { cmsFileUrl, doObjToFormData, formatDateToAmericanTimezone, requestStatus, formatDateTimeToAmericanTimezone, convertToEasternTime,format_amount } from "@/components/helpers/helpers";
+import { cmsFileUrl, doObjToFormData, formatDateToAmericanTimezone, requestStatus, formatDateTimeToAmericanTimezone, convertToEasternTime,format_amount, currentTimeInAmr, formatDate, format_date } from "@/components/helpers/helpers";
 import Text from "@/components/components/text";
 
 import { useForm} from 'react-hook-form';
@@ -38,7 +38,7 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function Questions_screen({result}) {
-  console.log(result)
+  // console.log(result)
   const {site_settings, member, request_data}=result
 
   const [messages, setMessages] = useState([]);
@@ -81,16 +81,15 @@ const handleSubmitMsg = async(frmData) => {
     const response = await http.post("/chat-requests", doObjToFormData({...chatRequest, token:authToken()}))
     if (response.data.status) {
       toast.success(response?.data?.msg);
-      // Get current time
-      const currentTime = new Date().toLocaleString("en-US", { timeZone: "America/New_York" });
-      // Append new message with current time
+      const currentTime = currentTimeInAmr();
+      console.log(currentTime);
       let newMsg = {
         msg: msg,
-        time: currentTime,
+        created_at: currentTime,
         attachments: attachmentFiles?.map((fileName, index) => ({
-            id: messages.length + index + 1, // Generate unique id based on current messages length
+            id: messages.length + index + 1,
             file: fileName,
-        })) || [] // Default to an empty array if attachmentFiles is undefined
+        })) || []
     };
     
     setMessages(prevMessages => [
@@ -120,6 +119,8 @@ const handleKeyDown = (e) => {
     handleSubmit(handleSubmitMsg)(); // Trigger form submit
   }
 };
+if(request_data?.id == undefined || request_data?.id == null || request_data?.id == "")
+  return (<h1>notfound</h1>);
   return (
     <>
     <MetaGenerator page_title={"View Request - " + site_settings?.site_name} site_settings={site_settings} />
@@ -140,7 +141,7 @@ const handleKeyDown = (e) => {
                 <img src={cmsFileUrl(site_settings?.site_icon, 'images')} alt={site_settings?.site_name} />
                 </div>
                 <div className="txt">
-                  <div className="time">{convertToEasternTime(request_data.created_at)}</div>
+                  <div className="time">{format_date(request_data?.created_at)}</div>
                   <div className="cntnt">
                     <Text string={site_settings?.generate_questions} />
                   </div>
@@ -156,9 +157,9 @@ const handleKeyDown = (e) => {
                     }
                   </div>
                   <div className="txt">
-                    <div className="time">{convertToEasternTime(message.created_at)}</div>
+                    <div className="time">{format_date(message?.created_at)}</div>
                     <div className="cntnt">
-                      <p>{message.msg}</p>
+                      <p>{message?.msg}</p>
                     </div>
                     <div className="files_after_load">
                       {
@@ -178,12 +179,12 @@ const handleKeyDown = (e) => {
                 </div>
               ))}
             </div>
-            <div className={request_data.status === "closed" ? "write disable_chat" : "write"}>
+            <div className={request_data?.status === "closed" ? "write disable_chat" : "write"}>
             <div className="files_after_upload">
             {
                 attachmentFiles && attachmentFiles.length > 0 ?
                 attachmentFiles?.map((file, index) => (
-                    <Link key={index} href={cmsFileUrl(file.file_name, 'attachments')} className="img_blk_uploaded" target="_blank">
+                    <Link key={index} href={cmsFileUrl(file, 'attachments')} className="img_blk_uploaded" target="_blank">
                         <img src="/images/file1.svg" alt="File Attachment" className="file_img"/>
                         <div className="download_img">
                             <img src="/images/download.svg" alt="Download File"/>
@@ -205,7 +206,7 @@ const handleKeyDown = (e) => {
                         }
                     })} onKeyDown={handleKeyDown}></textarea>
                   <button className="site_btn icoBtn" type="submit">
-                    <img src="/images/sent.svg"></img>
+                    <img src="/images/sent.svg"/>
                   </button>
                 </div>
                 <ErrorMessage

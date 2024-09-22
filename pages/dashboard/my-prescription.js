@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
+import MetaGenerator from "@/components/components/meta-generator";
 
-export default function Prescription() {
+export default function MyPrescription() {
   const [toggleStates, setToggleStates] = useState([]);
   const [dropdownStates, setDropdownStates] = useState(false);
 
@@ -299,6 +300,6 @@ export default function Prescription() {
     </>
   );
 }
-Prescription.getLayout = function (page) {
+MyPrescription.getLayout = function (page) {
   return <LayoutDashboard>{page}</LayoutDashboard>;
 };

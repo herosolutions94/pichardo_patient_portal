@@ -47,7 +47,7 @@ export default function FileAttachment({attachmentFile , setAttachmentFile, isIm
         </div>
         {
             attachmentFile ?
-            <Link href="{cmsFileUrl(attachmentFile ,'attachments')}" className="img_blk_uploaded">
+            <Link href={cmsFileUrl(attachmentFile ,'attachments')} className="img_blk_uploaded">
                 <img src="/images/file1.svg" alt="File Attachment" className="file_img"/>
                 <div className="download_img">
                 <img src="/images/download.svg" alt="File Attachment"/>

@@ -8,6 +8,7 @@ import NewRequest from "./new-request";
 import { parse } from 'cookie';
 import http from "@/components/helpers/http";
 import { doObjToFormData } from "@/components/helpers/helpers";
+import { useRouter } from "next/router";
 
 export const getServerSideProps = async (context) => {
     const { req, res } = context;
@@ -28,7 +29,8 @@ export const getServerSideProps = async (context) => {
   };
 
 export default function Requests({result}) {
-  console.log(result)
+  const router = useRouter();
+  // console.log(result)
   const[request , setRequest] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupData, setPopupData] = useState({});
@@ -49,6 +51,13 @@ export default function Requests({result}) {
 
  
   const site_settings = useSelector(state => state.user.site_settings);
+  const memberRow = site_settings?.member;
+
+  useEffect(() => {
+    if(parseInt(memberRow?.mem_verified) != 1){
+      router.push('/dashboard/email-verification');
+    }
+  }, [memberRow, router]);
   return (
     <>
         {

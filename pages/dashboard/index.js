@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
+import MetaGenerator from "@/components/components/meta-generator";
+import { useSelector } from "react-redux";
 
 export default function Dashboard() {
+  const site_settings = useSelector(state => state.user.site_settings);
   return (
     <>
+    <MetaGenerator page_title={"Dashboard- " + site_settings?.site_name} site_settings={site_settings} />
       <main className="dash">
         <section id="dashboard">
           <div className="contain">
             <div className="heading">
-              <h3>Welcome, Stefen Disoza</h3>
+              <h3>Welcome,</h3>
               <p>We're here to assist you with your healthcare needs.</p>
             </div>
             <div className="flex boxes">

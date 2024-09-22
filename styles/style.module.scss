@@ -978,6 +978,9 @@ P {
 
         li {
           width: 20%;
+          *{
+            margin-bottom: 0;
+          }
           &:last-child {
             width: 10%;
           }
@@ -986,6 +989,15 @@ P {
           }
           &:nth-child(3) {
             width: 25%;
+          }
+        }
+      }
+      &.long_lst{
+        >ul{
+          .action_drop_lease{
+            ._dropCnt{
+              top: -41px;
+            }
           }
         }
       }
@@ -1921,5 +1933,15 @@ img.eye {
     align-items: center;
     z-index: 1;
     background: #000000c7;
+  }
+}
+
+.error_msg_blk{
+  padding: 2rem;
+  @include radius(10px);
+  text-align: center;
+  background: #fac3c5; 
+  h4{
+    margin-bottom: 0;
   }
 }

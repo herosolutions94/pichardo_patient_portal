@@ -12,6 +12,8 @@ import NextNProgress from "nextjs-progressbar";
 export default function LayoutDashboard({ children }) {
   const router = useRouter();
   const path = router.pathname;
+  const currentPage = router.pathname;
+  const [memberRow, setMemberRow] = useState(null);
   return (
     <>
     <NextNProgress color="#e62254" />

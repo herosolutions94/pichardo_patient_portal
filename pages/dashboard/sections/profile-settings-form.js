@@ -263,18 +263,6 @@ const dispatch = useDispatch();
                     defaultValue={watchAllFields?.allergies ? watchAllFields?.allergies : ""}
                     {...register("allergies", {
                         required: "Allergies information is required",
-                        minLength: {
-                            value: 5,
-                            message: "Allergies information must be at least 5 characters long",
-                        },
-                        maxLength: {
-                            value: 200,
-                            message: "Allergies information must be less than 200 characters long",
-                        },
-                        pattern: {
-                            value: /^[a-zA-Z0-9\s,'-]*$/,
-                            message: "Invalid format for allergies information",
-                        }
                     })}
                 />
                 <ErrorMessage
@@ -295,18 +283,6 @@ const dispatch = useDispatch();
                     defaultValue={watchAllFields?.surgical_history ? watchAllFields?.surgical_history : ""}
                     {...register("surgical_history", {
                         required: "Surgical history is required",
-                        minLength: {
-                            value: 5,
-                            message: "Surgical history must be at least 5 characters long",
-                        },
-                        maxLength: {
-                            value: 500,
-                            message: "Surgical history must be less than 500 characters long",
-                        },
-                        pattern: {
-                            value: /^[a-zA-Z0-9\s,'-]*$/, // Allows letters, numbers, spaces, commas, single quotes, and hyphens
-                            message: "Invalid format for surgical history",
-                        }
                     })}
                 />
                 <ErrorMessage

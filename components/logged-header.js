@@ -55,13 +55,13 @@ export default function LoggedHeader() {
           <div className="logged_side">
             <ul className="dash_headd">
               <li>
-                <Link href="/">Dashboard</Link>
+                <Link href="/dashboard">Dashboard</Link>
               </li>
               <li>
                 <Link href="/dashboard/requests">My Requests</Link>
               </li>
               <li>
-                <Link href="/dashboard/my-prescription">My Prescriptions</Link>
+                <Link href="/dashboard/prescriptions">My Prescriptions</Link>
               </li>
             </ul>
             <ul>

@@ -10,6 +10,7 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
   // console.log(result);
 
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [arrayEmpty, setArrayEmpty] = useState(null);
   const dropdownRefs = useRef([]);
 
   const toggleDropdown = (index) => {
@@ -30,6 +31,7 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+
   }, [requests]);
 
 
@@ -62,47 +64,54 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
 
           <section id="listing">
             <div className="contain">
-              <div className="outer">
-                <div className="lst head">
-                  <ul>
-                    <li>Request ID</li>
-                    <li>Subject</li>
-                    <li>Status</li>
-                    <li>Last Updated</li>
-                    <li></li>
-                  </ul>
-                </div>
-                {
-                  requests?.map((request, index) => (
-                    <div className="lst" key={request.id}>
-                      <ul>
-                        <li>#{request.id}</li>
-                        <li>{request.subject}</li>
-                        <li>
-                          {requestStatus(request.status)}
-                        </li>
-                        <li>{formatDateToAmericanTimezone(request.updated_at)}</li>
-                        <li className="bTn action_drop_lease">
-                            <div className="action_drop _dropDown" ref={(el) => dropdownRefs.current[index] = el}>
-                              <div
-                                className="_dropBtn action_dots"
-                                onClick={() => toggleDropdown(index)}>
-                                <img src="/images/dots.svg" alt="" />
+              {requests.length > 0 ? 
+                <div className="outer">
+                  <div className="lst head">
+                    <ul>
+                      <li>Request ID</li>
+                      <li>Subject</li>
+                      <li>Status</li>
+                      <li>Last Updated</li>
+                      <li></li>
+                    </ul>
+                  </div>
+                  {
+                    requests?.map((request, index) => (
+                      <div className="lst" key={request.id}>
+                        <ul>
+                          <li>#{request.id}</li>
+                          <li>{request.subject}</li>
+                          <li>
+                            {requestStatus(request.status)}
+                          </li>
+                          <li>{formatDateToAmericanTimezone(request.updated_at)}</li>
+                          <li className="bTn action_drop_lease">
+                              <div className="action_drop _dropDown" ref={(el) => dropdownRefs.current[index] = el}>
+                                <div
+                                  className="_dropBtn action_dots"
+                                  onClick={() => toggleDropdown(index)}>
+                                  <img src="/images/dots.svg" alt="" />
+                                </div>
+                                <ul
+                                  className={`_dropCnt dropLst ${
+                                    activeDropdown === index ? "show" : "hide"
+                                  }`}>
+                                  <li><Link href={`/dashboard/requests/view/${request.encoded_id}`} onClick={handleActionClick}>View</Link></li>
+                                  <li><Link href="#" onClick={handleActionClick}>Reopen</Link></li>
+                                </ul>
                               </div>
-                              <ul
-                                className={`_dropCnt dropLst ${
-                                   activeDropdown === index ? "show" : "hide"
-                                }`}>
-                                <li><Link href={`/dashboard/requests/view/${request.encoded_id}`} onClick={handleActionClick}>View</Link></li>
-                                <li><Link href="#" onClick={handleActionClick}>Reopen</Link></li>
-                              </ul>
-                            </div>
-                        </li>
-                      </ul>
-                    </div>
-                  ))
+                          </li>
+                        </ul>
+                      </div>
+                    ))
+                  }
+                </div>
+                :
+                <div className="error_msg_blk">
+                  <h4>No request found</h4>
+                </div>
                 }
-              </div>
+              
             </div>
           </section>
         </main>

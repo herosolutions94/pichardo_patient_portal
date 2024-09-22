@@ -102,9 +102,30 @@ export default function Header({siteSettings}) {
                 <ul className={userDrop ? "sub active" : "sub"}>
                   <li>
                     <Link
+                      href="/dashboard"
+                      onClick={ToggleUserDrop}>
+                      <span>Dashboard</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/dashboard/profile-settings"
                       onClick={ToggleUserDrop}>
                       <span>My Profile settings</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/dashboard/requests"
+                      onClick={ToggleUserDrop}>
+                      <span>My Requests</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/dashboard/prescriptions"
+                      onClick={ToggleUserDrop}>
+                      <span>My Prescription</span>
                     </Link>
                   </li>
                   <li>

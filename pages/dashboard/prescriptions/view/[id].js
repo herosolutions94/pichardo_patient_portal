@@ -10,6 +10,7 @@ import { cmsFileUrl, doObjToFormData, formatDateToAmericanTimezone, requestStatu
 import Text from "@/components/components/text";
 
 import { authToken } from "@/components/helpers/authToken";
+import ExportTransactionPdf from "@/components/components/prescription-download";
 
 export const getServerSideProps = async (context) => {
   const { req, res, params } = context;
@@ -38,7 +39,6 @@ export default function View_prescription({result}) {
   const medication = prescription?.medications;
   const request = prescription?.requests;
   const memberRow = prescription?.member_row;
-  // console.log(prescription);
   if(prescription?.id == undefined || prescription?.id == null || prescription?.id == "")
     return (<h1>notfound</h1>);
   return (
@@ -51,7 +51,7 @@ export default function View_prescription({result}) {
               <h3>#{prescription?.prescription_id}</h3>
               <div className="bTn">
                 <img src="/images/printer.svg"></img>
-                <img src="/images/download.svg"></img>
+                <ExportTransactionPdf prescrption_id={prescription?.id}/>
               </div>
             </div>
           </div>

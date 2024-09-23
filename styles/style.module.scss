@@ -1945,3 +1945,46 @@ img.eye {
     margin-bottom: 0;
   }
 }
+
+
+#oops {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2rem 0 4rem;
+  overflow: auto;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+#oops.not_available {
+  position: static;
+}
+
+#oops .flex {
+  flex-direction: column;
+  gap: 20px;
+}
+
+#oops .inner {
+  max-width: 34rem;
+  margin: 0 auto;
+}
+
+#oops .logo {
+  margin: 0 auto 3rem;
+  height: 72px;
+}
+
+#oops .icon {
+  color: $color;
+  font-size: 12rem;
+  font-weight: 700;
+  line-height: 0.8;
+  margin-bottom: 2.5rem;
+  font-family: 'SemiBold';
+}

@@ -64,7 +64,7 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
 
           <section id="listing">
             <div className="contain">
-              {requests.length > 0 ? 
+              {requests?.length > 0 ? 
                 <div className="outer">
                   <div className="lst head">
                     <ul>

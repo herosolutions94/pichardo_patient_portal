@@ -52,12 +52,6 @@ export default function Requests({result}) {
  
   const site_settings = useSelector(state => state.user.site_settings);
   const memberRow = site_settings?.member;
-
-  useEffect(() => {
-    if(parseInt(memberRow?.mem_verified) != 1){
-      router.push('/dashboard/email-verification');
-    }
-  }, [memberRow, router]);
   return (
     <>
         {

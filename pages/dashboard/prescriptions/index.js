@@ -60,15 +60,6 @@ export default function Prescriptions({result}) {
     const handleActionClick = () => {
       setActiveDropdown(null);
     };
-
-    useEffect(() => {
-      if (memberRow) {
-        const isVerified = parseInt(memberRow.mem_verified);
-        if (isVerified !== 1) {
-          router.push('/dashboard/email-verification');
-        }
-      }
-    }, [memberRow, router]);
   return (
     <>
     <MetaGenerator page_title={"My Prescription- " + site_settings?.site_name} site_settings={site_settings} />

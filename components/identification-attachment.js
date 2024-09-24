@@ -3,6 +3,7 @@ import { cmsFileUrl } from "../helpers/helpers";
 import http from "../helpers/http";
 import { authToken } from "../helpers/authToken";
 import IsLoadingSec from "./isLoadingSec";
+import toast from "react-hot-toast";
 
 export default function IdentificationAttachment({identificationPhoto,setIdentificationPhoto,isImageLoading,setIsImageLoading}) {
     const handleFileChange = async (e, type) => {

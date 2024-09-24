@@ -5,7 +5,7 @@ import http from '@/components/helpers/http';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-export default function ExportTransactionPdf({ prescrption_id }) {
+export default function ExportInvoicePdf({ invoice_id }) {
     // console.log("hi")
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,11 +24,11 @@ export default function ExportTransactionPdf({ prescrption_id }) {
   // Function to download PDF
   const downloadPdf = async () => {
     setIsLoading(true);
-    const fileName = `prescription-${getFormattedDateTime()}.pdf`;
+    const fileName = `invoice-${getFormattedDateTime()}.pdf`;
 
     try {
       // Make an HTTP request to generate the PDF
-      const response = await http.post(`/generate-prescription/${prescrption_id}`, doObjToFormData({ token: authToken() }), {
+      const response = await http.post(`/generate-invoice/${invoice_id}`, doObjToFormData({ token: authToken() }), {
         responseType: 'blob', // Ensures we handle binary data properly
       });
 console.log(response?.data)

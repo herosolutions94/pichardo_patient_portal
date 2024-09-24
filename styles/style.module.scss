@@ -1988,3 +1988,47 @@ img.eye {
   margin-bottom: 2.5rem;
   font-family: 'SemiBold';
 }
+
+.invoice_show_blk{
+  padding-top:5rem!important;
+  .outer{
+    padding: 3rem;
+    background: #fff;
+    p{
+      margin-bottom: .5rem;
+    }
+    > h3{
+      color: $primary-color;
+    }
+    .part_two{
+      margin: 4rem 0;
+      p{
+        margin-bottom: .5rem;
+      }
+      h3{
+        font-size: 2rem;
+        color: $primary-color;
+      }
+    }
+    .lst{
+      li{
+        width: 25%!important;
+      }
+    }
+    .dark_lines{
+      margin-top: 2rem;
+    }
+    .final_lines{
+      background-color: rgb(241, 247, 247)!important;
+    }
+    .final_row{
+      background: #9ec7c3 !important;
+    }
+    .note{
+      margin-top: 4rem;
+    }
+    .btn_blk{
+      margin-top: 3rem;
+    }
+  }
+}

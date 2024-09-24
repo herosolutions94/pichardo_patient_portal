@@ -19,12 +19,6 @@ export default function Profile_settings() {
     const isFetching = useSelector(state => state.user.isFetching);
     const memberRow = useSelector(state => state.user.member);
     const site_settings = useSelector(state => state.user.site_settings);
-
-    useEffect(() => {
-      if(parseInt(memberRow?.mem_verified) != 1){
-        router.push('/dashboard/email-verification');
-      }
-    }, [memberRow, router]);
   return (
     <>
     <MetaGenerator page_title={"Profile Setings- " + site_settings?.site_name} site_settings={site_settings} />

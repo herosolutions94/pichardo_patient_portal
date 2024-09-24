@@ -23,7 +23,6 @@ export default function EmailVerification() {
     const isResendFormProcessing = useSelector(state => state.user.isResendFormProcessing);
     const expire_time = useSelector(state => state.user.expire_time);
     const site_settings = useSelector(state => state.user.site_settings);
-    console.log(expire_time)
     useEffect(() => {
         if (parseInt(memberRow?.mem_verified) === 1) {
             router.push('/dashboard'); return;

@@ -122,7 +122,7 @@ const authSlice = createSlice({
                     setCookie("mem_type", action?.payload?.mem_type);
                     if (action?.payload?.google_account_status === 1) {
                         setTimeout(() => {
-                            window.location.replace("/dashboard/complete-profile");
+                            window.location.replace("/dashboard");
                         }, 2000);
                     }
                     else{

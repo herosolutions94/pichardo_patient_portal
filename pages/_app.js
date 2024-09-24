@@ -31,10 +31,10 @@ export default function App({ Component, pageProps, siteSettings }) {
 }
 
 App.getInitialProps = async ({ ctx }) => {
-  const cookies = parse(ctx?.req?.headers?.cookie || "");
-  const authToken = cookies?.authToken || "";
+  // const cookies = parse(ctx?.req?.headers?.cookie || "");
+  // const authToken = cookies?.authToken || "";
   const siteSettings = await http
-    .post("site-settings", doObjToFormData({ token: authToken }))
+    .post("site-settings", doObjToFormData({ token: "" }))
     .then((response) => response?.data?.site_settings)
     .catch((error) => error?.response?.data?.message);
   return { siteSettings };

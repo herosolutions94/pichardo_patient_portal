@@ -62,14 +62,7 @@ export default function invoices({result}) {
       setActiveDropdown(null);
     };
 
-    useEffect(() => {
-      if (memberRow) {
-        const isVerified = parseInt(memberRow.mem_verified);
-        if (isVerified !== 1) {
-          router.push('/dashboard/email-verification');
-        }
-      }
-    }, [memberRow, router]);
+    
   return (
     <>
     <MetaGenerator page_title={"My Invoices- " + site_settings?.site_name} site_settings={site_settings} />

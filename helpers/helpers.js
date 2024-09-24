@@ -626,13 +626,22 @@ export function subscriptionStatus(status) {
 
 }
 
+export function invoiceStatus(status) {
+  if (status == 'paid') {
+    return <span className="badge rounded-pill bg-success">Paid</span>
+  } else {
+    return <span className="badge rounded-pill bg-warning">Pending</span>
+  }
+
+}
+
 export function requestStatus(status) {
   if (status == 'in_progress') {
     return <span className="badge blue">In Progress</span>
   } else if (status == 'prescription_in_progress') {
     return <span className="badge teal">Prescription in progress</span>
   }else if (status == 'paid') {
-    return <span className="badge light_blue">Paid</span>
+    return <span className="badge bg-success">Paid</span>
   }else if (status == 'prescription') {
     return <span className="badge yellow">prescription</span>
   }else if (status == 'closed') {

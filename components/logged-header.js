@@ -63,6 +63,9 @@ export default function LoggedHeader() {
               <li>
                 <Link href="/dashboard/prescriptions">My Prescriptions</Link>
               </li>
+              <li>
+                <Link href="/dashboard/invoices">My Invoices</Link>
+              </li>
             </ul>
             <ul>
               <li className="logged_drop">

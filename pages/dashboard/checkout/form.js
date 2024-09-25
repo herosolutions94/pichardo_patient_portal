@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 
 
-export default function CheckoutForm({ request_data, member, countries }) {
+export default function CheckoutForm({ invoice, member, countries }) {
     const router = useRouter()
     const {
         register,
@@ -82,7 +82,7 @@ export default function CheckoutForm({ request_data, member, countries }) {
                     setProcessingTo(false);
                     return;
                 } else {
-                    frmData = { ...frmData, payment_method_id: paymentMethodReq.paymentMethod.id, request_id: request_data?.encoded_id }
+                    frmData = { ...frmData, payment_method_id: paymentMethodReq.paymentMethod.id, invoice_id: invoice?.encoded_id }
                     const result = await http
                         .post("/create-payment-intent", doObjToFormData({ ...frmData, token: authToken() }))
                         .then((response) => response.data)
@@ -111,7 +111,7 @@ export default function CheckoutForm({ request_data, member, countries }) {
                             if (response?.status) {
                                 toast.success(response?.msg)
                                 setTimeout(() => {
-                                    router.push('/dashboard/requests/view/'+request_data?.encoded_id);
+                                    router.push('/dashboard/invoices/view/'+invoice?.encoded_id);
                                 }, 2000);
                             }
                             else {

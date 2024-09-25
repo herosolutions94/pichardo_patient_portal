@@ -9,6 +9,7 @@ import http from "@/components/helpers/http";
 import { doObjToFormData } from "@/components/helpers/helpers";
 import { authToken } from "@/components/helpers/authToken";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 export default function NewRequest({ popupData }) {
   const[attachmentFile , setAttachmentFile] = useState(null);
@@ -27,13 +28,14 @@ export default function NewRequest({ popupData }) {
 } = useForm();
 
 // console.log(popupData.preferred_pharmacy);
-
+const [isLoading, setIsLoading] = useState(false);
 const onSubmit = async (formData) => {
-    if(attachmentFile) {
+    // if(attachmentFile) {
         formData={...formData,file:attachmentFile}
         const newFrmData={...formData,...popupData}
         try {
         const result = await http.post("/create-request", doObjToFormData({...newFrmData,token:authToken()}));
+        setIsLoading(true);
         if (result.data.status === 1) {
             reset();
             setAttachmentFile(null);
@@ -43,15 +45,17 @@ const onSubmit = async (formData) => {
             // router.reload();
         } else {
             toast.error(result.data.msg);
+            setIsLoading(false);
         }
         } catch (error) {
         console.error('Error submitting request:', error);
+        setIsLoading(false);
         }
-    }else{
-        toast.error('Document is required');
-    }
+    // }else{
+    //     toast.error('Document is required');
+    // }
   };
-
+  
   return (
     <>
       <main className="dash">
@@ -136,8 +140,8 @@ const onSubmit = async (formData) => {
                   <FileAttachment attachmentFile={attachmentFile} setAttachmentFile={setAttachmentFile} isImageLoading={isImageLoading} setIsImageLoading={setIsImageLoading} />
                 </div>
                 <div className="btn_blk">
-                  <button type="submit" href="" className="site_btn green" >
-                    Submit
+                  <button type="submit" href="" className="site_btn green" disabled={isLoading}>
+                    Submit <IsFormProcessingSpinner isProcessing={isLoading}/>
                   </button>
                 </div>
               </form>

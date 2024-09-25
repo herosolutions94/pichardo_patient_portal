@@ -2411,9 +2411,9 @@ header {
     border-radius: 16px;
     padding: 14px 10px;
     margin-top: 20px;
-    @include ipad {
-      margin-top: 0;
-    }
+    // @include ipad {
+    //   margin-top: 0;
+    // }
     @include mobile {
       padding: 2px 0px;
     }
@@ -2775,14 +2775,14 @@ nav {
     pointer-events: none;
     overflow: auto;
     z-index: 3;
-    font-family: "LinkText";
+    // font-family: "LinkText";
+    top: 0;
+    height: 100vh;
+    align-content: center;
     &.active {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
-      top: 0;
-      height: 100vh;
-      align-content: center;
     }
   }
   > .nav_neg {

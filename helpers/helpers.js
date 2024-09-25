@@ -468,16 +468,19 @@ export function short_text(text, length = 25) {
 export function formatDateToAmericanTimezone(datetime) {
   const date = new Date(datetime);
 
-  // Format the date to American timezone (Eastern Time) and in 'MM/DD/YYYY' format
+  // Format the date to American timezone (Eastern Time) 
   const options = { 
     timeZone: 'America/New_York', 
     year: 'numeric', 
     month: '2-digit', 
-    day: '2-digit' 
+    day: '2-digit'
   };
-  
 
-  return new Intl.DateTimeFormat('en-US', options).format(date);
+  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+  
+  // Rearrange the date to 'DD-MM-YYYY'
+  const [month, day, year] = formattedDate.split('/');
+  return `${day}-${month}-${year}`;
 }
 export function formatDateToNewYorkTimezone(date) {
   // Set the default timezone to America/New_York

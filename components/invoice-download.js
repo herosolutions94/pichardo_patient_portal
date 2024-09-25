@@ -4,8 +4,9 @@ import { doObjToFormData } from '@/components/helpers/helpers';
 import http from '@/components/helpers/http';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import IsLoading from './isLoading';
 
-export default function ExportInvoicePdf({ invoice_id }) {
+export default function ExportInvoicePdf({ invoice_id,is_list_view=false }) {
     // console.log("hi")
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +23,8 @@ export default function ExportInvoicePdf({ invoice_id }) {
   };
 
   // Function to download PDF
-  const downloadPdf = async () => {
+  const downloadPdf = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     const fileName = `invoice-${getFormattedDateTime()}.pdf`;
 
@@ -31,7 +33,6 @@ export default function ExportInvoicePdf({ invoice_id }) {
       const response = await http.post(`/generate-invoice/${invoice_id}`, doObjToFormData({ token: authToken() }), {
         responseType: 'blob', // Ensures we handle binary data properly
       });
-console.log(response?.data)
       // Create a blob from the response data
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
@@ -56,8 +57,12 @@ console.log(response?.data)
   };
 
   return (
-    <button onClick={downloadPdf} className="download_btn" disabled={isLoading}>
-      <img src="/images/download.svg" /> {isLoading && <IsFormProcessingSpinner isProcessing={isLoading} />}
-    </button>
+    <>
+    {is_list_view ?
+    <a href="#!" onClick={downloadPdf} disabled={isLoading} target='_blank' className={isLoading ? "loading_downlaod" : ""}>Download</a>
+    :
+    <button onClick={downloadPdf} className={isLoading ? "download_btn loading_downlaod" : "download_btn"} disabled={isLoading}>
+      <img src="/images/download.svg" />
+    </button>}</>
   );
 }

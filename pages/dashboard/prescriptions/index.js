@@ -8,6 +8,7 @@ import { parse } from 'cookie';
 import http from "@/components/helpers/http";
 import { useRouter } from "next/router";
 import Text from "@/components/components/text";
+import ExportTransactionPdf from "@/components/components/prescription-download";
 
 
 export const getServerSideProps = async (context) => {
@@ -102,13 +103,13 @@ export default function Prescriptions({result}) {
                         </div>
                         <ul className={`_dropCnt dropLst ${activeDropdown === index ? "show" : "hide"}`}>
                           <li>
-                            <a href={`/dashboard/prescriptions/view/${prescription?.encoded_id}`}>View</a>
+                            <Link href={`/dashboard/prescriptions/view/${prescription?.encoded_id}`}>View</Link>
                           </li>
                           <li>
-                            <a href="">Download</a>
+                          <ExportTransactionPdf prescrption_id={prescription?.id} is_list_view={true} />
                           </li>
                           <li>
-                            <a href="/">Print</a>
+                            <Link href="/">Print</Link>
                           </li>
                         </ul>
                       </div>

@@ -57,7 +57,9 @@ console.log(invoice)
             <div className="inner sp">
               <h3>#{invoice?.invoice_id}</h3>
               <div className="bTn">
-                <img src="/images/printer.svg"></img>
+                <button className="download_btn">
+                <img src="/images/printer.svg" />
+              </button>
                 <ExportInvoicePdf invoice_id={invoice?.id}/>
               </div>
             </div>

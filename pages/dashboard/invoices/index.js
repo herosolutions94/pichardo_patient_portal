@@ -8,6 +8,7 @@ import { parse } from 'cookie';
 import http from "@/components/helpers/http";
 import { useRouter } from "next/router";
 import Text from "@/components/components/text";
+import ExportInvoicePdf from "@/components/components/invoice-download";
 
 
 export const getServerSideProps = async (context) => {
@@ -114,7 +115,7 @@ export default function invoices({result}) {
                             <Link href={`/dashboard/invoices/view/${invoice?.encoded_id}`}>View</Link>
                           </li>
                           <li>
-                            <a href="">Download</a>
+                            <ExportInvoicePdf invoice_id={invoice?.id} is_list_view={true} />
                           </li>
                           <li>
                             <a href="/">Print</a>

@@ -93,18 +93,6 @@ const onSubmit = async (formData) => {
                     className="input"
                     {...register("symptoms", {
                         required: "Symptoms information is required",
-                        minLength: {
-                            value: 5,
-                            message: "Symptoms information must be at least 5 characters long",
-                        },
-                        maxLength: {
-                            value: 200,
-                            message: "Symptoms information must be less than 200 characters long",
-                        },
-                        pattern: {
-                            value: /^[a-zA-Z0-9\s,'-]*$/,
-                            message: "Invalid format for symptoms information",
-                        }
                     })}
                   />
                   <ErrorMessage

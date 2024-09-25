@@ -33,6 +33,7 @@ export default function Header({siteSettings}) {
   }, []);
 
   const site_settings = useSelector(state => state.user.site_settings);
+  // console.log(site_settings?.member?.id);
   const logout = (e) => {
     e.preventDefault();
     let url = path
@@ -41,7 +42,7 @@ export default function Header({siteSettings}) {
   };
 
   return (
-    <header className={siteSettings?.member?.id > 0 ? "logged_header_front" : ""}>
+    <header className={site_settings?.member?.id > 0 ? "logged_header_front" : ""}>
       <div className="contain">
         <div className="outer">
           <div className="logo">
@@ -77,7 +78,7 @@ export default function Header({siteSettings}) {
                 </Link>
               </li>
               {
-              siteSettings?.member?.id > 0 ?
+              site_settings?.member?.id > 0 ?
               ""
               :
               <li>
@@ -90,7 +91,7 @@ export default function Header({siteSettings}) {
           </nav>
           {/* =========user no login====== */}
           {
-          siteSettings?.member?.id > 0 ?
+          site_settings?.member?.id > 0 ?
           <div className="logged_side">
             <ul>
               <li className="logged_drop">
@@ -126,13 +127,6 @@ export default function Header({siteSettings}) {
                       href="/dashboard/prescriptions"
                       onClick={ToggleUserDrop}>
                       <span>My Prescription</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href=""
-                      onClick={ToggleUserDrop}>
-                      <span>Payment Methods</span>
                     </Link>
                   </li>
                   <li>

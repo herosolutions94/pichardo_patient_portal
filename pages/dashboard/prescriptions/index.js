@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
-import { doObjToFormData, format_amount, format_date } from "@/components/helpers/helpers";
+import { doObjToFormData, format_amount, formatDateToAmericanTimezone } from "@/components/helpers/helpers";
 import MetaGenerator from "@/components/components/meta-generator";
 import { useSelector } from "react-redux";
 import { parse } from 'cookie';
@@ -93,7 +93,7 @@ export default function Prescriptions({result}) {
                     <li>#{prescription?.prescription_id}</li>
                     <li>{prescription?.doctor_name}</li>
                     <li><Text string={prescription?.doctor_note}/></li>
-                    <li>{(prescription?.created_on)}</li>
+                    <li>{formatDateToAmericanTimezone(prescription?.created_at)}</li>
                     <li className="bTn action_drop_lease" key={prescription.id}>
                       <div className="action_drop _dropDown" ref={(el) => (dropdownRefs.current[index] = el)}>
                         <div

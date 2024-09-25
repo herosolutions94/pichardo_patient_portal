@@ -84,13 +84,6 @@ export default function LoggedHeader() {
                   </li>
                   <li>
                     <Link
-                      href=""
-                      onClick={ToggleUserDrop}>
-                      <span>Payment Methods</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
                       href="#!"
                       onClick={logout}>
                       <span>Log Out</span>

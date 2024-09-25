@@ -158,7 +158,7 @@ const authSlice = createSlice({
                     setCookie("mem_type", action.payload.mem_type);
                     setCookie("authentication_required", action.payload?.authentication_required);
                     setTimeout(() => {
-                        window.location.href = "/dashboard/profile-settings"
+                        window.location.href = "/dashboard"
                     }, 2000);
                 }
 

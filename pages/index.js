@@ -183,7 +183,7 @@ export default function Home({result}) {
                   <Image
                       src={cmsFileUrl(content?.image12 , 'images')}
                       alt={short_text(content?.section6_text)}
-                      width={1000}
+                      width={1200}
                       height={1000}
                   />
                 </div>

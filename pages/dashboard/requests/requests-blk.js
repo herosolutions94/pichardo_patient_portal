@@ -111,14 +111,14 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                   </div>
                   {
                     requests?.map((request, index) => (
-                      <div className="lst" key={request.id}>
+                      <div className="lst" key={request?.id}>
                         <ul>
-                          <li>#{request.id}</li>
-                          <li>{request.subject}</li>
+                          <li>#{request?.prescription_no}</li>
+                          <li>{request?.subject}</li>
                           <li>
-                            {requestStatus(request.status)}
+                            {requestStatus(request?.status)}
                           </li>
-                          <li>{formatDateToAmericanTimezone(request.updated_at)}</li>
+                          <li>{formatDateToAmericanTimezone(request?.updated_at)}</li>
                           <li className="bTn action_drop_lease">
                               <div className="action_drop _dropDown" ref={(el) => dropdownRefs.current[index] = el}>
                                 <div
@@ -137,6 +137,7 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                                   :
                                   ""
 }
+
                                 </ul>
                               </div>
                           </li>

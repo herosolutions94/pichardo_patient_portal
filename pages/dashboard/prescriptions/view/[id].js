@@ -42,7 +42,7 @@ export default function View_prescription({result}) {
   const request = prescription?.requests;
   const memberRow = prescription?.member_row;
 
-
+console.log(prescription)
   if(prescription?.id == undefined || prescription?.id == null || prescription?.id == "")
     return (<h1>notfound</h1>);
   return (

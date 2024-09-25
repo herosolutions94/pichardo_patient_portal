@@ -645,8 +645,8 @@ export function requestStatus(status) {
     return <span className="badge teal">Prescription in progress</span>
   }else if (status == 'paid') {
     return <span className="badge bg-success">Paid</span>
-  }else if (status == 'prescription') {
-    return <span className="badge yellow">prescription</span>
+  }else if (status == 'completed') {
+    return <span className="badge success">Completed</span>
   }else if (status == 'closed') {
     return <span className="badge red">Closed</span>
   } else {

@@ -45,7 +45,7 @@ export default function View_invoice({result}) {
   const taxAmount = (subtotal * taxPercentage) / 100;
 
   const total = subtotal + taxAmount;
-
+console.log(invoice)
   if(member?.id == undefined || member?.id == null || member?.id == "")
     return (<h1>notfound</h1>);
   return (
@@ -142,7 +142,7 @@ export default function View_invoice({result}) {
                 {
                     invoice?.status == "pending" ?
                     <div className="btn_blk text-center">
-                        <Link href="" className="site_btn">Pay Now</Link>
+                        <Link href={"/dashboard/checkout/"+invoice?.encoded_id} className="site_btn">Pay Now</Link>
                     </div>
                     :
                     ""

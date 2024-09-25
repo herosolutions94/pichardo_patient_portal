@@ -119,6 +119,7 @@ const handleKeyDown = (e) => {
     handleSubmit(handleSubmitMsg)(); // Trigger form submit
   }
 };
+console.log(request_data)
 if(request_data?.id == undefined || request_data?.id == null || request_data?.id == "")
   return (<h1>notfound</h1>);
   return (
@@ -126,7 +127,7 @@ if(request_data?.id == undefined || request_data?.id == null || request_data?.id
     <MetaGenerator page_title={"View Request - " + site_settings?.site_name} site_settings={site_settings} />
       <main className="chat_screen dash">
         <div className="contain">
-          <RequestSidebar request_data={request_data} checkout_link={true} />
+          <RequestSidebar request_data={request_data} checkout_link={true} invoice={request_data?.invoice} site_settings={site_settings} />
           <div className="chatBlk relative">
             <div className="text">
               <h4>Please Provide Additional Information</h4>

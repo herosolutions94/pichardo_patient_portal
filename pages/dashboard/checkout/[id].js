@@ -26,7 +26,7 @@ export const getServerSideProps = async (context) => {
   const encodedId = params.id;  // Extracting encodedId from context
 
   const result = await http
-    .post(`/view-request/${encodedId}`, doObjToFormData({ token: authToken }))
+    .post(`/view-invoice/${encodedId}`, doObjToFormData({ token: authToken }))
     .then((response) => response.data)
     .catch((error) => error.response?.data?.message || 'Error occurred');
 
@@ -34,7 +34,7 @@ export const getServerSideProps = async (context) => {
 };
 export default function Checkout({ result }) {
   console.log(result)
-  const { site_settings, member, request_data, countries } = result
+  const {site_settings, invoice, member,countries}=result
   let stripePromise = "";
     if (parseInt(site_settings?.site_sandbox) === 1 || member?.mem_email === process.env.NEXT_PUBLIC_TESTING_USER) {
         stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_TESTING_KEY);
@@ -47,12 +47,12 @@ export default function Checkout({ result }) {
       <MetaGenerator page_title={"Request Checkout - " + site_settings?.site_name} site_settings={site_settings} />
       <main className="chat_screen dash check_screen">
         <div className="contain">
-          <RequestSidebar request_data={request_data} />
+          <RequestSidebar invoice={invoice} site_settings={site_settings} />
           <div className="checkout">
             <div className="bulk">
               <h4 className="red_heading">BILLING INFORMATION</h4>
               <Elements stripe={stripePromise}>
-              <CheckoutForm request_data={request_data} member={member} countries={countries} />
+              <CheckoutForm invoice={invoice} member={member} countries={countries} />
               </Elements>
             </div>
           </div>

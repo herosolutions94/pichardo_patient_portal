@@ -95,7 +95,7 @@ export default function invoices({result}) {
                     
                     <li>
                         {invoice?.additional_note ? 
-                        <Text string={invoice?.additional_note}/>
+                        <Text string={invoice?.additional_note} length={80}/>
                         :
                         "NA"
                         }
@@ -111,7 +111,7 @@ export default function invoices({result}) {
                         </div>
                         <ul className={`_dropCnt dropLst ${activeDropdown === index ? "show" : "hide"}`}>
                           <li>
-                            <a href={`/dashboard/invoices/view/${invoice?.encoded_id}`}>View</a>
+                            <Link href={`/dashboard/invoices/view/${invoice?.encoded_id}`}>View</Link>
                           </li>
                           <li>
                             <a href="">Download</a>

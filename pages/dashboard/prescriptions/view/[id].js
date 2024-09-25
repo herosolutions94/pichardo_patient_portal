@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
+
+// import { useReactToPrint } from "react-to-print";
 
 import MetaGenerator from "@/components/components/meta-generator";
 import { useSelector } from "react-redux";
@@ -39,6 +41,8 @@ export default function View_prescription({result}) {
   const medication = prescription?.medications;
   const request = prescription?.requests;
   const memberRow = prescription?.member_row;
+
+
   if(prescription?.id == undefined || prescription?.id == null || prescription?.id == "")
     return (<h1>notfound</h1>);
   return (
@@ -50,7 +54,9 @@ export default function View_prescription({result}) {
             <div className="inner sp">
               <h3>#{prescription?.prescription_id}</h3>
               <div className="bTn">
-                <img src="/images/printer.svg"></img>
+                <button className="download_btn print_button">
+                  <img src="/images/printer.svg" />
+                </button>
                 <ExportTransactionPdf prescrption_id={prescription?.id}/>
               </div>
             </div>

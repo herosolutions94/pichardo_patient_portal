@@ -47,7 +47,7 @@ export default function Checkout({ result }) {
       <MetaGenerator page_title={"Request Checkout - " + site_settings?.site_name} site_settings={site_settings} />
       <main className="chat_screen dash check_screen">
         <div className="contain">
-          <RequestSidebar invoice={invoice} site_settings={site_settings} />
+          <RequestSidebar invoice={invoice} site_settings={site_settings} invoice_block={true} />
           <div className="checkout">
             <div className="bulk">
               <h4 className="red_heading">BILLING INFORMATION</h4>

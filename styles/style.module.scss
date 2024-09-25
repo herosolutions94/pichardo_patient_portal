@@ -2064,3 +2064,11 @@ img.eye {
 .loading_downlaod{
   opacity: 0.5;
 }
+
+.site_btn.accept {
+  background-color: #00a78e;
+  border-color: #00a78e;
+}
+.question_status_action .site_btn img{
+  filter: brightness(0) invert(1);
+}

@@ -2,7 +2,7 @@ import { format_amount, format_date, invoiceStatus, requestStatus } from "@/comp
 import Link from "next/link";
 import React from "react";
 
-export default function RequestSidebar({request_data,checkout_link=false,invoice=null,site_settings}) {
+export default function RequestSidebar({request_data,checkout_link=false,invoice=null,site_settings,invoice_block=false}) {
   const subtotal = invoice?.invoice_items?.reduce((acc, item) => {
     return acc + item.qty * item.price;
   }, 0);
@@ -61,7 +61,7 @@ export default function RequestSidebar({request_data,checkout_link=false,invoice
     }
             
             {
-              invoice?.id > 0  ?
+              invoice?.id > 0 && invoice_block===true  ?
             <div className="bulk mb">
               <div className="head">
                 <h4>Invoice ID:</h4>

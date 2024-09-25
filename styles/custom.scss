@@ -3447,7 +3447,7 @@ a.close.disabled {
   @include radius(20px);
   box-shadow: 0 15px 35px rgba(50, 50, 93, 0.2), 0 5px 15px rgba(0, 0, 0, 0.17);
   outline: 0;
-  padding: 5rem 8rem;
+  padding: 5rem 3rem;
   @include mobile_sm {
     padding: 3rem;
   }

@@ -66,23 +66,29 @@ export default function Dashboard({result}) {
                 </div>
               </div>
             </div>
-            <div className="heading mt">
-              <h3>Recent Activity</h3>
-            </div>
-            <div className="flex boxes">
-            {activity?.content?.map((activityItem, index) => {
-              return (
-                <div className="col" key={index}>
-                  <div className="inner">
-                    <div className="text">
-                      <p>{activityItem?.time}</p>
-                      <h4>{activityItem?.text}</h4>
+            {activity?.content?.length > 0 ? 
+            <>
+              <div className="heading mt">
+                <h3>Recent Activity</h3>
+              </div>
+              <div className="flex boxes new_boxes">
+              {activity?.content?.map((activityItem, index) => {
+                return (
+                  <div className="col" key={index}>
+                    <div className="inner">
+                      <div className="text">
+                        <p>{activityItem?.time}</p>
+                        <h4>{activityItem?.text}</h4>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-            </div>
+                );
+              })}
+              </div>
+            </>
+            :
+            ""
+            }
           </div>
         </section>
       </main>

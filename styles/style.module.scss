@@ -898,6 +898,7 @@ P {
       background-color: #fff;
       display: flex;
       align-items: center;
+      height: 100%;
       @include mobile {
         display: block;
       }
@@ -971,6 +972,23 @@ P {
 
 .boxes {
   width: 75%;
+  &.new_boxes{
+    width: 100%;
+    .col{
+      width: 25%!important;
+      align-self: unset!important;
+      @include ipad_sm{
+        width: 50%!important;
+      }
+      @include mobile_sm{
+        width: 100%!important;
+      }
+      .inner{
+        height: 100%;
+        
+      }
+    }
+  }
   @include ipad {
     width: 100%;
   }

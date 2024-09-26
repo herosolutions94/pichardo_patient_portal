@@ -211,11 +211,11 @@ export default function Signup({result}) {
                   <button className="site_btn block" disabled={isFormProcessing}
                 >Signup <IsFormProcessingSpinner isProcessing={isFormProcessing} /></button>
                 </div>
-                <div className="btn_blk">
+                {/* <div className="btn_blk">
                   <button className="site_btn white block">
                     <img src="images/google.svg"></img> Signup with Google
                   </button>
-                </div>
+                </div> */}
               </form>
             </div>
           </div>

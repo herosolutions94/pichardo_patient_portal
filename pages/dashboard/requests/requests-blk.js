@@ -9,6 +9,7 @@ import { authToken } from "@/components/helpers/authToken";
 import http from "@/components/helpers/http";
 import { useRouter } from "next/router";
 import IsFormProcessingSpinner from "@/components/components/isFormProcessingSpinner";
+import toast from "react-hot-toast";
 
 export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, handleOpenPopup, result}) {
   const { requests } = result;
@@ -43,8 +44,9 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
   const handleActionClick = () => {
     setActiveDropdown(null); // Close all dropdowns
   };
-  const handleReOpenRequest=(request)=>{
-    setReOpenPopup(request)
+  const handleReOpenRequest=(encodedId)=>{
+    // console.log("Encoded ID passed:", encodedId);
+    setReOpenPopup({ encoded_id: encodedId });
     setActiveDropdown(null);
   }
   const router = useRouter();
@@ -52,7 +54,7 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
   const handleReOpenRequestAction = async (e) => {
     e.preventDefault();
     setIsProcessing(true);
-    const frmData = { days: extendBooking?.days };
+    const frmData = {};
     const result = await http
       .post(
         '/reopen-request/' + reOpenPopup?.encoded_id,
@@ -68,7 +70,6 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
     } else {
       toast.error(result?.msg);
     }
-    // router.push("/dashboard/extend-pay-now/" + query?.id + "?days=" + extendBooking?.days)
   };
 
   const closeModel = () => {
@@ -130,13 +131,12 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                                   className={`_dropCnt dropLst ${
                                     activeDropdown === index ? "show" : "hide"
                                   }`}>
-                                  <li><Link href={`/dashboard/requests/view/${request.encoded_id}`} onClick={handleActionClick}>View</Link></li>
+                                  <li><Link href={`/dashboard/requests/view/${request?.encoded_id}`} onClick={handleActionClick}>View</Link></li>
                                   {
                                     request?.status==='completed' ?
-                                  <li><a href="#" onClick={()=>handleReOpenRequest(request)}>Reopen</a></li>
+                                  <li><Link href="" onClick={()=>handleReOpenRequest(request?.encoded_id)}>Reopen</Link></li>
                                   :
-                                  ""
-}
+                                  ""}
 
                                 </ul>
                               </div>

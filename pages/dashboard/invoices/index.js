@@ -62,7 +62,9 @@ export default function invoices({result}) {
     const handleActionClick = () => {
       setActiveDropdown(null);
     };
-
+    const handlePrint = () => {
+      window.print();
+    };
     
   return (
     <>
@@ -116,9 +118,6 @@ export default function invoices({result}) {
                           </li>
                           <li>
                             <ExportInvoicePdf invoice_id={invoice?.id} is_list_view={true} />
-                          </li>
-                          <li>
-                            <a href="/">Print</a>
                           </li>
                         </ul>
                       </div>

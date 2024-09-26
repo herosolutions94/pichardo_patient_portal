@@ -913,7 +913,7 @@ P {
         }
       }
       .btn_blk {
-        margin-top: 20px;
+        // margin-top: 20px;
       }
       .icon {
         border-radius: 6px;
@@ -1111,6 +1111,7 @@ P {
 .green {
   background-color: $color;
 }
+
 .blue {
   background-color: #0688f2;
 }
@@ -1125,6 +1126,9 @@ P {
   padding: 4px 8px;
   border-radius: 4px;
   font-family: "Regular";
+  &.success{
+  background-color: #4CAF50;
+  }
 }
 
 .bulk {
@@ -1824,6 +1828,9 @@ img.eye {
   .logged_side{
     right: 3rem;
     top: 1.9rem;
+    @include ipad_sm{
+      right: 8rem;
+    }
   }
 }
 

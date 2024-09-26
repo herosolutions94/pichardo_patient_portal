@@ -146,11 +146,11 @@ export default function Login({result}) {
                 <div className="btn_blk">
                   <button className="site_btn block" disabled={isFormProcessing}>Login <IsFormProcessingSpinner isProcessing={isFormProcessing} /></button>
                 </div>
-                <div className="btn_blk">
+                {/* <div className="btn_blk">
                   <button className="site_btn white block">
                     <img src="images/google.svg"></img> Continue with Google
                   </button>
-                </div>
+                </div> */}
               </form>
             </div>
           </div>

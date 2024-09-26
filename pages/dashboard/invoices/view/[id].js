@@ -43,7 +43,6 @@ export default function View_invoice({result}) {
   }, 0);
   const taxPercentage = site_settings?.site_percentage || 0;
   const taxAmount = (subtotal * taxPercentage) / 100;
-
   const total = subtotal + taxAmount;
 console.log(invoice)
   if(member?.id == undefined || member?.id == null || member?.id == "")
@@ -57,9 +56,6 @@ console.log(invoice)
             <div className="inner sp">
               <h3>#{invoice?.invoice_id}</h3>
               <div className="bTn">
-                <button className="download_btn">
-                <img src="/images/printer.svg" />
-              </button>
                 <ExportInvoicePdf invoice_id={invoice?.id}/>
               </div>
             </div>

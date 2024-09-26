@@ -54,9 +54,9 @@ console.log(prescription)
             <div className="inner sp">
               <h3>#{prescription?.prescription_id}</h3>
               <div className="bTn">
-                <button className="download_btn print_button">
+                {/* <button className="download_btn print_button">
                   <img src="/images/printer.svg" />
-                </button>
+                </button> */}
                 <ExportTransactionPdf prescrption_id={prescription?.id}/>
               </div>
             </div>

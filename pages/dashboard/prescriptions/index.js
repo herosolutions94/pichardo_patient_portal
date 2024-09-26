@@ -108,9 +108,6 @@ export default function Prescriptions({result}) {
                           <li>
                           <ExportTransactionPdf prescrption_id={prescription?.id} is_list_view={true} />
                           </li>
-                          <li>
-                            <Link href="/">Print</Link>
-                          </li>
                         </ul>
                       </div>
                     </li>

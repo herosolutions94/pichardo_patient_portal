@@ -37,7 +37,7 @@ export default function UpdatePasswordForm({memberRow}) {
                 <label>Current Password</label>
                 <input
                     type="password"
-                    name="current_password"
+                    name="old_password"
                     className="input"
                     {...register("old_password", {
                         required: "Required."

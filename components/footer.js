@@ -53,7 +53,7 @@ const onSubmit = async (frmData) => {
       {
         id: 3,
         text: "Services",
-        link: "/",
+        link: "/service",
       },
       {
         id: 4,
@@ -65,12 +65,12 @@ const onSubmit = async (frmData) => {
       {
         id: 1,
         text: "My Account",
-        link: "/",
+        link: "/login",
       },
       {
         id: 3,
-        text: "My Account",
-        link: "/",
+        text: "Privacy Policy",
+        link: "/privacy_policy",
       },
       {
         id: 4,

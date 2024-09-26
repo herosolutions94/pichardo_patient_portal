@@ -75,7 +75,7 @@ const onSubmit = async (frmData) => {
       {
         id: 4,
         text: "Terms & Conditions",
-        link: "/terms-conditions",
+        link: "/terms_condition",
       },
     ],
   };
@@ -184,7 +184,7 @@ const onSubmit = async (frmData) => {
 
         <div className="copyright">
           <p className="text-center">
-            © 2023 By Pichardo Medical All Rights Reserved
+            {siteSettings?.site_copyright}
           </p>
         </div>
       </div>

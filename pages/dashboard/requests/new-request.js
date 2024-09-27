@@ -30,7 +30,7 @@ export default function NewRequest({ popupData }) {
 // console.log(popupData.preferred_pharmacy);
 const [isLoading, setIsLoading] = useState(false);
 const onSubmit = async (formData) => {
-    if(attachmentFile) {
+    // if(attachmentFile) {
         formData={...formData,file:attachmentFile}
         const newFrmData={...formData,...popupData}
         try {
@@ -51,9 +51,9 @@ const onSubmit = async (formData) => {
         console.error('Error submitting request:', error);
         setIsLoading(false);
         }
-    }else{
-        toast.error('Document is required');
-    }
+    // }else{
+    //     toast.error('Document is required');
+    // }
   };
   
   return (

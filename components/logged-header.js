@@ -42,6 +42,21 @@ export default function LoggedHeader() {
     deleteCookie("authToken");
     router.push(links.SIGNIN_PAGE + "?from=" + url);
   };
+
+  const dropdownRef = useRef(null);
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setUserDrop(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <header className="logged_header">
@@ -68,7 +83,7 @@ export default function LoggedHeader() {
               </li>
             </ul>
             <ul>
-              <li className="logged_drop">
+              <li className="logged_drop" ref={dropdownRef}>
                 <button className="logged_drop_btn" onClick={ToggleUserDrop}>
                   <div className="user_img">
                   <img src={cmsFileUrl(mem_image, 'members')} alt={mem_name} />

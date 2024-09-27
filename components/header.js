@@ -41,6 +41,20 @@ export default function Header({siteSettings}) {
     router.push(links.SIGNIN_PAGE + "?from=" + url);
   };
 
+  const dropdownRef = useRef(null);
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setUserDrop(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className={site_settings?.member?.id > 0 ? "logged_header_front" : ""}>
       <div className="contain">
@@ -94,7 +108,7 @@ export default function Header({siteSettings}) {
           site_settings?.member?.id > 0 ?
           <div className="logged_side">
             <ul>
-              <li className="logged_drop">
+              <li className="logged_drop" ref={dropdownRef}>
                 <button className="logged_drop_btn" onClick={ToggleUserDrop}>
                   <div className="user_img">
                   <img src={cmsFileUrl(mem_image, 'members')} alt={mem_name} />

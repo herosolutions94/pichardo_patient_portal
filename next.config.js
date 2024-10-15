@@ -2,7 +2,7 @@
 const webpack = require("webpack");
 const nextConfig = {
   images: {
-    domains: ['127.0.0.1', '127.0.0.1:8000', 'staging.rentaro.com.au'],
+    domains: ['127.0.0.1', '127.0.0.1:8000', 'staging.rentaro.com.au','3.129.128.28'],
   },
   reactStrictMode: true,
   webpack: (config, {

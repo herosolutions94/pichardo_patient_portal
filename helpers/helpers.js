@@ -273,7 +273,14 @@ export function convertNodeDateToDateFormat(date) {
   moment.tz.setDefault("Australia/Sydney");
   return moment(date).format("YYYY-MM-DD HH:mm:ss");
 }
+// export function doParseHTML(string) {
+//   return parse(string);
+// }
 export function doParseHTML(string) {
+  // Check if the input is not a string or is undefined/null
+  if (typeof string !== 'string' || !string) {
+    return '';  // Return an empty string or handle the case differently as needed
+  }
   return parse(string);
 }
 

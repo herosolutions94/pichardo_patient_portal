@@ -27,6 +27,7 @@ export const getServerSideProps = async (context) => {
 };
 
 export default function Dashboard({result}) {
+  console.log(result);
   const {activity, invoices,member, prescriptions, requests}=result
   // console.log(member?.mem_fullname);
   const site_settings = useSelector(state => state.user.site_settings);

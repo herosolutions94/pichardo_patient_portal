@@ -9,7 +9,7 @@ import http from "@/components/helpers/http";
 import { useRouter } from "next/router";
 import Text from "@/components/components/text";
 import ExportInvoicePdf from "@/components/components/invoice-download";
-
+const ITEMS_PER_PAGE = 12;
 
 export const getServerSideProps = async (context) => {
   const { req, res } = context;
@@ -65,6 +65,22 @@ export default function invoices({result}) {
     const handlePrint = () => {
       window.print();
     };
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(invoices?.length / ITEMS_PER_PAGE);
+
+    // Get the invoices for the current page
+    const currentInvoices = invoices?.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      currentPage * ITEMS_PER_PAGE
+    );
+
+    // Function to handle page change
+    const handlePageChange = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
     
   return (
     <>
@@ -91,7 +107,7 @@ export default function invoices({result}) {
                 </ul>
               </div>
               {
-                invoices?.map((invoice, index) => (
+                currentInvoices?.map((invoice, index) => (
                 <div className="lst long_lst">
                   <ul>
                     <li>#{invoice?.invoice_id}</li>
@@ -133,6 +149,21 @@ export default function invoices({result}) {
               <h4>No invoices found</h4>
             </div>
             }
+
+            {/* Pagination */}
+            {invoices?.length > ITEMS_PER_PAGE && (
+              <div className="pagination tex-center">
+                {[...Array(totalPages).keys()].map((page) => (
+                  <button
+                    key={page + 1}
+                    className={currentPage === page + 1 ? 'active' : ''}
+                    onClick={() => handlePageChange(page + 1)}
+                  >
+                    {page + 1}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       </main>

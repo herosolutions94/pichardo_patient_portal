@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import LayoutDashboard from "@/components/components/layoutDashbord";
 import MetaGenerator from "@/components/components/meta-generator";
@@ -120,6 +120,16 @@ const handleKeyDown = (e) => {
   }
 };
 // console.log(request_data)
+const messagesEndRef = useRef(null);
+
+const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+};
+
+// Trigger scroll to bottom when the messages array changes
+useEffect(() => {
+    scrollToBottom();
+}, [messages]);
 if(request_data?.id == undefined || request_data?.id == null || request_data?.id == "")
   return (<h1>notfound</h1>);
   return (
@@ -179,6 +189,7 @@ if(request_data?.id == undefined || request_data?.id == null || request_data?.id
                   </div>
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
             <div className={request_data?.status === "closed" ? "write disable_chat" : "write"}>
             <div className="files_after_upload">
@@ -201,10 +212,6 @@ if(request_data?.id == undefined || request_data?.id == null || request_data?.id
                   <textarea className="input"
                     {...register("msg", {
                         required: "Message is required",
-                        pattern: {
-                          value: /^[a-zA-Z0-9\s,'-]*$/,
-                          message: 'Invalid address format!',
-                        }
                     })} onKeyDown={handleKeyDown}></textarea>
                   <button className="site_btn icoBtn" type="submit">
                     <img src="/images/sent.svg"/>

@@ -1860,7 +1860,8 @@ img.eye {
   z-index: 1;
   &.mini_loader{
     position: absolute!important;
-    background-color: #ddd;
+    background-color: #212529f0;
+    @include radius(10px);
   }
 }
 .is_map_load .map-loading-dv div {
@@ -2141,4 +2142,43 @@ img.eye {
 }
 .question_status_action .site_btn img{
   filter: brightness(0) invert(1);
+}
+
+.pagination{
+  margin-top: 2rem;
+  @include flex(center,center);
+  gap:1rem;
+  button{
+    border: 1px solid #ddd;
+    background: #ebfaf7;
+    padding: 1rem;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    @include trans;
+    &.active, &:hover{
+      background: #61a7a0;
+      color: #fff;
+      @include trans;
+    }
+  }
+}
+
+
+.warning_alert_all{
+  text-align: center !important;
+    background: #f7ddde;
+    margin-top: 2rem;
+    padding: 2rem;
+    border-radius: 10px;
+    p{
+      margin-bottom: 0!important;
+      a{
+        text-decoration: underline;
+        color: $color;
+      }
+    }
 }

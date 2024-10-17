@@ -9,7 +9,7 @@ import http from "@/components/helpers/http";
 import { useRouter } from "next/router";
 import Text from "@/components/components/text";
 import ExportTransactionPdf from "@/components/components/prescription-download";
-
+const ITEMS_PER_PAGE = 12;
 
 export const getServerSideProps = async (context) => {
   const { req, res } = context;
@@ -61,6 +61,23 @@ export default function Prescriptions({result}) {
     const handleActionClick = () => {
       setActiveDropdown(null);
     };
+
+    const [currentPage, setCurrentPage] = useState(1);
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(prescriptions?.length / ITEMS_PER_PAGE);
+
+    // Get the prescription for the current page
+    const currentPrescription = prescriptions?.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      currentPage * ITEMS_PER_PAGE
+    );
+
+    // Function to handle page change
+    const handlePageChange = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
+
   return (
     <>
     <MetaGenerator page_title={"My Prescription- " + site_settings?.site_name} site_settings={site_settings} />
@@ -87,7 +104,7 @@ export default function Prescriptions({result}) {
                 </ul>
               </div>
               {
-                prescriptions?.map((prescription, index) => (
+                currentPrescription?.map((prescription, index) => (
                 <div className="lst long_lst">
                   <ul>
                     <li>#{prescription?.prescription_id}</li>
@@ -122,6 +139,20 @@ export default function Prescriptions({result}) {
               <h4>No prescriptions found</h4>
             </div>
             }
+            {/* Pagination */}
+            {prescriptions?.length > ITEMS_PER_PAGE && (
+              <div className="pagination tex-center">
+                {[...Array(totalPages).keys()].map((page) => (
+                  <button
+                    key={page + 1}
+                    className={currentPage === page + 1 ? 'active' : ''}
+                    onClick={() => handlePageChange(page + 1)}
+                  >
+                    {page + 1}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       </main>

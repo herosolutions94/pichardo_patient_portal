@@ -36,6 +36,8 @@ export default function Profile_settings() {
           <div className="contain">
             <div className="bulk outer">
               <ProfileSettingsForm />
+            </div>
+            <div className="bulk outer">
               <UpdatePasswordForm memberRow={memberRow} />
             </div>
           </div>

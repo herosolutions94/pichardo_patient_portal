@@ -37,6 +37,7 @@ export default function Profile_settings() {
             <div className="bulk outer">
               <ProfileSettingsForm />
             </div>
+            <br />
             <div className="bulk outer">
               <UpdatePasswordForm memberRow={memberRow} />
             </div>

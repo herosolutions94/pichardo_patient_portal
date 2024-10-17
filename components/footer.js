@@ -72,11 +72,6 @@ const onSubmit = async (frmData) => {
         text: "Privacy Policy",
         link: "/privacy_policy",
       },
-      {
-        id: 4,
-        text: "Terms & Conditions",
-        link: "/terms_condition",
-      },
     ],
   };
   return (
@@ -155,23 +150,25 @@ const onSubmit = async (frmData) => {
               <div className="subscribe">
                 <p>Stay up to date with the latest news and deals!</p>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <input
-                    type="text"
-                    className="input"
-                    name="email"
-                    placeholder={"@ email address"}
-                    {...register("email", {
-                      required: 'Required', pattern: {
-                          value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
-                          message: 'Invalid Email Format'
-                      }
-                  })}
-                  />
-                  <ErrorMessage
-                        errors={errors}
-                        name="email"
-                        render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                  <div className="foot_relative">
+                    <input
+                      type="text"
+                      className="input"
+                      name="email"
+                      placeholder={"@ email address"}
+                      {...register("email", {
+                        required: 'Required', pattern: {
+                            value: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
+                            message: 'Invalid Email Format'
+                        }
+                    })}
                     />
+                    <ErrorMessage
+                          errors={errors}
+                          name="email"
+                          render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                      />
+                  </div>
                   <button className="site_btn green" type="submit" disabled={isProcessing}>
                   <IsFormProcessingSpinner isProcessing={isProcessing} />
                     Submit

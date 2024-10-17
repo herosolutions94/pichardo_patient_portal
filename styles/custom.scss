@@ -3097,7 +3097,7 @@ footer {
         }
       }
       button {
-        @include pos;
+        @include pos($b:null,$t:.4rem);
         right: 8px;
         left: initial;
         width: 9.8rem;

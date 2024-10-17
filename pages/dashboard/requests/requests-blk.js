@@ -10,7 +10,7 @@ import http from "@/components/helpers/http";
 import { useRouter } from "next/router";
 import IsFormProcessingSpinner from "@/components/components/isFormProcessingSpinner";
 import toast from "react-hot-toast";
-
+const ITEMS_PER_PAGE = 12;
 export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, handleOpenPopup, result}) {
   const { requests } = result;
   // console.log(result);
@@ -78,6 +78,24 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
   const memberRow = useSelector(state => state.user.member);
   const preferred_pharmacy = useSelector(state => state.user.preferred_pharmacy) || [];
 
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Calculate the total number of pages
+  const totalPages = Math.ceil(requests?.length / ITEMS_PER_PAGE);
+
+  // Get the requests for the current page
+  const currentRequests = requests?.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  // Function to handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+
   return (
     <>
         <main className="dash">
@@ -111,7 +129,7 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                     </ul>
                   </div>
                   {
-                    requests?.map((request, index) => (
+                    currentRequests?.map((request, index) => (
                       <div className="lst" key={request?.id}>
                         <ul>
                           <li>#{request?.prescription_no}</li>
@@ -151,8 +169,24 @@ export default function RequestsBlk({onSubmit, isPopupOpen, handleClosePopup, ha
                   <h4>No request found</h4>
                 </div>
                 }
+
+                {/* Pagination */}
+                  {requests?.length > ITEMS_PER_PAGE && (
+                    <div className="pagination tex-center">
+                      {[...Array(totalPages).keys()].map((page) => (
+                        <button
+                          key={page + 1}
+                          className={currentPage === page + 1 ? 'active' : ''}
+                          onClick={() => handlePageChange(page + 1)}
+                        >
+                          {page + 1}
+                        </button>
+                      ))}
+                    </div>
+                  )}
               
             </div>
+            
             {
           reOpenPopup!==null ?
           <Modal toggle={closeModel} isOpen={reOpenPopup!==null ? true : false} className="deleteModel">

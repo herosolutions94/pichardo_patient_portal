@@ -36,15 +36,15 @@ export const getServerSideProps = async (context) => {
 
 
 export default function View_invoice({result}) {
-  const {site_settings, invoice, member}=result
-  // console.log(invoice);
+  const {site_settings, invoice, member, isDueDatePassed}=result
+  // console.log(isDueDatePassed);
   const subtotal = invoice?.invoice_items?.reduce((acc, item) => {
     return acc + item.qty * item.price;
   }, 0);
   const taxPercentage = site_settings?.site_percentage || 0;
   const taxAmount = (subtotal * taxPercentage) / 100;
   const total = subtotal + taxAmount;
-console.log(invoice)
+// console.log(invoice)
   if(member?.id == undefined || member?.id == null || member?.id == "")
     return (<h1>notfound</h1>);
   return (
@@ -69,6 +69,7 @@ console.log(invoice)
                     <p>Invoice Number: #{invoice?.invoice_id}</p>
                     <p>Issue Date: {formatDateToNewYorkTimezone(invoice?.created_at)}</p>
                     <p>Due Date: {formatDateToNewYorkTimezone(invoice?.due_date)}</p>
+                    
                 </div>
                 <div className="flex part_two">
                     <div className="col">
@@ -137,14 +138,29 @@ console.log(invoice)
                     }
                 </div>
 
-                {
+                {/* {
                     invoice?.status == "pending" ?
                     <div className="btn_blk text-center">
                         <Link href={"/dashboard/checkout/"+invoice?.encoded_id} className="site_btn">Pay Now</Link>
                     </div>
                     :
                     ""
-                }
+                } */}
+
+                  {
+                      invoice?.status === "pending" ? (
+                          !isDueDatePassed ? (
+                              <div className="btn_blk text-center">
+                                  <Link href={`/dashboard/checkout/${invoice?.encoded_id}`} className="site_btn">Pay Now</Link>
+                              </div>
+                          ) : (
+                              <div className="text-center warning_alert_all">
+                                  <p>The due date for this invoice has passed. Please <Link href="/contact">contact support</Link> for further assistance.</p>
+                              </div>
+                          )
+                      ) : null
+                  }
+                                  
                 
             </div>
           </div>

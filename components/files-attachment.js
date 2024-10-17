@@ -1,52 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import http from "../helpers/http";
 import toast from "react-hot-toast";
 import IsLoadingIcon from "./isLoadingIcon";
+import { useDispatch, useSelector } from "react-redux";
+import { emptyUploadMultipleFiles, uploadMultipleFiles } from "../redux/reducers/user";
 
-export default function FilesAttachment({attachmentFiles, setAttachmentFiles, isImageLoading, setIsImageLoading}) {
+export default function FilesAttachment({ attachmentFiles, setAttachmentFiles, isImageLoading, setIsImageLoading }) {
+    const dispatch = useDispatch()
+    const isFileUploading = useSelector(state => state.user.isFileUploading);
+    const isFilesUploaded = useSelector(state => state.user.isFilesUploaded);
+    const file_names = useSelector(state => state.user.file_names);
+    console.log(file_names)
     const handleFileChange = async (e) => {
         const newFiles = Array.from(e.target.files); // Get newly selected files
         if (!newFiles.length) return;
 
         // Append newly selected files to the existing ones
         const updatedFiles = [...attachmentFiles, ...newFiles];
-        
-        const frmData = new FormData();
-        updatedFiles.forEach((file) => {
-            frmData.append('files[]', file); // Add each file to FormData
-        });
+        dispatch(uploadMultipleFiles({ files: updatedFiles }))
 
-        setIsImageLoading(true);
-
-        const result = await http
-            .post('/upload-files/', frmData)
-            .then((response) => response.data)
-            .catch((error) => error);
-
-        setIsImageLoading(false);
-
-        if (document.getElementById('file-upload')) {
-            document.getElementById('file-upload').value = '';
-        }
-
-        if (result?.status) {
+    };
+    useEffect(() => {
+        if (file_names?.length > 0) {
             setAttachmentFiles((prevFiles) => [
                 ...prevFiles,
-                ...result.file_names
+                ...file_names
             ]);
-            // console.log(result.files);
-        } else {
-            toast.error(result?.msg);
         }
-    };
+
+    }, [file_names]);
+    useEffect(() => {
+        if (isFilesUploaded) {
+            dispatch(emptyUploadMultipleFiles({}))
+            if (document.getElementById('file-upload')) {
+                document.getElementById('file-upload').value = '';
+            }
+        }
+    }, [isFilesUploaded]);
 
     return (
         <div className="relative_all">
             <label htmlFor="file-upload" className="site_btn arrowBtn blank">
-                <img src="/images/file.svg"/>
-                <IsLoadingIcon isProcessing={isImageLoading} />
+                <img src="/images/file.svg" />
+                <IsLoadingIcon isProcessing={isFileUploading} />
             </label>
-                
+
             <input
                 type="file"
                 id="file-upload"
@@ -57,9 +55,9 @@ export default function FilesAttachment({attachmentFiles, setAttachmentFiles, is
                 onChange={(e) => handleFileChange(e)}
             />
 
-            
 
-            
+
+
         </div>
     );
 }

@@ -12,17 +12,17 @@ import UpdatePasswordForm from "./sections/update-password-form";
 
 export default function Profile_settings() {
   const dispatch = useDispatch();
-    const router = useRouter();
-    useEffect(() => {
-        dispatch(fetchMemberData())
-    }, []);
-    const isFetching = useSelector(state => state.user.isFetching);
-    const memberRow = useSelector(state => state.user.member);
-    const site_settings = useSelector(state => state.user.site_settings);
+  const router = useRouter();
+  useEffect(() => {
+    dispatch(fetchMemberData())
+  }, []);
+  const isFetching = useSelector(state => state.user.isFetching);
+  const memberRow = useSelector(state => state.user.member);
+  const site_settings = useSelector(state => state.user.site_settings);
   return (
     <>
-    <MetaGenerator page_title={"Profile Setings- " + site_settings?.site_name} site_settings={site_settings} />
-    <IsPAgeLoadingSec isProcessing={isFetching} />
+      <MetaGenerator page_title={"Profile Setings- " + site_settings?.site_name} site_settings={site_settings} />
+      <IsPAgeLoadingSec isProcessing={isFetching} />
       <main className="dash">
         <section id="dashboard">
           <div className="contain">
@@ -35,7 +35,7 @@ export default function Profile_settings() {
         <section id="create_request">
           <div className="contain">
             <div className="bulk outer">
-              <ProfileSettingsForm/>
+              <ProfileSettingsForm />
               <UpdatePasswordForm memberRow={memberRow} />
             </div>
           </div>

@@ -14,7 +14,7 @@ export default function ThumbnailAttachment({
     }
     return (
         <>
-             <div className="flex upl ddp">
+            <div className="flex upl ddp">
                 <div className="image">
                     {
                         isProfileImageLoading ?
@@ -25,11 +25,11 @@ export default function ThumbnailAttachment({
                                 , path)} alt="" />
                     }
                 </div>
-                
+
                 <div className="text" onClick={uploadThumbnail}>
                     <label>
-                    <img src="/images/upload.png" alt="Upload Image" />
-                    <p>Upload now</p>
+                        <img src="/images/upload.png" alt="Upload Image" />
+                        <p>Upload now</p>
                     </label>
                 </div>
             </div>
@@ -44,7 +44,7 @@ export default function ThumbnailAttachment({
                 ref={(file) => (thumbnail = file)}
             />
 
-           
+
         </>
     );
 }

@@ -101,8 +101,8 @@ export const updateProfileSettings = createAsyncThunk(
             } else if (data?.status === 1) {
                 toast.success(data?.msg)
                 setTimeout(() => {
-                    if(formData?.complete_profile===1){
-                        window.location.href="/"
+                    if (formData?.complete_profile === 1) {
+                        window.location.href = "/"
                     }
                 }, 2000);
             } else {
@@ -180,6 +180,93 @@ export const uploadProfileDp = createAsyncThunk(
         }
     }
 );
+export const uploadRandomImage = createAsyncThunk(
+    'upload-image-new',
+    async (frmData, { rejectWithValue, dispatch }) => {
+        console.log(frmData?.image, frmData?.type)
+        const fd = new FormData();
+        fd.append("image", frmData?.image);
+        fd.append("type", frmData?.type);
+        fd.append("token", authToken());
+        try {
+            const response = await http.post("upload-image", fd);
+            const { data } = response;
+            console.log(data)
+            if (data?.status === 1) {
+
+            } else {
+                toast.error(<Text string={data?.msg} />)
+            }
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+export const emptyUploadRandomPhoto = createAsyncThunk(
+    'user/empty-upload-image-new',
+    async (newNotification, { rejectWithValue }) => {
+        return newNotification;
+    }
+);
+export const uploadRandomFile = createAsyncThunk(
+    'upload-file-new',
+    async (frmData, { rejectWithValue, dispatch }) => {
+        console.log(frmData?.image, frmData?.type)
+        const fd = new FormData();
+        fd.append("file", frmData?.file);
+        fd.append("token", authToken());
+        try {
+            const response = await http.post("upload-file", fd);
+            const { data } = response;
+            console.log(data)
+            if (data?.status === 1) {
+
+            } else {
+                toast.error(<Text string={data?.msg} />)
+            }
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+export const emptyUploadRandomFile = createAsyncThunk(
+    'user/empty-upload-file-new',
+    async (newNotification, { rejectWithValue }) => {
+        return newNotification;
+    }
+);
+export const uploadMultipleFiles = createAsyncThunk(
+    'upload-files-new',
+    async (frmData, { rejectWithValue, dispatch }) => {
+        console.log(frmData?.image, frmData?.type)
+        const fd = new FormData();
+        frmData?.files?.forEach((file) => {
+            fd.append('files[]', file); // Add each file to FormData
+        });
+        fd.append("token", authToken());
+        try {
+            const response = await http.post("upload-files", fd);
+            const { data } = response;
+            console.log(data)
+            if (data?.status === 1) {
+
+            } else {
+                toast.error(<Text string={data?.msg} />)
+            }
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+export const emptyUploadMultipleFiles = createAsyncThunk(
+    'user/empty-upload-multiple-files-new',
+    async (newNotification, { rejectWithValue }) => {
+        return newNotification;
+    }
+);
 export const deleteUserNotification = createAsyncThunk(
     'delete-notification',
     async (formData, { rejectWithValue, dispatch }) => {
@@ -223,8 +310,15 @@ const initialState = {
     isDeactivated: false,
     is_deactivated: null,
     site_settings: null,
-    preferred_pharmacy:null,
+    preferred_pharmacy: null,
     isNotificationDeleted: false,
+    image_name: null,
+    isImageUploading: false,
+    is_image_uploaded: false,
+    file_name: null,
+    file_names: [],
+    isFilesUploaded: false,
+    isFileUploading: false
 };
 
 const memberSlice = createSlice({
@@ -252,20 +346,20 @@ const memberSlice = createSlice({
                 state.preferred_pharmacy = action?.payload?.preferred_pharmacy;
                 if (action?.payload?.member) {
                     // if(action?.payload?.member?.is_deleted===0){
-                       state.data = action?.payload;
-                        state.member = action?.payload?.member;
-                        state.expire_time = action?.payload?.expire_time;
-                        state.mem_image = action?.payload?.mem_image;
-                        state.mem_name = action?.payload?.mem_name;
-                        state.mem_email = action?.payload?.mem_email;
-                        state.is_deactivated = action?.payload?.is_deactivated;
-                        state.unread_msgs = action?.payload?.unread_msgs; 
+                    state.data = action?.payload;
+                    state.member = action?.payload?.member;
+                    state.expire_time = action?.payload?.expire_time;
+                    state.mem_image = action?.payload?.mem_image;
+                    state.mem_name = action?.payload?.mem_name;
+                    state.mem_email = action?.payload?.mem_email;
+                    state.is_deactivated = action?.payload?.is_deactivated;
+                    state.unread_msgs = action?.payload?.unread_msgs;
                     // }
                     // else{
                     //     deleteCookie("authToken");
                     //     window.location.href="/login"
                     // }
-                    
+
                 }
                 else {
                     deleteCookie("authToken");
@@ -318,6 +412,57 @@ const memberSlice = createSlice({
             })
             .addCase(uploadProfileDp.rejected, (state) => {
                 state.isProfileImageLoading = false;
+            })
+            .addCase(uploadRandomImage.pending, (state) => {
+                state.is_image_uploaded = false;
+                state.isImageUploading = true;
+            })
+            .addCase(uploadRandomImage.fulfilled, (state, action) => {
+
+                state.isImageUploading = false;
+                state.is_image_uploaded = true;
+                state.image_name = action?.payload?.image_name;
+            })
+            .addCase(uploadRandomImage.rejected, (state) => {
+                state.isImageUploading = false;
+            })
+            .addCase(emptyUploadRandomPhoto.fulfilled, (state, action) => {
+                state.is_image_uploaded = false;
+                state.image_name = null;
+            })
+            .addCase(uploadRandomFile.pending, (state) => {
+                state.isFilesUploaded = false;
+                state.isFileUploading = true;
+            })
+            .addCase(uploadRandomFile.fulfilled, (state, action) => {
+
+                state.isFileUploading = false;
+                state.isFilesUploaded = true;
+                state.file_name = action?.payload?.file_name;
+            })
+            .addCase(uploadRandomFile.rejected, (state) => {
+                state.isFileUploading = false;
+            })
+            .addCase(emptyUploadRandomFile.fulfilled, (state, action) => {
+                state.isFilesUploaded = false;
+                state.file_name = null;
+            })
+            .addCase(uploadMultipleFiles.pending, (state) => {
+                state.isFilesUploaded = false;
+                state.isFileUploading = true;
+            })
+            .addCase(uploadMultipleFiles.fulfilled, (state, action) => {
+
+                state.isFileUploading = false;
+                state.isFilesUploaded = true;
+                state.file_names = action?.payload?.file_names;
+            })
+            .addCase(uploadMultipleFiles.rejected, (state) => {
+                state.isFileUploading = false;
+            })
+            .addCase(emptyUploadMultipleFiles.fulfilled, (state, action) => {
+                state.isFilesUploaded = false;
+                state.file_names = null;
             })
             .addCase(updateProfileSettings.pending, (state) => {
                 state.isFormProcessing = true;

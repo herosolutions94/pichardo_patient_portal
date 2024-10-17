@@ -12,8 +12,8 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 export default function NewRequest({ popupData }) {
-  const[attachmentFile , setAttachmentFile] = useState(null);
-  const[isImageLoading , setIsImageLoading] = useState(false);
+  const [attachmentFile, setAttachmentFile] = useState(null);
+  const [isImageLoading, setIsImageLoading] = useState(false);
 
   const router = useRouter();
 
@@ -25,37 +25,37 @@ export default function NewRequest({ popupData }) {
     handleSubmit,
     setValue,
     reset
-} = useForm();
+  } = useForm();
 
-// console.log(popupData.preferred_pharmacy);
-const [isLoading, setIsLoading] = useState(false);
-const onSubmit = async (formData) => {
+  // console.log(popupData.preferred_pharmacy);
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = async (formData) => {
     // if(attachmentFile) {
-        formData={...formData,file:attachmentFile}
-        const newFrmData={...formData,...popupData}
-        try {
-        const result = await http.post("/create-request", doObjToFormData({...newFrmData,token:authToken()}));
-        setIsLoading(true);
-        if (result.data.status === 1) {
-            reset();
-            setAttachmentFile(null);
-            toast.success(result.data.msg);
-            const encodedId = result.data.encodedId;
-            router.push(`/dashboard/requests/view/${encodedId}`);
-            // router.reload();
-        } else {
-            toast.error(result.data.msg);
-            setIsLoading(false);
-        }
-        } catch (error) {
-        console.error('Error submitting request:', error);
+    formData = { ...formData, file: attachmentFile }
+    const newFrmData = { ...formData, ...popupData }
+    try {
+      const result = await http.post("/create-request", doObjToFormData({ ...newFrmData, token: authToken() }));
+      setIsLoading(true);
+      if (result.data.status === 1) {
+        reset();
+        setAttachmentFile(null);
+        toast.success(result.data.msg);
+        const encodedId = result.data.encodedId;
+        router.push(`/dashboard/requests/view/${encodedId}`);
+        // router.reload();
+      } else {
+        toast.error(result.data.msg);
         setIsLoading(false);
-        }
+      }
+    } catch (error) {
+      console.error('Error submitting request:', error);
+      setIsLoading(false);
+    }
     // }else{
     //     toast.error('Document is required');
     // }
   };
-  
+
   return (
     <>
       <main className="dash">
@@ -77,7 +77,7 @@ const onSubmit = async (formData) => {
                     className="input"
                     {...register("subject", {
                       required: "Subject is required",
-                  })}
+                    })}
                   >
                     <option value="">Choose Subject</option>
                     <option value="subject1">Subject 1</option>
@@ -85,9 +85,9 @@ const onSubmit = async (formData) => {
                     <option value="subject3">Subject 3</option>
                   </select>
                   <ErrorMessage
-                      errors={errors}
-                      name="subject"
-                      render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                    errors={errors}
+                    name="subject"
+                    render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                   />
                 </div>
                 <div className="form_blk">
@@ -96,14 +96,14 @@ const onSubmit = async (formData) => {
                     placeholder=""
                     className="input"
                     {...register("symptoms", {
-                        required: "Symptoms information is required",
+                      required: "Symptoms information is required",
                     })}
                   />
                   <ErrorMessage
                     errors={errors}
                     name="symptoms"
                     render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
-                />
+                  />
                 </div>
                 <div className="form_blk">
                   <label>Requested Medication</label>
@@ -111,21 +111,22 @@ const onSubmit = async (formData) => {
                     placeholder=""
                     className="input"
                     {...register("requested_medication", {
-                        required: 'Required'
+                      required: 'Required'
                     })}
                   />
                   <ErrorMessage
-                      errors={errors}
-                      name="requested_medication"
-                      render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                    errors={errors}
+                    name="requested_medication"
+                    render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                   />
                 </div>
                 <div className="form_blk">
                   <FileAttachment attachmentFile={attachmentFile} setAttachmentFile={setAttachmentFile} isImageLoading={isImageLoading} setIsImageLoading={setIsImageLoading} />
+
                 </div>
                 <div className="btn_blk">
                   <button type="submit" href="" className="site_btn green" disabled={isLoading}>
-                    Submit <IsFormProcessingSpinner isProcessing={isLoading}/>
+                    Submit <IsFormProcessingSpinner isProcessing={isLoading} />
                   </button>
                 </div>
               </form>

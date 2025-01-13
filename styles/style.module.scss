@@ -562,6 +562,7 @@ P {
         height: 500px;
         border-radius: 23px;
         overflow: hidden;
+        cursor: pointer;
         &:before {
           position: absolute;
           content: "";
@@ -2181,4 +2182,113 @@ img.eye {
         color: $color;
       }
     }
+}
+.p_b_0{
+  padding-bottom: 0;
+}
+.testimonials_pg{
+  .flex{
+    margin: -1rem;
+    .col{
+      width: calc(100% / 2);
+      padding: 1rem;
+      flex: unset;
+      align-self: unset;
+      @include ipad_sm{
+        width: 100%;
+      }
+      .inner {
+        background-color: #fff;
+        border-radius: 33px;
+        box-shadow: 0px 0px 20px rgb(93 23 235 / 13%);
+        padding: 30px;
+        height: 100%;
+        .quotes {
+          width: 50px;
+          height: 50px;
+          margin-bottom: 20px;
+        }
+        p {
+          font-size: 16px;
+        }
+  
+        .testi_footer {
+          h5 {
+            color: $primary_color;
+            font-size: 18px;
+            font-family: "Regular";
+            margin-bottom: 8px;
+          }
+  
+          h6 {
+            color: $color;
+            font-size: 14px;
+            font-family: "Regular";
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.faq_pg{
+  .faq_blk{
+    padding: 0 8rem;
+    @include mobile{
+      margin-top: 2rem;
+      padding: 0;
+    }
+    .outer_faq{
+      &:not(:last-child){
+        // border-top: 1px solid #EAECF0;
+        margin-bottom: 1rem;
+      }
+      .accordion__header{
+        margin-bottom: 1rem;
+        h4{
+          margin-bottom: 0;
+          font-family: 'SemiBold';
+          position: relative;
+          cursor: pointer;
+          @include trans;
+          padding: 2rem;
+          padding-right: 2rem;
+          background-color: #e7e7e7;
+          @include radius(6px);
+          &:hover{
+            @include trans;
+            color: $color;
+          }
+          &:after{
+            @include pos($l:null, $r:1rem);
+            content: '';
+            background: url(/images/faq.svg);
+            @include bg(contain);
+            width: 2rem;
+            @include flex(center,center);
+          }
+        }
+      }
+      .accordion__details{
+        overflow: hidden;
+        height: 0;
+        padding: 0 2rem;
+      }
+      &.open{
+        .accordion__header{
+          h4{
+            &:after{
+              background: url(/images/faq_minus.svg);
+              @include bg(contain);
+            }
+          }
+        }
+        .accordion__details{
+          height: auto;
+        }
+      }
+    }
+  }
 }

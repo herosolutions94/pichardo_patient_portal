@@ -104,7 +104,7 @@ export default function Home({result}) {
           </div>
         </section>
 
-        <section id="whoweare">
+        {/* <section id="whoweare">
           <div className="contain">
             <div className="flex">
               <div className="col">
@@ -166,9 +166,9 @@ export default function Home({result}) {
               }
             </div>
           </div>
-        </section>
+        </section> */}
 
-        <section className="testimonial_sec p0">
+        <section className="testimonial_sec p_b_0">
           <div className="contain">
             <div className="flex">
               <div className="col">

@@ -61,7 +61,7 @@ export default function Service({result}) {
           </div>
         </section>
 
-        <section id="whoweare">
+        <section id="whoweare" className="p_b_0">
           <div className="contain">
             <div className="flex">
               <div className="col">
@@ -86,7 +86,7 @@ export default function Service({result}) {
           </div>
         </section>
 
-        <section id="par_bg" style={{ background: `url(${cmsFileUrl(content?.image3)})` }}>
+        {/* <section id="par_bg" style={{ background: `url(${cmsFileUrl(content?.image3)})` }}>
           <div className="contain">
             <div className="outer">
               <div className="text">
@@ -127,7 +127,7 @@ export default function Service({result}) {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
         <section id="cta">
           <div className="contain">
             <div className="outer">

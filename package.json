@@ -25,7 +25,7 @@
     "country-dropdown-with-flags-for-react": "^1.1.4",
     "dynamic": "^4.2.2",
     "form-data": "^4.0.0",
-    "gsap": "^3.12.2",
+    "gsap": "^3.12.5",
     "html-react-parser": "^5.1.16",
     "jquery": "^3.7.0",
     "leaflet": "^1.9.4",

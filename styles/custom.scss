@@ -2826,7 +2826,7 @@ nav {
         }
       }
       &.active a {
-        color: $color;
+        color: $primary_color;
       }
       > .sub {
         @include pos($t: calc(100% - 0.4rem), $b: null, $z: 2);

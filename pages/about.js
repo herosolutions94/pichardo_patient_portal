@@ -66,7 +66,7 @@ export default function About({result}) {
           </div>
         </section>
 
-        <section id="mission_value" className="p0">
+        {/* <section id="mission_value" className="p0">
           <div className="contain">
             <div className="flex">
               <div className="col">
@@ -133,7 +133,7 @@ export default function About({result}) {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <section id="team" className="p0">
           <div className="contain">
@@ -145,7 +145,7 @@ export default function About({result}) {
                   return (
                     <div className="coll" key={val.id}>
                       <div className="inner">
-                        <div className="image">
+                        <div className="image" onClick={() => handleOpenPopup(val)}>
                           <Image
                               src={cmsFileUrl(val?.image, 'team',true)}
                               alt={val?.name}

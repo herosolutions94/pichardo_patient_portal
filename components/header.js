@@ -71,22 +71,22 @@ export default function Header({siteSettings}) {
           </div>
           <nav id="nav" className={toggle ? "active" : ""}>
             <ul>
-              <li>
+              <li className={path == "/" ? "active" : ""}>
                 <Link href="/" onClick={ToggleAction}>
                   Home
                 </Link>
               </li>
-              <li>
+              <li className={path == "/about" ? "active" : ""}>
                 <Link href="/about" onClick={ToggleAction}>
                   About Us
                 </Link>
               </li>
-              <li>
+              <li className={path == "/services" ? "active" : ""}>
                 <Link href="/service" onClick={ToggleAction}>
                   Services
                 </Link>
               </li>
-              <li>
+              <li className={path == "/contact" ? "active" : ""}>
                 <Link href="/contact" onClick={ToggleAction}>
                   Contact Us
                 </Link>

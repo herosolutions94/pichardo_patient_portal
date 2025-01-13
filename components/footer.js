@@ -57,18 +57,28 @@ const onSubmit = async (frmData) => {
       },
       {
         id: 4,
-        text: "Contact Us",
-        link: "/contact",
+        text: "Testimonials",
+        link: "/testimonials",
       },
     ],
     list_03: [
       {
-        id: 1,
+        id: 8,
+        text: "Faq's",
+        link: "/faqs",
+      },
+      {
+        id: 7,
+        text: "Contact Us",
+        link: "/contact",
+      },
+      {
+        id: 5,
         text: "My Account",
         link: "/login",
       },
       {
-        id: 3,
+        id: 6,
         text: "Privacy Policy",
         link: "/privacy_policy",
       },

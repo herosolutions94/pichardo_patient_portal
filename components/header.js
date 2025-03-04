@@ -24,6 +24,8 @@ export default function Header({siteSettings}) {
   const mem_image = useSelector(state => state.user.mem_image);
   const mem_name = useSelector(state => state.user.mem_name);
   const mem_email = useSelector(state => state.user.mem_email);
+  const mem_chat_id = useSelector(state => state.user.mem_chat_id);
+
   useEffect(() => {
     dispatch(fetchSiteSettings());
   }, []);

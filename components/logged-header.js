@@ -27,6 +27,8 @@ export default function LoggedHeader() {
   const mem_image = useSelector(state => state.user.mem_image);
   const mem_name = useSelector(state => state.user.mem_name);
   const mem_email = useSelector(state => state.user.mem_email);
+  const mem_chat_id = useSelector(state => state.user.mem_chat_id);
+
   useEffect(() => {
     dispatch(fetchSiteSettings());
   }, []);
@@ -80,6 +82,10 @@ export default function LoggedHeader() {
               </li>
               <li>
                 <Link href="/dashboard/invoices">My Invoices</Link>
+              </li>
+
+              <li>
+                <Link href={`/dashboard/chat/${mem_chat_id}`}><img src="/images/msg.png" alt="" width={32} height={32} /></Link>
               </li>
             </ul>
             <ul>

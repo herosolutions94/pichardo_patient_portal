@@ -85,7 +85,7 @@ export default function LoggedHeader() {
               </li>
 
               <li>
-                <Link href={`/dashboard/chat/${mem_chat_id}`}><img src="/images/msg.png" alt="" width={32} height={32} /></Link>
+                <Link href={`/dashboard/chat/view/${mem_chat_id}`}><img src="/images/msg.png" alt="" width={32} height={32} /></Link>
               </li>
             </ul>
             <ul>

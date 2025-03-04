@@ -318,7 +318,8 @@ const initialState = {
     file_name: null,
     file_names: [],
     isFilesUploaded: false,
-    isFileUploading: false
+    isFileUploading: false,
+    mem_chat_id: null
 };
 
 const memberSlice = createSlice({
@@ -354,6 +355,7 @@ const memberSlice = createSlice({
                     state.mem_email = action?.payload?.mem_email;
                     state.is_deactivated = action?.payload?.is_deactivated;
                     state.unread_msgs = action?.payload?.unread_msgs;
+                    state.mem_chat_id = action?.payload?.mem_chat_id;
                     // }
                     // else{
                     //     deleteCookie("authToken");

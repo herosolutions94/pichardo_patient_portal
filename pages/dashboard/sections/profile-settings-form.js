@@ -43,6 +43,35 @@ export default function ProfileSettingsForm() {
 
     }, [is_dp_uploaded]);
 
+    const [pharmacies, setPharmacies] = useState([
+        {
+          id: Date.now(),
+          name: "",
+          
+        },
+      ]);
+      const handleAddRow = () => {
+        setPharmacies((prevRows) => [
+          ...prevRows,
+          {
+            id: Date.now(),
+            name: "",
+            
+          },
+        ]);
+      };
+    
+      // Remove a row by ID
+      const handleRemoveRow = (id) => {
+        setPharmacies((prevRows) => prevRows.filter((row) => row.id !== id));
+      };
+
+
+      const handleInputChange = (id, field, value) => {
+        setPharmacies((prevRows) =>
+          prevRows.map((row) => (row.id === id ? { ...row, [field]: value } : row))
+        );
+      };
 
     const {
         register,
@@ -67,14 +96,36 @@ export default function ProfileSettingsForm() {
             setValue("surgical_history", memberRow?.surgical_history)
             setValue("pregnancy_status", memberRow?.pregnancy_status)
             setValue("smoking_history", memberRow?.smoking_history)
-            setValue("preferred_pharmacy", memberRow?.preferred_pharmacy)
+            // setValue("preferred_pharmacy", memberRow?.preferred_pharmacy)
             setIdentificationPhoto(memberRow?.identification_photo ? memberRow?.identification_photo : null)
+
+            if (preferred_pharmacy?.length > 0) {
+                const updatedPharmacies = preferred_pharmacy.map((pharmacy, index) => ({
+                  id: Date.now() + index,
+                  ...pharmacy,
+                }));
+      
+                setPharmacies(updatedPharmacies);
+              }
         }
     }, [memberRow]);
 
     const handleUpdateProfile = (frmData) => {
+        const errors = [];
+        pharmacies.forEach((pharmacy, index) => {
+            if (!pharmacy.name) {
+              errors.push(`Pharmacy Name is required in block ${index + 1}.`);
+            }
+            
+          });
+          if (errors.length > 0) {
+            // Display the errors
+            toast.error(errors.join(" ")); // You can use any toast notification library here
+            return;
+          }
         if (identificationPhoto) {
-            frmData = { ...frmData, identification_photo: identificationPhoto }
+
+            frmData = { ...frmData, identification_photo: identificationPhoto, preferred_pharmacies: JSON.stringify(pharmacies) }
             dispatch(updateProfileSettings(frmData))
         }
         else {
@@ -209,8 +260,45 @@ export default function ProfileSettingsForm() {
                     </div>
 
                     <div className="form_blk col-xs-6">
-                        <label>Preferred Pharmacy</label>
-                        <select
+                        <label>Preferred Pharmacies</label>
+                        
+                        {pharmacies?.map((row, index) => (
+                      <div key={row.id} className="d-flex align-items-center mb-3">
+                            <input
+                              type="text"
+                              placeholder="Enter pharmcy name"
+                              className="input"
+                              value={row.name}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  row.id,
+                                  "name",
+                                  e.target.value
+                                )
+                              }
+                            />
+                          
+                          {index > 0 && (
+                          <button
+                            type="button"
+                        
+                            className="site_btn x_btn"
+                            style={{position: 'relative', top: '0rem', left:'2rem'}}
+                            onClick={() => handleRemoveRow(row.id)}
+                          ></button>
+                        )}
+                          
+                        
+                        
+                        
+                      </div>
+                    ))}
+                    <div className="add_more_more d-flex justify-content-end">
+                      <button type="button" className="site_btn md" onClick={handleAddRow}>
+                        Add more
+                      </button>
+                    </div>
+                        {/* <select
                             className="input" {...register("preferred_pharmacy", { required: 'Please select a pharmacy' })}>
                             <option value="">Select Pharmacy</option>
                             {preferred_pharmacy.length > 0 ? (
@@ -222,12 +310,12 @@ export default function ProfileSettingsForm() {
                             ) : (
                                 <option disabled>No pharmacies available</option>
                             )}
-                        </select>
-                        <ErrorMessage
+                        </select> */}
+                        {/* <ErrorMessage
                             errors={errors}
                             name="preferred_pharmacy"
                             render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
-                        />
+                        /> */}
                     </div>
                     <div className="col-xs-12 head">
                         <h3>Other information</h3>

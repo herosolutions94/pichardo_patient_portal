@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import IsFormProcessingSpinner from "@/components/components/isFormProcessingSpinner";
 import toast from "react-hot-toast";
+import { authToken } from "../helpers/authToken";
 
 export const getServerSideProps = async (context) => {
 
@@ -52,6 +53,16 @@ export default function Contact({ result }) {
       toast.error(response?.msg)
     }
   }
+
+  const BookAppoint = () => {
+    const token = authToken();
+    if(token){
+      window.open('https://pichardomedical.as.me/', '_blank')
+    }else{
+      toast.error('You need to sign in to book an appointment.')
+    }
+  }
+
   return (
     <>
       <MetaGenerator page_title={page_title + " - " + site_settings?.site_name} site_settings={site_settings} meta_info={content} />
@@ -113,7 +124,11 @@ export default function Contact({ result }) {
             <div className="outer">
               <Text string={content?.section3_text} />
 
-              <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="btn_blk text-center">
+                    <button type="button" className="site_btn" onClick={BookAppoint} >Book an Appointment </button>
+                  </div>
+
+              {/* <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex">
                   <div className="form_blk">
                     <input
@@ -282,7 +297,7 @@ export default function Contact({ result }) {
                     </button>
                   </div>
                 </div>
-              </form>
+              </form> */}
             </div>
           </div>
         </section>

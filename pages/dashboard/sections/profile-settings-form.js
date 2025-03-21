@@ -47,6 +47,7 @@ export default function ProfileSettingsForm() {
         {
           id: Date.now(),
           name: "",
+          address: "",
           
         },
       ]);
@@ -56,7 +57,7 @@ export default function ProfileSettingsForm() {
           {
             id: Date.now(),
             name: "",
-            
+            address: "",
           },
         ]);
       };
@@ -259,16 +260,18 @@ export default function ProfileSettingsForm() {
                         />
                     </div>
 
-                    <div className="form_blk col-xs-6">
+                    <div className="form_blk col-xs-12">
                         <label>Preferred Pharmacies</label>
                         
                         {pharmacies?.map((row, index) => (
                       <div key={row.id} className="d-flex align-items-center mb-3">
-                            <input
+                        <div className="" >
+                        <input
                               type="text"
                               placeholder="Enter pharmcy name"
                               className="input"
                               value={row.name}
+                              
                               onChange={(e) =>
                                 handleInputChange(
                                   row.id,
@@ -277,6 +280,23 @@ export default function ProfileSettingsForm() {
                                 )
                               }
                             />
+                        </div>
+                        <div className="ms-4 w-50">
+                        <input
+                              type="text"
+                              placeholder="Address"
+                              className="input"
+                              
+                              value={row.address}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  row.id,
+                                  "address",
+                                  e.target.value
+                                )
+                              }
+                            />
+                        </div>
                           
                           {index > 0 && (
                           <button

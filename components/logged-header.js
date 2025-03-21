@@ -85,7 +85,10 @@ export default function LoggedHeader() {
               </li>
 
               <li>
-                <Link href={`/dashboard/chat/view/${mem_chat_id}`}><img src="/images/msg.png" alt="" width={32} height={32} /></Link>
+                <Link href={`/dashboard/chat/view/${mem_chat_id}`}><img src="/images/msg.png" alt="" width={28} height={28} /></Link>
+              </li>
+              <li>
+                <Link href={`https://pichardomedical.as.me/`} target="_blank" className="site_btn">Book an Appointment</Link>
               </li>
             </ul>
             <ul>

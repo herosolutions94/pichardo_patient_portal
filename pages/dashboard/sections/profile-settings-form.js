@@ -93,6 +93,12 @@ export default function ProfileSettingsForm() {
             setValue("phone", memberRow?.mem_phone)
             setValue("mem_address1", memberRow?.mem_address1)
             setValue("gender", memberRow?.gender)
+            setValue("mem_dob", memberRow?.mem_dob)
+            setValue("mem_height", memberRow?.mem_height)
+            setValue("mem_weight", memberRow?.mem_weight)
+            setValue("mem_bmi", memberRow?.mem_bmi)
+
+
             setValue("allergies", memberRow?.allergies)
             setValue("surgical_history", memberRow?.surgical_history)
             setValue("pregnancy_status", memberRow?.pregnancy_status)
@@ -358,6 +364,88 @@ export default function ProfileSettingsForm() {
                             name="gender"
                             render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
                         />
+                    </div>
+
+                    <div className="form_blk col-xs-6">
+                        <label>Date of Birth</label>
+                        <input
+                            id=""
+                            type="date"
+                            name="mem_dob"
+                            autoComplete=""
+                            className="input"
+                            defaultValue={watchAllFields?.name ? watchAllFields?.mem_dob : ""}
+                            max={new Date().toISOString().split("T")[0]}
+                            {...register("mem_dob", {
+                                required: 'Required'
+                            })}
+                        />
+                        <ErrorMessage
+                            errors={errors}
+                            name="mem_dob"
+                            render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                        />
+                    </div>
+
+                    <div className="form_blk col-xs-6">
+                        <label>Height</label>
+                        <input
+                            id=""
+                            type="text"
+                            name="mem_height"
+                            autoComplete=""
+                            className="input"
+                            defaultValue={watchAllFields?.name ? watchAllFields?.mem_height : ""}
+                            
+                            {...register("mem_height", {
+                                required: 'Required'
+                            })}
+                        />
+                        <ErrorMessage
+                            errors={errors}
+                            name="mem_height"
+                            render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                        />
+                    </div>
+
+                    <div className="form_blk col-xs-6">
+                        <label>Weight</label>
+                        <input
+                            id=""
+                            type="text"
+                            name="mem_weight"
+                            autoComplete=""
+                            className="input"
+                            defaultValue={watchAllFields?.name ? watchAllFields?.mem_weight : ""}
+                            
+                            {...register("mem_weight", {
+                                required: 'Required'
+                            })}
+                        />
+                        <ErrorMessage
+                            errors={errors}
+                            name="mem_weight"
+                            render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                        />
+                    </div>
+
+                    <div className="form_blk col-xs-6">
+                        <label>BMI</label>
+                        <input
+                            id=""
+                            type="text"
+                            name="mem_bmi"
+                            autoComplete=""
+                            className="input"
+                            defaultValue={watchAllFields?.name ? watchAllFields?.mem_bmi : ""}
+                            
+                            {...register("mem_bmi")}
+                        />
+                        {/* <ErrorMessage
+                            errors={errors}
+                            name="mem_bmi"
+                            render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                        /> */}
                     </div>
 
                     <div className="form_blk col-xs-12">

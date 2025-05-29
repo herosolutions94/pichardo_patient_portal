@@ -43,7 +43,9 @@ export default function View_invoice({result}) {
   }, 0);
   const taxPercentage = site_settings?.site_percentage || 0;
   const taxAmount = (subtotal * taxPercentage) / 100;
-  const total = subtotal + taxAmount;
+  // const total = subtotal + taxAmount;
+  const total = subtotal;
+
 // console.log(invoice)
   if(member?.id == undefined || member?.id == null || member?.id == "")
     return (<h1>notfound</h1>);
@@ -111,14 +113,14 @@ export default function View_invoice({result}) {
                         <li>${subtotal.toFixed(2)}</li>
                     </ul>
                 </div>
-                <div className="lst long_lst final_lines">
+                {/* <div className="lst long_lst final_lines">
                     <ul>
                         <li><strong>Tax</strong> ({site_settings?.site_percentage}%)</li>
                         <li></li>
                         <li></li>
                         <li>${taxAmount.toFixed(2)}</li>
                     </ul>
-                </div>
+                </div> */}
 
                 <div className="lst long_lst final_row">
                     <ul>

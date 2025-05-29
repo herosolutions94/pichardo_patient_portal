@@ -9,7 +9,9 @@ export default function RequestSidebar({request_data,checkout_link=false,invoice
   const taxPercentage = site_settings?.site_percentage || 0;
   const taxAmount = (subtotal * taxPercentage) / 100;
 
-  const total = subtotal + taxAmount;
+  // const total = subtotal + taxAmount;
+  const total = subtotal;
+
   console.log(invoice)
   return <>
   
@@ -86,10 +88,10 @@ export default function RequestSidebar({request_data,checkout_link=false,invoice
                 <h4>Sub Total</h4>
                 <p className="strong">{format_amount(subtotal)}</p>
               </div>
-              <div className="inner">
+              {/* <div className="inner">
                 <h4>Tax ({site_settings?.site_percentage}%)</h4>
                 <p className="strong">{format_amount(taxAmount)}</p>
-              </div>
+              </div> */}
               <div className="inner">
                 <h4>Total</h4>
                 <p className="strong">{format_amount(total)}</p>

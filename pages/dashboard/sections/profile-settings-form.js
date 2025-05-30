@@ -103,7 +103,7 @@ export default function ProfileSettingsForm() {
             setValue("surgical_history", memberRow?.surgical_history)
             setValue("pregnancy_status", memberRow?.pregnancy_status)
             setValue("smoking_history", memberRow?.smoking_history)
-            // setValue("preferred_pharmacy", memberRow?.preferred_pharmacy)
+            setValue("current_medications", memberRow?.current_medications)
             setIdentificationPhoto(memberRow?.identification_photo ? memberRow?.identification_photo : null)
 
             if (preferred_pharmacy?.length > 0) {
@@ -531,6 +531,25 @@ export default function ProfileSettingsForm() {
                         />
                     </div>
 
+                    <div className="form_blk col-xs-12">
+                        <label>Current Medications </label>
+                        <textarea
+                            id=""
+                            name="current_medications"
+                            autoComplete=""
+                            placeholder=""
+                            className="input"
+                            defaultValue={watchAllFields?.current_medications ? watchAllFields?.current_medications : ""}
+                            {...register("current_medications", {
+                                required: "Current Medications is required",
+                            })}
+                        />
+                        <ErrorMessage
+                            errors={errors}
+                            name="current_medications"
+                            render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
+                        />
+                    </div>
 
                     <div className="col-xs-12 head">
                         <h3>

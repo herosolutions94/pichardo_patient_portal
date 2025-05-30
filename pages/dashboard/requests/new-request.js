@@ -73,22 +73,30 @@ export default function NewRequest({ popupData }) {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form_blk col-xs-6">
                   <label>Subject</label>
-                  <select
+                  <input
+                            id=""
+                            type="text"
+                            name="subject"
+                            className="input"
+                            defaultValue="Prescription Request"
+                            readOnly
+                            {...register("subject")}
+                        />
+                  {/* <select
                     className="input"
                     {...register("subject", {
                       required: "Subject is required",
                     })}
                   >
-                    <option value="">Choose Subject</option>
                     <option value="subject1">Subject 1</option>
                     <option value="subject2">Subject 2</option>
                     <option value="subject3">Subject 3</option>
-                  </select>
-                  <ErrorMessage
+                  </select> */}
+                  {/* <ErrorMessage
                     errors={errors}
                     name="subject"
                     render={({ message }) => <p className='error'><i className="warning"></i> {message}</p>}
-                  />
+                  /> */}
                 </div>
                 <div className="form_blk">
                   <label>Symptoms</label>

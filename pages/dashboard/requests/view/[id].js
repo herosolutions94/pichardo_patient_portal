@@ -149,7 +149,7 @@ if(request_data?.id == undefined || request_data?.id == null || request_data?.id
             <div className="chat scrollbar active">
               <div className="buble you">
                 <div className="ico">
-                <img src={cmsFileUrl(site_settings?.site_icon, 'images')} alt={site_settings?.site_name} />
+                <img src={'/images/marlo_icon.png'} alt={site_settings?.site_name} />
                 </div>
                 <div className="txt">
                   <div className="time">{format_date(request_data?.created_at)}</div>
